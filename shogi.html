@@ -1,0 +1,485 @@
+<html>
+<head>
+<title>Javascript 将棋</title>
+</head>
+<link href="shogi_style.css" rel="stylesheet" type="text/css" />
+<body>
+	<div id="container">
+		<table width="754" border="0" align="center" cellpadding="0" cellspacing="0">
+			<tr>
+				<td id="opp_info_area">
+					<table width="172" border="1" align="center" cellpadding="0" cellspacing="0">
+						<tr>
+							<td id="opp_status" colspan="4" height="30" align="center">コンピュータ</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_3">
+								<img id="opp_piece_in_hand_3" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_2">
+								<img id="opp_piece_in_hand_2" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_1">
+								<img id="opp_piece_in_hand_1" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_0">
+								<img id="opp_piece_in_hand_0" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_7">
+								<img id="opp_piece_in_hand_7" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_6">
+								<img id="opp_piece_in_hand_6" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_5">
+								<img id="opp_piece_in_hand_5" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_4">
+								<img id="opp_piece_in_hand_4" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_11">
+								<img id="opp_piece_in_hand_11" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_10">
+								<img id="opp_piece_in_hand_10" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_9">
+								<img id="opp_piece_in_hand_9" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_8">
+								<img id="opp_piece_in_hand_8" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_15">
+								<img id="opp_piece_in_hand_15" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_14">
+								<img id="opp_piece_in_hand_14" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_13">
+								<img id="opp_piece_in_hand_13" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_12">
+								<img id="opp_piece_in_hand_12" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_19">
+								<img id="opp_piece_in_hand_19" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_18">
+								<img id="opp_piece_in_hand_18" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_17">
+								<img id="opp_piece_in_hand_17" src="" width="43" height="48">
+							</td>
+							<td id="opp_cell_in_hand_16">
+								<img id="opp_piece_in_hand_16" src="" width="43" height="48">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table width="30" height="430" border="0" align="center" cellpadding="0" cellspacing="0">
+					</table>
+				</td>
+				<td  background="img/board/ban_kaya_b.png">
+					<table width="410" height="455" border="0" align="center" cellpadding="0" cellspacing="0" background="img/board/masu_dot_xy.png">
+						<tr>
+							<td>
+								<table width="387" height="430" border="0" align="center" cellpadding="0" cellspacing="0">
+									<tr>
+										<td id="cell0-0" background="">
+											<img id="piece0-0" src="" width="43" height="48">
+										</td>
+										<td id="cell0-1" background="">
+											<img id="piece0-1" src="" width="43" height="48">
+										</td>
+										<td id="cell0-2" background="">
+											<img id="piece0-2" src="" width="43" height="48">
+										</td>
+										<td id="cell0-3" background="">
+											<img id="piece0-3" src="" width="43" height="48">
+										</td>
+										<td id="cell0-4" background="">
+											<img id="piece0-4" src="" width="43" height="48">
+										</td>
+										<td id="cell0-5" background="">
+											<img id="piece0-5" src="" width="43" height="48">
+										</td>
+										<td id="cell0-6" background="">
+											<img id="piece0-6" src="" width="43" height="48">
+										</td>
+										<td id="cell0-7" background="">
+											<img id="piece0-7" src="" width="43" height="48">
+										</td>
+										<td id="cell0-8" background="">
+											<img id="piece0-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell1-0" background="">
+											<img id="piece1-0" src="" width="43" height="48">
+										</td>
+										<td id="cell1-1" background="">
+											<img id="piece1-1" src="" width="43" height="48">
+										</td>
+										<td id="cell1-2" background="">
+											<img id="piece1-2" src="" width="43" height="48">
+										</td>
+										<td id="cell1-3" background="">
+											<img id="piece1-3" src="" width="43" height="48">
+										</td>
+										<td id="cell1-4" background="">
+											<img id="piece1-4" src="" width="43" height="48">
+										</td>
+										<td id="cell1-5" background="">
+											<img id="piece1-5" src="" width="43" height="48">
+										</td>
+										<td id="cell1-6" background="">
+											<img id="piece1-6" src="" width="43" height="48">
+										</td>
+										<td id="cell1-7" background="">
+											<img id="piece1-7" src="" width="43" height="48">
+										</td>
+										<td id="cell1-8" background="">
+											<img id="piece1-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell2-0" background="">
+											<img id="piece2-0" src="" width="43" height="48">
+										</td>
+										<td id="cell2-1" background="">
+											<img id="piece2-1" src="" width="43" height="48">
+										</td>
+										<td id="cell2-2" background="">
+											<img id="piece2-2" src="" width="43" height="48">
+										</td>
+										<td id="cell2-3" background="">
+											<img id="piece2-3" src="" width="43" height="48">
+										</td>
+										<td id="cell2-4" background="">
+											<img id="piece2-4" src="" width="43" height="48">
+										</td>
+										<td id="cell2-5" background="">
+											<img id="piece2-5" src="" width="43" height="48">
+										</td>
+										<td id="cell2-6" background="">
+											<img id="piece2-6" src="" width="43" height="48">
+										</td>
+										<td id="cell2-7" background="">
+											<img id="piece2-7" src="" width="43" height="48">
+										</td>
+										<td id="cell2-8" background="">
+											<img id="piece2-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell3-0" background="">
+											<img id="piece3-0" src="" width="43" height="48">
+										</td>
+										<td id="cell3-1" background="">
+											<img id="piece3-1" src="" width="43" height="48">
+										</td>
+										<td id="cell3-2" background="">
+											<img id="piece3-2" src="" width="43" height="48">
+										</td>
+										<td id="cell3-3" background="">
+											<img id="piece3-3" src="" width="43" height="48">
+										</td>
+										<td id="cell3-4" background="">
+											<img id="piece3-4" src="" width="43" height="48">
+										</td>
+										<td id="cell3-5" background="">
+											<img id="piece3-5" src="" width="43" height="48">
+										</td>
+										<td id="cell3-6" background="">
+											<img id="piece3-6" src="" width="43" height="48">
+										</td>
+										<td id="cell3-7" background="">
+											<img id="piece3-7" src="" width="43" height="48">
+										</td>
+										<td id="cell3-8" background="">
+											<img id="piece3-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell4-0" background="">
+											<img id="piece4-0" src="" width="43" height="48">
+										</td>
+										<td id="cell4-1" background="">
+											<img id="piece4-1" src="" width="43" height="48">
+										</td>
+										<td id="cell4-2" background="">
+											<img id="piece4-2" src="" width="43" height="48">
+										</td>
+										<td id="cell4-3" background="">
+											<img id="piece4-3" src="" width="43" height="48">
+										</td>
+										<td id="cell4-4" background="">
+											<img id="piece4-4" src="" width="43" height="48">
+										</td>
+										<td id="cell4-5" background="">
+											<img id="piece4-5" src="" width="43" height="48">
+										</td>
+										<td id="cell4-6" background="">
+											<img id="piece4-6" src="" width="43" height="48">
+										</td>
+										<td id="cell4-7" background="">
+											<img id="piece4-7" src="" width="43" height="48">
+										</td>
+										<td id="cell4-8" background="">
+											<img id="piece4-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell5-0" background="">
+											<img id="piece5-0" src="" width="43" height="48">
+										</td>
+										<td id="cell5-1" background="">
+											<img id="piece5-1" src="" width="43" height="48">
+										</td>
+										<td id="cell5-2" background="">
+											<img id="piece5-2" src="" width="43" height="48">
+										</td>
+										<td id="cell5-3" background="">
+											<img id="piece5-3" src="" width="43" height="48">
+										</td>
+										<td id="cell5-4" background="">
+											<img id="piece5-4" src="" width="43" height="48">
+										</td>
+										<td id="cell5-5" background="">
+											<img id="piece5-5" src="" width="43" height="48">
+										</td>
+										<td id="cell5-6" background="">
+											<img id="piece5-6" src="" width="43" height="48">
+										</td>
+										<td id="cell5-7" background="">
+											<img id="piece5-7" src="" width="43" height="48">
+										</td>
+										<td id="cell5-8" background="">
+											<img id="piece5-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell6-0" background="">
+											<img id="piece6-0" src="" width="43" height="48">
+										</td>
+										<td id="cell6-1" background="">
+											<img id="piece6-1" src="" width="43" height="48">
+										</td>
+										<td id="cell6-2" background="">
+											<img id="piece6-2" src="" width="43" height="48">
+										</td>
+										<td id="cell6-3" background="">
+											<img id="piece6-3" src="" width="43" height="48">
+										</td>
+										<td id="cell6-4" background="">
+											<img id="piece6-4" src="" width="43" height="48">
+										</td>
+										<td id="cell6-5" background="">
+											<img id="piece6-5" src="" width="43" height="48">
+										</td>
+										<td id="cell6-6" background="">
+											<img id="piece6-6" src="" width="43" height="48">
+										</td>
+										<td id="cell6-7" background="">
+											<img id="piece6-7" src="" width="43" height="48">
+										</td>
+										<td id="cell6-8" background="">
+											<img id="piece6-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell7-0" background="">
+											<img id="piece7-0" src="" width="43" height="48">
+										</td>
+										<td id="cell7-1" background="">
+											<img id="piece7-1" src="" width="43" height="48">
+										</td>
+										<td id="cell7-2" background="">
+											<img id="piece7-2" src="" width="43" height="48">
+										</td>
+										<td id="cell7-3" background="">
+											<img id="piece7-3" src="" width="43" height="48">
+										</td>
+										<td id="cell7-4" background="">
+											<img id="piece7-4" src="" width="43" height="48">
+										</td>
+										<td id="cell7-5" background="">
+											<img id="piece7-5" src="" width="43" height="48">
+										</td>
+										<td id="cell7-6" background="">
+											<img id="piece7-6" src="" width="43" height="48">
+										</td>
+										<td id="cell7-7" background="">
+											<img id="piece7-7" src="" width="43" height="48">
+										</td>
+										<td id="cell7-8" background="">
+											<img id="piece7-8" src="" width="43" height="48">
+										</td>
+									</tr>
+									<tr>
+										<td id="cell8-0" background="">
+											<img id="piece8-0" src="" width="43" height="48">
+										</td>
+										<td id="cell8-1" background="">
+											<img id="piece8-1" src="" width="43" height="48">
+										</td>
+										<td id="cell8-2" background="">
+											<img id="piece8-2" src="" width="43" height="48">
+										</td>
+										<td id="cell8-3" background="">
+											<img id="piece8-3" src="" width="43" height="48">
+										</td>
+										<td id="cell8-4" background="">
+											<img id="piece8-4" src="" width="43" height="48">
+										</td>
+										<td id="cell8-5" background="">
+											<img id="piece8-5" src="" width="43" height="48">
+										</td>
+										<td id="cell8-6" background="">
+											<img id="piece8-6" src="" width="43" height="48">
+										</td>
+										<td id="cell8-7" background="">
+											<img id="piece8-7" src="" width="43" height="48">
+										</td>
+										<td id="cell8-8" background="">
+											<img id="piece8-8" src="" width="43" height="48">
+										</td>
+									</tr>
+								</table>
+								<div align="center"></div>
+								<div align="center"></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table width="30" height="430" border="0" align="center" cellpadding="0" cellspacing="0">
+					</table>
+				</td>
+				<td id="player_info_area">
+					<table width="172" border="1" align="center" cellpadding="0" cellspacing="0">
+						<tr>
+							<td id="my_cell_in_hand_16">
+								<img id="my_piece_in_hand_16" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_17">
+								<img id="my_piece_in_hand_17" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_18">
+								<img id="my_piece_in_hand_18" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_19">
+								<img id="my_piece_in_hand_19" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_12">
+								<img id="my_piece_in_hand_12" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_13">
+								<img id="my_piece_in_hand_13" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_14">
+								<img id="my_piece_in_hand_14" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_15">
+								<img id="my_piece_in_hand_15" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_8">
+								<img id="my_piece_in_hand_8" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_9">
+								<img id="my_piece_in_hand_9" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_10">
+								<img id="my_piece_in_hand_10" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_11">
+								<img id="my_piece_in_hand_11" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_4">
+								<img id="my_piece_in_hand_4" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_5">
+								<img id="my_piece_in_hand_5" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_6">
+								<img id="my_piece_in_hand_6" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_7">
+								<img id="my_piece_in_hand_7" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_0">
+								<img id="my_piece_in_hand_0" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_1">
+								<img id="my_piece_in_hand_1" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_2">
+								<img id="my_piece_in_hand_2" src="" width="43" height="48">
+							</td>
+							<td id="my_cell_in_hand_3">
+								<img id="my_piece_in_hand_3" src="" width="43" height="48">
+							</td>
+						</tr>
+						<tr>
+							<td id="player_status" colspan="4" height="30" align="center">プレイヤー</td>
+						</tr>
+						<tr>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<div id="game_info_area">
+			<span id="turn"></span>
+		</div>
+		<div id="debug_info_area">
+			<p id="clicked_cell" />Clicked: 
+			<p id="selected_cell" />Selected: 
+			<p id="winner_text" />Winner: 
+		</div>
+		
+		<div id="special_thx">
+			素材協力：<br/>
+			<div id="special_thx_link">
+				<div xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/" about="http://mucho.girly.jp/bona/">
+					<span property="dct:title">Shogi Resource</span> 
+					(<a rel="cc:attributionURL" property="cc:attributionName" href="http://mucho.girly.jp/bona/">muchonovski</a>)
+					 / <a rel="license" href="http://creativecommons.org/licenses/by-nc/2.1/jp/">CC BY-NC 2.1</a>
+				</div>
+				<a href="http://free-texture.net/">フリーテクスチャ素材館</a><br/>
+				<a href="http://www.beiz.jp/">BEIZ Graphics</a><br/>
+				<a href="http://patterns.nanya-kanya.info/">N.K.P.S - なんやかんやのパターン素材 - </a><br/>
+			</div>
+		</div>
+	</div>
+
+	<div id="result_back">
+	</div>
+	<div id="result_dialog">
+		<p id="result_message" />
+		<div style="text-align:center">
+			<input type="button" onclick="hideDialog();" value="もう一度対局" />
+		</div>
+	</div>
+	
+	
+	<script type="text/javascript" src="shogi.js"></script>
+</body>
+</html>
