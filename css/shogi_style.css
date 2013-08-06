@@ -5,7 +5,7 @@ body
 
 #container
 {
-	background-image: url("img/background/tatami/tatami01.jpg");
+	background-image: url("../img/background/tatami/tatami01.jpg");
 	width : 900px;
 /*	margin : 10px; */
 	padding : 10px;
@@ -17,7 +17,7 @@ body
 	margin : 10px auto;
 	padding : 10px;
 	width : 500px;
-	background-image: url("img/background/paper/120314194547.jpg");
+	background-image: url("../img/background/paper/120314194547.jpg");
 	font-family: cursive, "‚l‚r ‚o–¾’©", "‚l‚r –¾’©", serif;
 	font-weight: bold;
 	color: #550000;
@@ -29,7 +29,7 @@ body
 	margin : 10px auto;
 	padding : 10px;
 	width : 500px;
-	background-image: url("img/board/ban_kaya_b.png");
+	background-image: url("../img/board/ban_kaya_b.png");
 	font-family: "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
 }
 
