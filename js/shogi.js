@@ -21,7 +21,7 @@ var Piece = function(kind, owner, promoted) {
 		// alert(this.area[0][0]);
 	}
 	
-}
+};
 
 /*****************************/
 /* 将棋盤のマスのクラス      */
@@ -29,7 +29,7 @@ var Piece = function(kind, owner, promoted) {
 var Cell = function(row, column) {
 	this.row = row;
 	this.column = column;
-}
+};
 
 
 /************************************************************/
