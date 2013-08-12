@@ -6,7 +6,7 @@
 /*****************************/
 /*	駒のクラス               */
 /*****************************/
-var Piece = function(kind, owner, promoted) {
+function Piece(kind, owner, promoted) {
 	this.kind = kind;
 	this.owner = owner;
 	this.promoted = promoted;
@@ -26,11 +26,20 @@ var Piece = function(kind, owner, promoted) {
 /*****************************/
 /* 将棋盤のマスのクラス      */
 /*****************************/
-var Cell = function(row, column) {
+function Cell(row, column) {
 	this.row = row;
 	this.column = column;
 };
 
+/*****************************/
+/* 将棋盤のクラス      */
+/*****************************/
+function Board() {
+	this.map = new Array(9);
+	for (var i=0;i<9;i++) {
+		this.map[i]=new Array(9);
+	}	
+}
 
 /************************************************************/
 // Constant Value
@@ -149,10 +158,7 @@ const MY_OU_AREA =
 /************************************************************/
 
 var i;
-var map = new Array(9);
-for (i=0;i<9;i++) {
-	map[i]=new Array(9);
-}
+var board = new Board();
 var selectState = UNSELECTED;
 
 var clickedCell = new Cell(0, 0);
@@ -229,120 +235,120 @@ function initMap()
 	var i, j;
 	
 	// 一行目
-	map[0][0] = new Piece("香車", OPPONENT, false);
-	map[0][0].setArea(OPP_KYO_AREA);
+	board.map[0][0] = new Piece("香車", OPPONENT, false);
+	board.map[0][0].setArea(OPP_KYO_AREA);
 	
-	map[0][1] = new Piece("桂馬", OPPONENT, false);
-	map[0][1].setArea(OPP_KEI_AREA);
+	board.map[0][1] = new Piece("桂馬", OPPONENT, false);
+	board.map[0][1].setArea(OPP_KEI_AREA);
 
-	map[0][2] = new Piece("銀", OPPONENT, false);
-	map[0][2].setArea(OPP_GIN_AREA);
+	board.map[0][2] = new Piece("銀", OPPONENT, false);
+	board.map[0][2].setArea(OPP_GIN_AREA);
 
-	map[0][3] = new Piece("金", OPPONENT, false);
-	map[0][3].setArea(OPP_KIN_AREA);
+	board.map[0][3] = new Piece("金", OPPONENT, false);
+	board.map[0][3].setArea(OPP_KIN_AREA);
 
-	map[0][4] = new Piece("王", OPPONENT, false);
-	map[0][4].setArea(OPP_OU_AREA);
+	board.map[0][4] = new Piece("王", OPPONENT, false);
+	board.map[0][4].setArea(OPP_OU_AREA);
 
-	map[0][5] = new Piece("金", OPPONENT, false);
-	map[0][5].setArea(OPP_KIN_AREA);
+	board.map[0][5] = new Piece("金", OPPONENT, false);
+	board.map[0][5].setArea(OPP_KIN_AREA);
 
-	map[0][6] = new Piece("銀", OPPONENT, false);
-	map[0][6].setArea(OPP_GIN_AREA);
+	board.map[0][6] = new Piece("銀", OPPONENT, false);
+	board.map[0][6].setArea(OPP_GIN_AREA);
 
-	map[0][7] = new Piece("桂馬", OPPONENT, false);
-	map[0][7].setArea(OPP_KEI_AREA);
+	board.map[0][7] = new Piece("桂馬", OPPONENT, false);
+	board.map[0][7].setArea(OPP_KEI_AREA);
 
-	map[0][8] = new Piece("香車", OPPONENT, false);
-	map[0][8].setArea(OPP_KYO_AREA);
+	board.map[0][8] = new Piece("香車", OPPONENT, false);
+	board.map[0][8].setArea(OPP_KYO_AREA);
 
 	// 二行目
-	map[1][0] = BLANK_PIECE;
+	board.map[1][0] = BLANK_PIECE;
 
-	map[1][1] = new Piece("飛車", OPPONENT, false);
-	map[1][1].setArea(OPP_HISHA_AREA);
+	board.map[1][1] = new Piece("飛車", OPPONENT, false);
+	board.map[1][1].setArea(OPP_HISHA_AREA);
 	
 	for (j=2;j<7;j++) {
-		map[1][j] = BLANK_PIECE;
+		board.map[1][j] = BLANK_PIECE;
 	}
 	
-	map[1][7] = new Piece("角", OPPONENT, false);
-	map[1][7].setArea(OPP_KAKU_AREA);
+	board.map[1][7] = new Piece("角", OPPONENT, false);
+	board.map[1][7].setArea(OPP_KAKU_AREA);
 	
-	map[1][8] = BLANK_PIECE;
+	board.map[1][8] = BLANK_PIECE;
 
 	// 三行目
 	for (j=0;j<9;j++) {
-		map[2][j] = new Piece("歩", OPPONENT, false);
-		map[2][j].setArea(OPP_FU_AREA);
+		board.map[2][j] = new Piece("歩", OPPONENT, false);
+		board.map[2][j].setArea(OPP_FU_AREA);
 		// alert("["+0+"]["+j+"]="+ map[0][j].kind);
 	}
 	
 	// 四～六行目
 	for (i=3;i<6;i++) { 
 		for (j=0;j<9;j++) {
-			map[i][j] = BLANK_PIECE;
+			board.map[i][j] = BLANK_PIECE;
 			// alert("["+i+"]["+j+"]="+map[i][j].kind);
 		}
 	}
 	
 	// 七行目
 	for (j=0;j<9;j++) {
-		map[6][j] = new Piece("歩", PLAYER, false);
-		map[6][j].setArea(MY_FU_AREA);
+		board.map[6][j] = new Piece("歩", PLAYER, false);
+		board.map[6][j].setArea(MY_FU_AREA);
 		// alert("["+8+"]["+j+"]="+map[8][j].kind);
 	}
 
 	for (j=0;j<9;j++) {
-		map[7][j] = BLANK_PIECE;
+		board.map[7][j] = BLANK_PIECE;
 	}
 
 	for (j=0;j<9;j++) {
-		map[8][j] = BLANK_PIECE;
+		board.map[8][j] = BLANK_PIECE;
 	}
 
 	// 八行目
-	map[7][0] = BLANK_PIECE;
+	board.map[7][0] = BLANK_PIECE;
 
-	map[7][1] = new Piece("角", PLAYER, false);
-	map[7][1].setArea(MY_KAKU_AREA);
+	board.map[7][1] = new Piece("角", PLAYER, false);
+	board.map[7][1].setArea(MY_KAKU_AREA);
 	
 	for (j=2;j<7;j++) {
-		map[1][j] = BLANK_PIECE;
+		board.map[1][j] = BLANK_PIECE;
 	}
 	
-	map[7][7] = new Piece("飛車", PLAYER, false);
-	map[7][7].setArea(MY_HISHA_AREA);
+	board.map[7][7] = new Piece("飛車", PLAYER, false);
+	board.map[7][7].setArea(MY_HISHA_AREA);
 	
-	map[7][8] = BLANK_PIECE;
+	board.map[7][8] = BLANK_PIECE;
 
 	// 九行目
-	map[8][0] = new Piece("香車", PLAYER, false);
-	map[8][0].setArea(MY_KYO_AREA);
+	board.map[8][0] = new Piece("香車", PLAYER, false);
+	board.map[8][0].setArea(MY_KYO_AREA);
 	
-	map[8][1] = new Piece("桂馬", PLAYER, false);
-	map[8][1].setArea(MY_KEI_AREA);
+	board.map[8][1] = new Piece("桂馬", PLAYER, false);
+	board.map[8][1].setArea(MY_KEI_AREA);
 
-	map[8][2] = new Piece("銀", PLAYER, false);
-	map[8][2].setArea(MY_GIN_AREA);
+	board.map[8][2] = new Piece("銀", PLAYER, false);
+	board.map[8][2].setArea(MY_GIN_AREA);
 
-	map[8][3] = new Piece("金", PLAYER, false);
-	map[8][3].setArea(MY_KIN_AREA);
+	board.map[8][3] = new Piece("金", PLAYER, false);
+	board.map[8][3].setArea(MY_KIN_AREA);
 
-	map[8][4] = new Piece("王", PLAYER, false);
-	map[8][4].setArea(MY_OU_AREA);
+	board.map[8][4] = new Piece("王", PLAYER, false);
+	board.map[8][4].setArea(MY_OU_AREA);
 
-	map[8][5] = new Piece("金", PLAYER, false);
-	map[8][5].setArea(MY_KIN_AREA);
+	board.map[8][5] = new Piece("金", PLAYER, false);
+	board.map[8][5].setArea(MY_KIN_AREA);
 
-	map[8][6] = new Piece("銀", PLAYER, false);
-	map[8][6].setArea(MY_GIN_AREA);
+	board.map[8][6] = new Piece("銀", PLAYER, false);
+	board.map[8][6].setArea(MY_GIN_AREA);
 
-	map[8][7] = new Piece("桂馬", PLAYER, false);
-	map[8][7].setArea(MY_KEI_AREA);
+	board.map[8][7] = new Piece("桂馬", PLAYER, false);
+	board.map[8][7].setArea(MY_KEI_AREA);
 
-	map[8][8] = new Piece("香車", PLAYER, false);
-	map[8][8].setArea(MY_KYO_AREA);
+	board.map[8][8] = new Piece("香車", PLAYER, false);
+	board.map[8][8].setArea(MY_KYO_AREA);
 	
 	pieceInHand[PLAYER].length = 0;
 	pieceInHand[OPPONENT].length = 0;
@@ -362,7 +368,7 @@ function printMap()
 	for (i=0;i<9;i++) {
 		var mapStr = "";
 		for (j=0;j<9;j++) {
-			pieceObj = map[i][j];
+			pieceObj = board.map[i][j];
 			document.getElementById("piece"+i+"-"+j).src=
 											getPieceImage(pieceObj);
 		}
@@ -549,12 +555,12 @@ function detectCellOnBoard(hx, hy)
 /********************************/
 function onBoardAction()
 {
-	var piece = map[clickedCell.row][clickedCell.column];
+	var piece = board.map[clickedCell.row][clickedCell.column];
 	
 	if (piece.owner == currentTurn) {
 		selectPiece(clickedCell.row, clickedCell.column);
 	} else if ((selectedCell.row != null) && (selectedCell.column != null)) {
-		var selectedPiece = map[selectedCell.row][selectedCell.column];
+		var selectedPiece = board.map[selectedCell.row][selectedCell.column];
 		if (selectedPiece.owner == currentTurn) {
 			if (isMovable(selectedPiece, selectedCell, clickedCell)) {
 				movePiece(clickedCell.row, clickedCell.column);
@@ -625,7 +631,7 @@ function isMovable(piece, src, dest) {
 					r += r_step;
 					c += c_step;
 					// alert("Row:"+r+" Col:"+c);
-					if (map[r][c].owner != BLANK) {
+					if (board.map[r][c].owner != BLANK) {
 						return false;
 					}
 				}
@@ -674,7 +680,7 @@ function selectPiece(row, column)
 function movePiece(row, column)
 {
 	// 移動先に駒があるなら、駒を取る
-	var targetPiece = map[row][column];
+	var targetPiece = board.map[row][column];
 	if ((targetPiece.owner != currentTurn) && (targetPiece.owner != BLANK)) {
 		// 王を取ったら勝ち
 		if (targetPiece.kind == "王") {
@@ -684,11 +690,11 @@ function movePiece(row, column)
 		}
 		targetPiece.owner = currentTurn;
 		pieceInHand[currentTurn].push(targetPiece);
-		map[row][column] = BLANK_PIECE;
+		board.map[row][column] = BLANK_PIECE;
 	}
 	
 	// 駒の移動
-	var selectedPiece = map[selectedCell.row][selectedCell.column];
+	var selectedPiece = board.map[selectedCell.row][selectedCell.column];
 	// 相手陣地に入ったら成る
 	if (((currentTurn == PLAYER) && (row <= 2)) || 
 	    ((currentTurn == OPPONENT) && (row >= 6))) {
@@ -696,10 +702,10 @@ function movePiece(row, column)
 			selectedPiece = promotePiece(selectedPiece)
 	    }
 	}
-	map[row][column] = selectedPiece;
+	board.map[row][column] = selectedPiece;
 
 	// 移動前の駒選択の解除
-	map[selectedCell.row][selectedCell.column] =BLANK_PIECE;
+	board.map[selectedCell.row][selectedCell.column] =BLANK_PIECE;
 	document.getElementById("selected_cell").innerText
 		= "Selected: ";
 	selectState = UNSELECTED;
