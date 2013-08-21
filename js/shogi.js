@@ -41,6 +41,10 @@ function Board() {
 		this.map[i]=new Array(9);
 	}
 	
+	this.pieceInHand = new Array(2);
+	this.pieceInHand[PLAYER] = new Array();
+	this.pieceInHand[OPPONENT] = new Array();
+	
 	this.pieceNum = {};
 	this.pieceNum['PLAYER'] = 0;
 	this.pieceNum['OPPONENT'] = 0;
@@ -52,11 +56,19 @@ Board.prototype.clone = function() {
 	var b = new Board();
 	for (var i=0; i<9; i++) {
 		for (var j=0; j<9; j++) {
-			b.map[i][j] = board.map[i][j];
+			b.map[i][j] = this.map[i][j];
 		};
 	};
-	b.pieceNum['PLAYER'] = board.pieceNum['PLAYER'];
-	b.pieceNum['OPPONENT'] = board.pieceNum['OPPONENT'];
+	
+	for (var i=0; i<this.pieceInHand[PLAYER].length; i++) {
+		b.pieceInHand[PLAYER][i] = this.pieceInHand[PLAYER][i];
+	}
+	for (var i=0; i<this.pieceInHand[OPPONENT].length; i++) {
+		b.pieceInHand[OPPONENT][i] = this.pieceInHand[OPPONENT][i];
+	}
+	
+	b.pieceNum['PLAYER'] = this.pieceNum['PLAYER'];
+	b.pieceNum['OPPONENT'] = this.pieceNum['OPPONENT'];
 	
 	return b;
 }; 
@@ -233,14 +245,17 @@ var clickedOppAreaCell = new Cell(0, 0);
 var selectedOppAreaCell = new Cell(0, 0);
 
 // 持ち駒のバッファ
+/*
 var pieceInHand = new Array(2);
 pieceInHand[PLAYER] = new Array();
 pieceInHand[OPPONENT] = new Array();
+*/
 
 // ターン。そのうちランダムに。
 var currentTurn = PLAYER;
 var winner = BLANK;
 
+var haveMoved = false;
 
 /************************************************************/
 /* Operation code                                           */
@@ -281,7 +296,7 @@ function initGame()
 {
 	initMap();
 	winner = BLANK;
-	printMap();
+	printMap(board);
 
 	// ターンの決定
 	n = Math.floor(Math.random() * 91) % 2;
@@ -423,9 +438,10 @@ function initMap()
 	board.pieceNum['PLAYER'] = 20;
 	board.pieceNum['OPPONENT'] = 20;
 
+	/*
 	pieceInHand[PLAYER].length = 0;
 	pieceInHand[OPPONENT].length = 0;
-
+	*/
 
 }
 
@@ -433,7 +449,7 @@ function initMap()
 /*****************************/
 /* 将棋盤画像の更新          */
 /*****************************/
-function printMap()
+function printMap(brd)
 {
 	var i, j, k;
 	var pieceObj;
@@ -441,24 +457,24 @@ function printMap()
 	for (i=0;i<9;i++) {
 		var mapStr = "";
 		for (j=0;j<9;j++) {
-			pieceObj = board.map[i][j];
+			pieceObj = brd.map[i][j];
 			document.getElementById("piece"+i+"-"+j).src=
 											getPieceImage(pieceObj);
 		}
 	}
 	
-	for (k=0;k<pieceInHand[PLAYER].length;k++) {
+	for (k=0;k<brd.pieceInHand[PLAYER].length;k++) {
 		document.getElementById("my_piece_in_hand_"+k).src = 
-									getPieceImage(pieceInHand[PLAYER][k]);
+									getPieceImage(brd.pieceInHand[PLAYER][k]);
 	}
 	for (;k<20;k++) {
 		document.getElementById("my_piece_in_hand_"+k).src = 
 											"img/piece/blank.png";
 	}
 	
-	for (k=0;k<pieceInHand[OPPONENT].length;k++) {
+	for (k=0;k<brd.pieceInHand[OPPONENT].length;k++) {
 		document.getElementById("opp_piece_in_hand_"+k).src = 
-									getPieceImage(pieceInHand[OPPONENT][k]);
+									getPieceImage(brd.pieceInHand[OPPONENT][k]);
 	}
 	for (;k<20;k++) {
 		document.getElementById("opp_piece_in_hand_"+k).src = 
@@ -546,6 +562,11 @@ function clickEvent(event)
 	
 	if (IS_BOARD_AREA == clickedArea) {
 		onBoardAction();
+		if (haveMoved == true) {
+			haveMoved = false;
+			changeTurn();
+			makeOpponentMove();
+		};
 	} else if (IS_PLAYER_AREA == clickedArea) {
 		// プレイヤーエリアの操作
 		onPlayerAreaAction();
@@ -637,8 +658,8 @@ function onBoardAction()
 		if (selectedPiece.owner == currentTurn) {
 			if (isMovable(selectedPiece, selectedCell, clickedCell)) {
 				board = movePiece(board, selectedCell, clickedCell);
-				printMap();
-				changeTurn();
+				printMap(board);
+				haveMoved = true;
 			} else {
 				alert("そこには動かせません！");
 			}
@@ -769,7 +790,7 @@ function movePiece(brd, src, dst)
 			targetPiece = demotePiece(targetPiece);
 		}
 		targetPiece.owner = currentTurn;
-		pieceInHand[currentTurn].push(targetPiece);
+		brd.pieceInHand[currentTurn].push(targetPiece);
 		brd.map[dst.row][dst.column] = BLANK_PIECE;
 		
 		if (currentTurn == PLAYER) {
@@ -1016,14 +1037,17 @@ function getOpponentMove() {
 					var c = j + piece.area[k][1];
 					var dst = new Cell(r, c);
 					if (isMovable(piece, src, dst)) {
-						var brd = movePiece(board.clone(), src, dst);
-						score = negaAlpha(brd, 0, 
+						var brd = board.clone();
+						var nxtBrd = movePiece(brd, src, dst);
+						score = negaAlpha(nxtBrd, 0, 
 										  Number.POSITIVE_INFINITY, 
 										  Number.NEGATIVE_INFINITY);
 						if (score > max) {
 							max = score;
-							nextBoard = brd;
+							nextBoard = nxtBrd;
 						};
+						delete brd;
+						delete nxtBrd;
 					};
 				};
 			};
@@ -1037,23 +1061,23 @@ function getOpponentMove() {
 /*****************************/
 /* Nega-α法での探索              */
 /*****************************/
-function negaAlpha(board, depth, a, b) {
+function negaAlpha(brd, depth, a, b) {
 	var i, j, k;
 	var piece;
 	
 	if (depth == 0) {
-		return board.eval(currentTurn); 
+		return brd.eval(currentTurn); 
 	}
 	
 	for (i=0; i<9; i++) {
 		for (j=0; j<9; j++) {
-			piece = board.map[i][j];
+			piece = brd.map[i][j];
 			var src = new Cell(i, j);
 			if (piece.owner == OPPONENT) {
 				for (k=0; k < piece.area.length; k++) {
 					var dst = new Cell(i+piece.area[k][0], j+piece.area[k][1]);
 					if (isMovable(piece, src, dst)) {
-						var nextBoard = movePiece(board.clone(), src, dst);
+						var nextBoard = movePiece(brd.clone(), src, dst);
 						a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a));
 						if (a > b) {
 							return a;
@@ -1075,7 +1099,6 @@ function changeTurn()
 {
 	if (currentTurn == PLAYER) {
 		currentTurn = OPPONENT;
-		makeOpponentMove();
 	} else {
 		currentTurn = PLAYER;
 	}
