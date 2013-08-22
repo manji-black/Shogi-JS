@@ -45,6 +45,7 @@ function Board() {
 	this.pieceNum['PLAYER'] = 0;
 	this.pieceNum['OPPONENT'] = 0;
 	
+	this.winner = BLANK;
 };
 
 /** 将棋盤のクローンの作成 */
@@ -65,6 +66,8 @@ Board.prototype.clone = function() {
 	
 	b.pieceNum['PLAYER'] = this.pieceNum['PLAYER'];
 	b.pieceNum['OPPONENT'] = this.pieceNum['OPPONENT'];
+	
+	b.winner = this.winner;
 	
 	return b;
 }; 
@@ -377,7 +380,6 @@ var pieceInfo = new Array();
 
 // ターン。そのうちランダムに。
 var currentTurn = PLAYER;
-var winner = BLANK;
 
 var haveMoved = false;
 
@@ -404,9 +406,6 @@ window.addEventListener
 	 false);
 
 initGame();
-if (currentTurn == OPPONENT) {
-	makeOpponentMove();
-}
 
 
 /************************************************************/
@@ -423,7 +422,6 @@ function initGame()
 	
 	// 将棋盤の初期化
 	initMap();
-	winner = BLANK;
 	printMap(board);
 
 	// ターンの決定
@@ -436,6 +434,9 @@ function initGame()
 	}
 	printTurn();
 
+	if (currentTurn == OPPONENT) {
+		makeOpponentMove();
+	}
 }
 
 /*****************************/
@@ -543,9 +544,13 @@ function initMap()
 	board.map[8][7] = MY_KEI_SYMBOL;	// 桂馬
 	board.map[8][8] = MY_KYO_SYMBOL;	// 香車
 	
+	board.pieceInHand[PLAYER] = [];
+	board.pieceInHand[OPPONENT] = [];
+	
 	board.pieceNum['PLAYER'] = 20;
 	board.pieceNum['OPPONENT'] = 20;
-
+	
+	board.winner = BLANK;
 }
 
 
@@ -670,7 +675,6 @@ function clickEvent(event)
 		onBoardAction();
 		if (haveMoved == true) {
 			haveMoved = false;
-			changeTurn();
 			makeOpponentMove();
 		};
 	} else if (IS_PLAYER_AREA == clickedArea) {
@@ -768,6 +772,7 @@ function onBoardAction()
 				board = movePiece(board, selectedCell, clickedCell);
 				printMap(board);
 				haveMoved = true;
+				changeTurn();
 			} else {
 				alert("そこには動かせません！");
 			}
@@ -779,17 +784,7 @@ function onBoardAction()
 	} else if (selectState == ON_BOARD) {
 	}
 */
-	document.getElementById("winner_text").innerText="Winner: "+winner;
-	if (BLANK != winner) {
-		var message = "";
-		if (winner == PLAYER) {
-			message = "あなたの勝ちです！";
-		} else if (winner == OPPONENT) {
-			message = "あなたの負けです…";
-		}
-		showDialog(message);
-	}
-
+	judgeWinner(board);
 	return;
 }
 
@@ -814,6 +809,13 @@ function isMovable(piece, src, dest) {
 		// 移動先のマスが、その駒の移動範囲内
 		if ((src.row + piece.area[i][0] == dest.row) &&
 			(src.column + piece.area[i][1] == dest.column)) {
+			// 移動先に手番の駒がある場合は移動不可
+			var destSymbol = board.map[dest.row][dest.column];
+			var destPiece = pieceInfo[destSymbol];
+			if (piece.owner == destPiece.owner) {
+				return false;
+			}
+			
 			// 桂馬なら即移動
 			if ((piece.symbol == MY_KEI_SYMBOL) || 
 				(piece.symbol == OPP_KEI_SYMBOL)) {
@@ -900,7 +902,7 @@ function movePiece(brd, src, dst)
 		// 王を取ったら勝ち
 		if ((currentTurn == PLAYER) && (targetSymbol == OPP_OU_SYMBOL) || 
 			(currentTurn == OPPONENT) && (targetSymbol == MY_OU_SYMBOL))  {
-			winner = currentTurn;
+			brd.winner = currentTurn;
 		}
 		// 取った駒に対応する自駒を取得
 		targetSymbol = changeOwner(targetSymbol);
@@ -986,7 +988,7 @@ function changeOwner(symbol) {
 		changedSymbol = MY_KIN_SYMBOL;
 	} else if ((OPP_HISHA_SYMBOL == symbol) || 
 			   (OPP_RYU_SYMBOL == symbol)){
-		changedSymbol = MY_RYU_SYMBOL;
+		changedSymbol = MY_HISHA_SYMBOL;
 	} else if ((OPP_KAKU_SYMBOL == symbol) || 
 			   (OPP_UMA_SYMBOL == symbol)) {
 		changedSymbol = MY_KAKU_SYMBOL;
@@ -1073,6 +1075,25 @@ function demotePiece(symbol)
 	}
 
 	return demSymbol;
+}
+
+/**************************/
+/* 勝ち負けの判定                           */
+/**************************/
+function judgeWinner(brd)
+{
+	document.getElementById("winner_text").innerText="Winner: "+brd.winner;
+	if (BLANK != brd.winner) {
+		var message = "";
+		if (brd.winner == PLAYER) {
+			message = "あなたの勝ちです！";
+		} else if (brd.winner == OPPONENT) {
+			message = "あなたの負けです…";
+		}
+		showDialog(message);
+	}
+	
+	return;
 }
 
 
@@ -1167,6 +1188,7 @@ function detectCellOnOppArea(hx, hy)
 function makeOpponentMove() {
 	board = getOpponentMove();
 	printMap(board);
+	judgeWinner(board);
 	changeTurn();
 }
 
@@ -1176,6 +1198,7 @@ function makeOpponentMove() {
 function getOpponentMove() {
 	var i, j, k;
 	var nextBoard = board;	// 次の局面
+	var tmpNextBoard;
 	var symbol;
 	var piece;
 	var src;
@@ -1195,16 +1218,16 @@ function getOpponentMove() {
 					dst = new Cell(r, c);
 					if (isMovable(piece, src, dst)) {
 						var brd = board.clone();
-						var nxtBrd = movePiece(brd, src, dst);
-						score = negaAlpha(nxtBrd, 0, 
+						tmpNextBoard = movePiece(brd, src, dst);
+						score = negaAlpha(tmpNextBoard, 10, 
 										  Number.POSITIVE_INFINITY, 
 										  Number.NEGATIVE_INFINITY);
 						if (score > max) {
 							max = score;
-							nextBoard = nxtBrd;
+							nextBoard = tmpNextBoard;
 						};
 						delete brd;
-						delete nxtBrd;
+						// delete nxtBrd;
 					};
 				};
 			};
