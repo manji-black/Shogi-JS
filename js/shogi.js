@@ -91,6 +91,24 @@ Board.prototype.eval = function(turn) {
 			};
 		};
 	};
+	
+	for (var i=0; i<this.pieceInHand[PLAYER].length; i++) {
+		symbol = this.pieceInHand[PLAYER][i];
+		piece = pieceInfo[symbol];
+		playerPoint += piece.point;
+	}
+	
+	for (var i=0; i<this.pieceInHand[OPPONENT].length; i++) {
+		symbol = this.pieceInHand[OPPONENT][i];
+		piece = pieceInfo[symbol];
+		opponentPoint += piece.point;
+	}
+	
+	if (this.winner == PLAYER) {
+		playerPoint += 1000000;
+	} else if (this.winner == OPPONENT) {
+		opponentPoint += 1000000;
+	}
 		
 	if (turn == PLAYER) {
 		opponentPoint *= -1;
@@ -156,7 +174,7 @@ const GIN_POINT = 30;
 const KIN_POINT = 80;
 const KAKU_POINT = 300;
 const HISHA_POINT = 400;
-const OU_POINT = 900;
+const OU_POINT = 1000;
 
 const TO_POINT = 40;
 const NARIKYO_POINT = 50;
@@ -1219,9 +1237,9 @@ function getOpponentMove() {
 					if (isMovable(piece, src, dst)) {
 						var brd = board.clone();
 						tmpNextBoard = movePiece(brd, src, dst);
-						score = negaAlpha(tmpNextBoard, 10, 
-										  Number.POSITIVE_INFINITY, 
-										  Number.NEGATIVE_INFINITY);
+						score = negaAlpha(tmpNextBoard, 2, 
+										  Number.NEGATIVE_INFINITY, 
+										  Number.POSITIVE_INFINITY);
 						if (score > max) {
 							max = score;
 							nextBoard = tmpNextBoard;
