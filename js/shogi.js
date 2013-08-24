@@ -154,8 +154,8 @@ const IS_PLAYER_AREA = 2;
 const IS_OPP_AREA = 3;
 
 // 基準座標
-const X0 = 274;
-const Y0 = 30;
+const X0 = 333;
+const Y0 = 26;
 
 const OPP_AREA_X0 = 43;
 const OPP_AREA_Y0 = 60;
@@ -163,8 +163,8 @@ const OPP_AREA_Y0 = 60;
 const PLAYER_AREA_X0 = 713;
 const PLAYER_AREA_Y0 = 183;
 
-const X_SIZE = 43;
-const Y_SIZE = 48;
+const X_SIZE = 30;
+const Y_SIZE = 34;
 
 //駒のポイント
 const FU_POINT = 1;
