@@ -154,7 +154,7 @@ const IS_PLAYER_AREA = 2;
 const IS_OPP_AREA = 3;
 
 // äÓèÄç¿ïW
-const X0 = 333;
+const X0 = 25;
 const Y0 = 26;
 
 const OPP_AREA_X0 = 43;
