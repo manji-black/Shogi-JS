@@ -1,79 +1,41 @@
+/***********************/
+/* ƒ^ƒO                                         */
+/***********************/
 body
 {
 	background-color:transparent;
 }
 
-.menu
+/***********************/
+/* class               */
+/***********************/
+.player_status
 {
-	height:26px;
+	background-color:#00ccff;
+	font-weight : bold;
+	font-family : "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
 }
 
-.menu_title
+.opp_status
 {
-	float:left;
-	margin:0px;
-	display:block;
-	width:60px;
-	margin-top:5px;
-	text-align:center;
+	background-color:#ff0011;
+	font-weight : bold;
+	font-family : "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
 }
 
-.menu_list
+.pieces_in_hand_table
 {
-	margin:0px;
+	background-image: url("../img/board/ban_kaya_b.png");	
 }
 
-.menu_item_on
-{
-	float:left;
-	display:block;
-	background-color:#ff3333;
-	width:60px;
-	height:26px;
-	margin-right:5px;
-	text-align:center;
-}
-
-.menu_item_on a
-{
-	text-decoration:none;
-	display:block;
-	margin-top:5px;	
-}
-.menu_item_on a:link    {color:#ffffff;}
-.menu_item_on a:visited {color:#ffffff;}
-.menu_item_on a:hover   {color:#ffffff;}
-
-.menu_item_off
-{
-	float:left;
-	display:block;
-	background-color:#ffcccc;
-	width:60px;
-	height:26px;
-	margin-right:5px;
-	text-align:center;
-}
-.menu_item_off a
-{
-	text-decoration:underline;
-	display:block;
-	margin-top:5px;
-}
-.menu_item_off a:link    {color:#000000;}
-.menu_item_off a:visited {color:#000000;}
-.menu_item_off a:hover   {color:#ff0000;}
-
+/***********************/
+/* id                  */
+/***********************/
 #container
 {
 	background-image: url("../img/background/tatami/tatami01.jpg");
 /*	margin : 10px; */
 	padding : 10px;
-	clear:both;
-    border-top:solid 10px #ff3300;
-    border-bottom:solid 1px #ff3300;
-    border-left:solid 1px #ff3300;
-    border-right:solid 1px #ff3300;	
 }
 
 
@@ -143,16 +105,8 @@ body
 	font-size: small;
 }
 
-#player_status
+#pieces_in_hand_area
 {
-	background-color:#00ccff;
-	font-weight : bold;
-	font-family : "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
-}
-
-#opp_status
-{
-	background-color:#ff0011;
-	font-weight : bold;
-	font-family : "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
+	background-image: url("../img/background/tatami/tatami01.jpg");
+	padding : 10px;
 }

@@ -1,23 +1,192 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
 <head>
-<title>Javascript 将棋</title>
+	<title>Javascript 将棋</title>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/ui.js"></script>
+	<script type="text/javascript" src="js/shogi.js"></script>
 </head>
 <link href="css/shogi_style.css" rel="stylesheet" type="text/css" />
 <body>
-	<div class="menu">
-		<p class="menu_title">MENU:</p>
-		<ul class="menu_list">
-			<li class="menu_item_on"><a href="main.html">将棋盤</a></li>
-			<li class="menu_item_off"><a href="pieces.html">持ち駒</a></li>
-			<li class="menu_item_off"><a href="about.html">About</a></li>
-		</ul>
+	<div id="pieces_in_hand_button" class="ui-state-default ui-corner-all">
+	持ち駒
 	</div>
+	<div id="pieces_in_hand_area">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="opp_status" colspan="4" height="30" align="center">コンピュータ</td>
+			</tr>
+			<tr>
+				<td>
+					<table class="pieces_in_hand_table" width="120" border="1" cellpadding="0" cellspacing="0">
+						<tr>
+							<td id="opp_cell_in_hand_3">
+								<img id="opp_piece_in_hand_3" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_2">
+								<img id="opp_piece_in_hand_2" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_1">
+								<img id="opp_piece_in_hand_1" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_0">
+								<img id="opp_piece_in_hand_0" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_7">
+								<img id="opp_piece_in_hand_7" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_6">
+								<img id="opp_piece_in_hand_6" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_5">
+								<img id="opp_piece_in_hand_5" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_4">
+								<img id="opp_piece_in_hand_4" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_11">
+								<img id="opp_piece_in_hand_11" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_10">
+								<img id="opp_piece_in_hand_10" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_9">
+								<img id="opp_piece_in_hand_9" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_8">
+								<img id="opp_piece_in_hand_8" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_15">
+								<img id="opp_piece_in_hand_15" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_14">
+								<img id="opp_piece_in_hand_14" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_13">
+								<img id="opp_piece_in_hand_13" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_12">
+								<img id="opp_piece_in_hand_12" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="opp_cell_in_hand_19">
+								<img id="opp_piece_in_hand_19" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_18">
+								<img id="opp_piece_in_hand_18" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_17">
+								<img id="opp_piece_in_hand_17" src="" width="30" height="34">
+							</td>
+							<td id="opp_cell_in_hand_16">
+								<img id="opp_piece_in_hand_16" src="" width="30" height="34">
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		
+		<br>
+		
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<table class="pieces_in_hand_table" width="120" border="1" cellpadding="0" cellspacing="0">
+						<tr>
+							<td id="my_cell_in_hand_16">
+								<img id="my_piece_in_hand_16" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_17">
+								<img id="my_piece_in_hand_17" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_18">
+								<img id="my_piece_in_hand_18" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_19">
+								<img id="my_piece_in_hand_19" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_12">
+								<img id="my_piece_in_hand_12" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_13">
+								<img id="my_piece_in_hand_13" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_14">
+								<img id="my_piece_in_hand_14" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_15">
+								<img id="my_piece_in_hand_15" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_8">
+								<img id="my_piece_in_hand_8" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_9">
+								<img id="my_piece_in_hand_9" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_10">
+								<img id="my_piece_in_hand_10" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_11">
+								<img id="my_piece_in_hand_11" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_4">
+								<img id="my_piece_in_hand_4" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_5">
+								<img id="my_piece_in_hand_5" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_6">
+								<img id="my_piece_in_hand_6" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_7">
+								<img id="my_piece_in_hand_7" src="" width="30" height="34">
+							</td>
+						</tr>
+						<tr>
+							<td id="my_cell_in_hand_0">
+								<img id="my_piece_in_hand_0" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_1">
+								<img id="my_piece_in_hand_1" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_2">
+								<img id="my_piece_in_hand_2" src="" width="30" height="34">
+							</td>
+							<td id="my_cell_in_hand_3">
+								<img id="my_piece_in_hand_3" src="" width="30" height="34">
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="player_status" colspan="4" height="30" align="center">プレイヤー</td>
+			</tr>
+		</table>
+
+	</div>
+
 	
 	<div id="container">
-		<table width="287" border="0" align="center" cellpadding="0" cellspacing="0">
+		<table width="287" border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td id="opp_status" colspan="4" height="30" align="center">コンピュータ</td>
+				<td class="opp_status" colspan="4" height="30" align="center">コンピュータ</td>
 			</tr>
 			<tr>
 				<td  background="img/board/ban_kaya_b.png">
@@ -293,7 +462,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td id="player_status" colspan="4" height="30" align="center">プレイヤー</td>
+				<td class="player_status" colspan="4" height="30" align="center">プレイヤー</td>
 			</tr>
 		</table>
 		
@@ -315,11 +484,10 @@
 	<div id="result_dialog">
 		<p id="result_message" />
 		<div style="text-align:center">
-			<input type="button" onclick="hideDialog();" value="もう一度対局" />
+			<input id="retry_button" type="button" value="もう一度対局" />
 		</div>
 	</div>
 	
 	
-	<script type="text/javascript" src="js/shogi.js"></script>
 </body>
 </html>
