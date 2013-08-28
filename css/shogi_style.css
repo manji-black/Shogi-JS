@@ -34,10 +34,25 @@ body
 #container
 {
 	background-image: url("../img/background/tatami/tatami01.jpg");
-/*	margin : 10px; */
 	padding : 10px;
+	position : absolute; left : 0px; top : 26px;
+	z-index : 1;
 }
 
+#pieces_in_hand_button
+{
+	padding : 5px;
+	position : absolute; left : 0px; top : 0px;
+	z-index : 1;
+}
+
+#pieces_in_hand_area
+{
+	background-image: url("../img/background/tatami/tatami01.jpg");
+	padding : 10px;
+	position : absolute; left : 0px; top : 26px;
+	z-index : 10;
+}
 
 /* デバッグ情報 */
 #debug_info_area
@@ -87,7 +102,8 @@ body
 
 #result_dialog
 {
-	position:absolute; visibility:hidden; text-align:center;
+	/*position:absolute;*/ 
+	visibility:hidden; text-align:center;
     padding-top:10px;
     background-color:#FFFFFF; width:200px; height:100px;
 }
@@ -105,8 +121,3 @@ body
 	font-size: small;
 }
 
-#pieces_in_hand_area
-{
-	background-image: url("../img/background/tatami/tatami01.jpg");
-	padding : 10px;
-}
