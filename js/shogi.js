@@ -154,8 +154,8 @@ $(function() {
 	const IS_OPP_AREA = 3;
 	
 	// 基準座標
-	const X0 = 26;
-	const Y0 = 76;
+	const X0 = 17;
+	const Y0 = 50;
 	
 	const OPP_AREA_X0 = 43;
 	const OPP_AREA_Y0 = 60;
@@ -404,6 +404,7 @@ $(function() {
 	/************************************************************/
 	/* Operation code                                           */
 	/************************************************************/
+	/*
 	window.addEventListener
 		('click', 
 		 function(event)
@@ -411,7 +412,7 @@ $(function() {
 		 	clickEvent(event);
 		 }, 
 		 false);
-	
+	*/
 	
 	window.addEventListener
 		('keydown', 
@@ -688,6 +689,7 @@ $(function() {
 	/******************************/
 	function clickEvent(event)
 	{
+		/*
 		var clickedArea = calcClickedCell(event);
 		
 		if (IS_BOARD_AREA == clickedArea) {
@@ -702,9 +704,24 @@ $(function() {
 		} else if (IS_OPP_AREA == clickedArea) {
 			// 相手エリアの操作
 		}
-		
+		*/
 		return;
 	}
+	
+	
+	
+	/*****************************/
+	/* 将棋盤をクリック  */
+	/*****************************/
+	$("#board_area").click(function(event){
+		calcClickedCell(event);
+		onBoardAction();
+		if (haveMoved == true) {
+			haveMoved = false;
+			makeOpponentMove();
+		};
+	});
+	
 	
 	
 	/*****************************/
