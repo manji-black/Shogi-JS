@@ -3,9 +3,9 @@ $(function() {
 	/************************************************************/
 	/*	Classes                                                 */
 	/************************************************************/
-	/*****************************/
-	/*	駒のクラス               */
-	/*****************************/
+	/**
+	 *	駒のクラス               
+	 */
 	function Piece(symbol, owner, promoted, point, array) {
 		this.symbol = symbol;
 		this.owner = owner;
@@ -20,17 +20,17 @@ $(function() {
 		}
 	};
 	
-	/*****************************/
-	/* 将棋盤のマスのクラス      */
-	/*****************************/
+	/**
+	 * 将棋盤のマスのクラス
+	 */
 	function Cell(row, column) {
 		this.row = row;
 		this.column = column;
 	};
 	
-	/*****************************/
-	/* 将棋盤のクラス      */
-	/*****************************/
+	/**
+	 * 将棋盤のクラス
+	 */
 	function Board() {
 		this.map = new Array(9);
 		for (var i=0;i<9;i++) {
@@ -120,7 +120,7 @@ $(function() {
 	};
 	
 	/************************************************************/
-	// Constant Value
+	/* Constant Value */
 	/************************************************************/
 	const LEFT = 37;
 	const UP = 38;
@@ -369,12 +369,6 @@ $(function() {
 	const BLANK_PIECE = new Piece(BLANK_SYMBOL, BLANK, false, 0);
 	
 	
-	/*
-	pieceInHand[PLAYER].length = 0;
-	pieceInHand[OPPONENT].length = 0;
-	*/
-	
-	
 	/************************************************************/
 	// Variables
 	/************************************************************/
@@ -389,13 +383,6 @@ $(function() {
 	var selectedPlayerAreaCell = new Cell(0, 0);
 	var clickedOppAreaCell = new Cell(0, 0);
 	var selectedOppAreaCell = new Cell(0, 0);
-	
-	// 持ち駒のバッファ
-	/*
-	var pieceInHand = new Array(2);
-	pieceInHand[PLAYER] = new Array();
-	pieceInHand[OPPONENT] = new Array();
-	*/
 	
 	var pieceInfo = new Array();
 	
@@ -414,9 +401,9 @@ $(function() {
 	/* Functions                                                */
 	/************************************************************/
 	
-	/*****************************/
-	/* 対局の初期化              */
-	/*****************************/
+	/**
+	 * 対局の初期化
+	 */
 	function initGame()
 	{
 		// 駒情報の初期化
@@ -441,9 +428,9 @@ $(function() {
 		}
 	}
 	
-	/*****************************/
-	/* 駒情報の初期化        */
-	/*****************************/
+	/**
+	 * 駒情報の初期化
+	 */
 	function initPieceInfo()
 	{
 		// 敵駒の情報を追加
@@ -482,9 +469,9 @@ $(function() {
 		pieceInfo[BLANK_SYMBOL] = BLANK_PIECE;
 	}
 	
-	/*****************************/
-	/* 将棋盤画像の初期化        */
-	/*****************************/
+	/**
+	 * 将棋盤画像の初期化
+	 */
 	function initMap()
 	{
 		var i, j;
@@ -556,9 +543,9 @@ $(function() {
 	}
 	
 	
-	/*****************************/
-	/* 将棋盤画像の更新          */
-	/*****************************/
+	/**
+	 * 将棋盤画像の更新
+	 */
 	function printMap(brd)
 	{
 		var i, j, k;
@@ -596,9 +583,9 @@ $(function() {
 		}
 	}
 	
-	/*****************************/
-	/* 駒画像のパスの取得        */
-	/*****************************/
+	/**
+	 * 駒画像のパスの取得
+	 */
 	function getPieceImage(symbol)
 	{
 		imgPath = "img/piece/blank.png";
@@ -667,35 +654,9 @@ $(function() {
 		return imgPath;
 	}
 	
-	/******************************/
-	/* 画面クリックイベントの処理 */
-	/******************************/
-	function clickEvent(event)
-	{
-		/*
-		var clickedArea = calcClickedCell(event);
-		
-		if (IS_BOARD_AREA == clickedArea) {
-			onBoardAction();
-			if (haveMoved == true) {
-				haveMoved = false;
-				makeOpponentMove();
-			};
-		} else if (IS_PLAYER_AREA == clickedArea) {
-			// プレイヤーエリアの操作
-			onPlayerAreaAction();
-		} else if (IS_OPP_AREA == clickedArea) {
-			// 相手エリアの操作
-		}
-		*/
-		return;
-	}
-	
-	
-	
-	/*****************************/
-	/* 将棋盤をクリックした時の処理  */
-	/*****************************/
+	/**
+	 * 将棋盤をクリックした時の処理
+	 */
 	$("#board_area").click(function(event){
 		detectCellOnBoard(event);
 		onBoardAction();
@@ -705,9 +666,9 @@ $(function() {
 		}
 	});
 	
-	/*****************************/
-	/* クリックされた将棋盤上のマスの特定  */
-	/*****************************/
+	/**
+	 * クリックされた将棋盤上のマスの特定
+	 */
 	function detectCellOnBoard(event)
 	{
 		var hx, hy;
@@ -739,40 +700,9 @@ $(function() {
 	}
 	
 	
-	/*****************************/
-	/* クリックされたマスの特定  */
-	/*****************************/
-	/*
-	function calcClickedCell(event)
-	{
-		var hx, hy;
-		
-		hx = event.pageX;
-		hy = event.pageY;
-		
-		if (((X0 < hx) && (hx < X0 + X_SIZE * 9)) && 
-		    ((Y0 < hy) && (hy < Y0 + Y_SIZE * 9))) {
-			detectCellOnBoard(hx, hy);
-			return IS_BOARD_AREA;
-		} else if (((PLAYER_AREA_X0 < hx) && (hx < PLAYER_AREA_X0 + X_SIZE * 4)) && 
-		           ((PLAYER_AREA_Y0 < hy) && (hy < PLAYER_AREA_Y0 + Y_SIZE * 5))) {
-			detectCellOnPlayerArea(hx, hy);
-			// alert("PLAYER_AREA: " + clickedPlayerAreaCell.row + ", " + clickedPlayerAreaCell.column);
-			return IS_PLAYER_AREA;
-		} else if (((OPP_AREA_X0 < hx) && (hx < OPP_AREA_X0 + X_SIZE * 4)) && 
-		           ((OPP_AREA_Y0 < hy) && (hy < OPP_AREA_Y0 + Y_SIZE * 5))) {
-			detectCellOnOppArea(hx, hy);
-			// alert("OPP_AREA: " + clickedOppAreaCell.row + ", " + clickedOppAreaCell.column);
-			return IS_OPP_AREA;
-		} 
-	
-		return false;
-	}
-	*/
-	
-	/********************************/
-	/* 将棋盤クリック時のアクション */
-	/********************************/
+	/**
+	 * 将棋盤クリック時のアクション
+	 */
 	function onBoardAction()
 	{
 		var symbol = board.map[clickedCell.row][clickedCell.column];
@@ -812,18 +742,13 @@ $(function() {
 			}
 		}
 	
-	/*	if ((selectState == UNSELECTED) && (piece.owner == currentTurn)) {
-			selectPiece(clickedCell.row, clickedCell.column);
-		} else if (selectState == ON_BOARD) {
-		}
-	*/
 		judgeWinner(board);
 		return;
 	}
 	
-	/*****************************/
-	/* 移動可能か判定する        */
-	/*****************************/
+	/**
+	 * 移動可能か判定する
+	 */
 	function isMovable(piece, src, dest) {
 		var i;
 		var symbol;
@@ -893,10 +818,9 @@ $(function() {
 		return false;
 	}
 	
-	
-	/*****************************/
-	/* クリックされた駒の選択    */
-	/*****************************/
+	/**
+	 * クリックされた駒の選択
+	 */
 	function selectPiece(row, column)
 	{
 		if ((selectedCell.row != null) && (selectedCell.column != null)) {
@@ -920,9 +844,9 @@ $(function() {
 		
 	}
 	
-	/*****************************/
-	/* 駒の移動                  */
-	/*****************************/
+	/**
+	 * 駒の移動
+	 */
 	function movePiece(brd, src, dst, turn)
 	{
 		// 移動先に駒があるなら、駒を取る
@@ -968,10 +892,10 @@ $(function() {
 		return brd;
 	}
 	
-	/********************************/
-	/* 取った駒の所有者を変更したシンボルを返す。
-	       成っている場合は基に戻す。 */
-	/********************************/
+	/**
+	 * 取った駒の所有者を変更したシンボルを返す。
+	 * 成っている場合は基に戻す。
+	 */
 	function changeOwner(symbol) {
 		var changedSymbol = BLANK_SYMBOL;
 		
@@ -1027,9 +951,9 @@ $(function() {
 		return changedSymbol;
 	};
 	
-	/********************************/
-	/* 相手陣地に入った駒を成らせる */
-	/********************************/
+	/**
+	 * 相手陣地に入った駒を成らせる
+	 */
 	function promotePiece(symbol)
 	{
 		var promSymbol = symbol;
@@ -1066,9 +990,9 @@ $(function() {
 		return promSymbol;
 	}
 	
-	/********************************/
-	/* 取った駒を降格させる         */
-	/********************************/
+	/**
+	 * 取った駒を降格させる
+	 */
 	function demotePiece(symbol)
 	{
 		var demSymbol = symbol;
@@ -1105,9 +1029,9 @@ $(function() {
 		return demSymbol;
 	}
 	
-	/**************************/
-	/* 勝ち負けの判定                           */
-	/**************************/
+	/**
+	 * 勝ち負けの判定
+	 */
 	function judgeWinner(brd)
 	{
 		if (BLANK != brd.winner) {
@@ -1123,19 +1047,17 @@ $(function() {
 		return;
 	}
 	
-	/********************************/
-	/* プレイヤーの持ち駒を使用 */
-	/********************************/
+	/**
+	 * プレイヤーの持ち駒を使用
+	 */
 	$("#player_pieces_area").click(function(event){
 		detectCellOnPlayerArea(event);
 		onPlayerAreaAction();
 	});
-	
-	
-	
-	/********************************/
-	/* プレイヤーエリアのマスを特定 */
-	/********************************/
+		
+	/**
+	 * プレイヤーエリアのマスを特定
+	 */
 	function detectCellOnPlayerArea(event)
 	{
 		var hx, hy;
@@ -1167,10 +1089,9 @@ $(function() {
 		};		
 	}
 	
-	/********************************/
-	/* プレーヤーエリア
-	   クリック時のアクション       */
-	/********************************/
+	/**
+	 * プレーヤーの持ち駒エリア　クリック時のアクション
+	 */
 	function onPlayerAreaAction()
 	{
 		if (currentTurn == PLAYER) {
@@ -1201,9 +1122,9 @@ $(function() {
 		return;
 	}
 	
-	/********************************/
-	/* 持ち駒を盤上に配置                                   */
-	/********************************/
+	/**
+	　* 持ち駒を盤上に配置
+	　*/
 	function putPiece(turn)
 	{
 		var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
@@ -1219,9 +1140,9 @@ $(function() {
 		selectedPlayerAreaCell.column == null;
 	}
 	
-	/********************************/
-	/* 相手エリアのマスを特定 */
-	/********************************/
+	/**
+	　* 相手エリアのマスを特定
+	　*/
 	function detectCellOnOppArea(hx, hy)
 	{
 		var x, y;
@@ -1243,9 +1164,9 @@ $(function() {
 		};
 	};
 	
-	/********************************/
-	/* 相手の手番  */
-	/********************************/
+	/**
+	　* コンピュータの手番
+	　*/
 	function makeOpponentMove() {
 		board = getOpponentMove();
 		printMap(board);
@@ -1253,9 +1174,9 @@ $(function() {
 		changeTurn();
 	}
 	
-	/********************************/
-	/* コンピュータ側の手の決定   */
-	/********************************/
+	/**
+	　* コンピュータ側の手の決定
+	　*/
 	function getOpponentMove() {
 		var i, j, k;
 		var nextBoard = board;	// 次の局面
@@ -1300,9 +1221,9 @@ $(function() {
 	};
 	
 	
-	/*****************************/
-	/* Nega-α法での探索              */
-	/*****************************/
+	/**
+	 * Nega-α法での探索
+	 */
 	function negaAlpha(brd, depth, a, b, turn) {
 		var i, j, k;
 		var symbol;
@@ -1337,11 +1258,10 @@ $(function() {
 		
 		return a;
 	}
-	
-	
-	/*****************************/
-	/* ターンの交代              */
-	/*****************************/
+		
+	/**
+	 * ターンの交代
+	 */
 	function changeTurn()
 	{
 		if (currentTurn == PLAYER) {
@@ -1352,9 +1272,9 @@ $(function() {
 		printTurn();
 	}
 	
-	/*****************************/
-	/* ターンの表示              */
-	/*****************************/
+	/**
+	 * ターンの表示
+	 */
 	function printTurn()
 	{
 		var playerStatusElements = 
@@ -1390,9 +1310,9 @@ $(function() {
 	}
 	
 	
-	/*****************************/
-	/* 対局結果ダイアログの表示          */
-	/*****************************/
+	/**
+	 * 対局結果ダイアログの表示
+	 */
 	function showDialog(msg)
 	{
 		backTarget = document.getElementById("result_back");
@@ -1409,10 +1329,9 @@ $(function() {
 		dialogTarget.style.visibility = "visible";
 	}
 	
-	/*****************************/
-	/* 対局結果ダイアログを消し、
-	   もう一度対局を開始        */
-	/*****************************/
+	/**
+	 * 対局結果ダイアログを消し、もう一度対局を開始
+	 */
 	$("#retry_button").click(function() {
 		backTarget = document.getElementById("result_back");
 		backTarget.style.visibility = "hidden";
