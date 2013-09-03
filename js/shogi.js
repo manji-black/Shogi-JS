@@ -160,11 +160,14 @@ $(function() {
 	const OPP_AREA_X0 = 43;
 	const OPP_AREA_Y0 = 60;
 	
-	const PLAYER_AREA_X0 = 713;
-	const PLAYER_AREA_Y0 = 183;
+	const PLAYER_AREA_X0 = 11;
+	const PLAYER_AREA_Y0 = 266;
 	
 	const X_SIZE = 30;
 	const Y_SIZE = 34;
+	
+	const PLAYER_AREA_X_SIZE = 32;
+	const PLAYER_AREA_Y_SIZE = 36;
 	
 	//駒のポイント
 	const FU_POINT = 1;
@@ -776,19 +779,46 @@ $(function() {
 		var piece = pieceInfo[symbol];
 		
 		if (piece.owner == currentTurn) {
+			if (selectState == ON_PLAYER_AREA) {
+				var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
+									+ selectedPlayerAreaCell.column;
+			
+				document.getElementById("my_cell_in_hand_"+cellNum).
+							style.backgroundImage = '';
+				selectedPlayerAreaCell.row == null;
+				selectedPlayerAreaCell.column == null;
+			}
 			selectPiece(clickedCell.row, clickedCell.column);
-		} else if ((selectedCell.row != null) && (selectedCell.column != null)) {
-			var selectedSymbol = board.map[selectedCell.row][selectedCell.column];
-			var selectedPiece = pieceInfo[selectedSymbol];
-			if (selectedPiece.owner == currentTurn) {
-				if (isMovable(selectedPiece, selectedCell, clickedCell)) {
-					board = movePiece(board, selectedCell, clickedCell);
-					printMap(board);
-					haveMoved = true;
-					changeTurn();
-				} else {
-					alert("そこには動かせません！");
+		} else {
+			if ((selectState == ON_BOARD) && 
+				(selectedCell.row != null) && (selectedCell.column != null)) {
+				var selectedSymbol = board.map[selectedCell.row][selectedCell.column];
+				var selectedPiece = pieceInfo[selectedSymbol];
+				if (selectedPiece.owner == currentTurn) {
+					if (isMovable(selectedPiece, selectedCell, clickedCell)) {
+						board = movePiece(board, selectedCell, clickedCell);
+						printMap(board);
+						haveMoved = true;
+						changeTurn();
+					} else {
+						alert("そこには動かせません！");
+					}
 				}
+			} else if (selectState == ON_PLAYER_AREA) {
+				var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
+									+ selectedPlayerAreaCell.column;
+				
+				board.map[clickedCell.row][clickedCell.column]
+								= board.pieceInHand[PLAYER][cellNum];
+				board.pieceInHand[PLAYER].splice(cellNum, 1);
+				
+				document.getElementById("my_cell_in_hand_"+cellNum).
+								style.backgroundImage = '';
+				selectedPlayerAreaCell.row == null;
+				selectedPlayerAreaCell.column == null;
+
+				haveMoved = true;
+				changeTurn();
 			}
 		}
 	
@@ -1123,19 +1153,21 @@ $(function() {
 		hx = event.pageX;
 		hy = event.pageY;
 		
-		if (((PLAYER_AREA_X0 < hx) && (hx < PLAYER_AREA_X0 + X_SIZE * 4)) && 
-		    ((PLAYER_AREA_Y0 < hy) && (hy < PLAYER_AREA_Y0 + Y_SIZE * 5))) {
+		if (((PLAYER_AREA_X0 < hx) && 
+			 (hx < PLAYER_AREA_X0 + PLAYER_AREA_X_SIZE * 4)) && 
+		    ((PLAYER_AREA_Y0 < hy) && 
+		     (hy < PLAYER_AREA_Y0 + PLAYER_AREA_Y_SIZE * 5))) {
 			var x, y;
 			var i;
 		
-			x = (hx - PLAYER_AREA_X0)/X_SIZE;
+			x = (hx - PLAYER_AREA_X0)/PLAYER_AREA_X_SIZE;
 			for (i=0;i<4;i++) {
 				if (x < i+1) {
 					clickedPlayerAreaCell.column = i;
 					break;
 				};
 			};
-			y = (hy - PLAYER_AREA_Y0)/Y_SIZE;
+			y = (hy - PLAYER_AREA_Y0)/PLAYER_AREA_Y_SIZE;
 			for (i=0;i<5;i++) {
 				if (y < i+1) {
 					clickedPlayerAreaCell.row = i;
@@ -1154,8 +1186,6 @@ $(function() {
 		if (currentTurn == PLAYER) {
 			if (selectState == ON_BOARD) {
 				/* 将棋盤上のコマの選択解除 */
-				document.getElementById("selected_cell").innerText
-					= "Selected: ";
 				document.
 					getElementById("cell"+selectedCell.row+"-"+selectedCell.column).
 					style.backgroundImage = '';
