@@ -387,7 +387,8 @@ $(function() {
 	// var selectedPlayerAreaCell = new Cell(0, 0);
 	var selectedPlayerAreaIdx = undefined;
 	var clickedOppAreaCell = new Cell(0, 0);
-	var selectedOppAreaCell = new Cell(0, 0);
+	// var selectedOppAreaCell = new Cell(0, 0);
+	var selectedOppAreaIdx = undefined;
 	
 	var pieceInfo = new Array();
 	
@@ -737,7 +738,7 @@ $(function() {
 				}
 			} else if (selectState == ON_PLAYER_AREA) {
 				if (isPutable(board, selectedPlayerAreaIdx, clickedCell, currentTurn)) {
-					putPiece(currentTurn);
+					board = putPiece(board, currentTurn, selectedPlayerAreaIdx, clickedCell);
 
 					haveMoved = true;
 					changeTurn();
@@ -1127,6 +1128,11 @@ $(function() {
 	　*/
 	function isPutable(brd, idx, dst, turn)
 	{
+		// 置く場所が空いているか
+		if (brd.map[dst.row][dst.column] != BLANK_SYMBOL) {
+			return false;
+		}
+		
 		var symbol = brd.pieceInHand[turn][idx];
 		
 		if (symbol==MY_FU_SYMBOL) {
@@ -1163,20 +1169,22 @@ $(function() {
 	/**
 	　* 持ち駒を盤上に配置
 	　*/
-	function putPiece(turn)
+	function putPiece(brd, turn, idx, dst)
 	{
-		var cellNum = selectedPlayerAreaIdx;
-		if (turn==OPPONENT) {
-			cellNum = selectedOppAreaIdx;
+		brd.map[dst.row][dst.column]
+			= board.pieceInHand[turn][idx];
+		brd.pieceInHand[turn].splice(idx, 1);
+		
+		if (turn==PLAYER) {
+			document.getElementById("my_cell_in_hand_" + idx).
+			style.backgroundImage = '';
+			selectedPlayerAreaIdx = undefined;
+		} else {
+			selectedOppAreaIdx = undefined;
 		}
 		
-		board.map[clickedCell.row][clickedCell.column]
-			= board.pieceInHand[turn][cellNum];
-		board.pieceInHand[turn].splice(cellNum, 1);
 		
-		document.getElementById("my_cell_in_hand_"+cellNum).
-			style.backgroundImage = '';
-		selectedPlayerAreaIdx = undefined;
+		return brd;
 	}
 	
 	/**
@@ -1241,9 +1249,9 @@ $(function() {
 							var brd = board.clone();
 							tmpNextBoard = movePiece(brd, src, dst, currentTurn);
 							score = negaAlpha(tmpNextBoard, 2, 
-											  Number.NEGATIVE_INFINITY, 
-											  Number.POSITIVE_INFINITY, 
-											  currentTurn);
+									  Number.NEGATIVE_INFINITY, 
+									  Number.POSITIVE_INFINITY, 
+									  currentTurn);
 							if (score > max) {
 								max = score;
 								nextBoard = tmpNextBoard;
@@ -1255,6 +1263,29 @@ $(function() {
 				};
 			};
 		};
+		
+		for (i=0; i<ROW_NUM; i++) {
+			for (j=0; j<COLUMN_NUM; j++) {
+				for (k=0; k<board.pieceInHand[OPPONENT].length; k++) {
+					var brd = board.clone();
+					var putDst = new Cell(i, j);
+					if (isPutable(brd, k, putDst, OPPONENT)) {
+						tmpNextBoard = putPiece(brd, currentTurn, k, putDst);
+						score = negaAlpha(tmpNextBoard, 2, 
+								  Number.NEGATIVE_INFINITY, 
+								  Number.POSITIVE_INFINITY, 
+								  currentTurn);
+						if (score > max) {
+							max = score;
+							nextBoard = tmpNextBoard;
+						};
+					}
+					delete brd;
+					delete putDst;
+				};
+			};
+		}
+		
 		
 		return nextBoard;
 	};
@@ -1294,6 +1325,24 @@ $(function() {
 				};
 			};
 		};
+		
+		for (i=0; i<ROW_NUM; i++) {
+			for (j=0; j<COLUMN_NUM; j++) {
+				for (k=0; k<board.pieceInHand[turn].length; k++) {
+					var nxtBrd = brd.clone();
+					var putDst = new Cell(i, j);
+					if (isPutable(nxtBrd, k, putDst, turn)) {
+						nextBoard = putPiece(nxtBrd, turn, k, putDst);
+						a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a, turn*-1));
+					}
+					delete nxtBrd;
+					delete putDst;
+					if (a > b) {
+						return a;
+					};
+				};
+			};
+		}
 		
 		return a;
 	}
