@@ -796,7 +796,7 @@ $(function() {
 				var selectedPiece = pieceInfo[selectedSymbol];
 				if (selectedPiece.owner == currentTurn) {
 					if (isMovable(selectedPiece, selectedCell, clickedCell)) {
-						board = movePiece(board, selectedCell, clickedCell);
+						board = movePiece(board, selectedCell, clickedCell, currentTurn);
 						printMap(board);
 						haveMoved = true;
 						changeTurn();
@@ -923,25 +923,25 @@ $(function() {
 	/*****************************/
 	/* ‹î‚ÌˆÚ“®                  */
 	/*****************************/
-	function movePiece(brd, src, dst)
+	function movePiece(brd, src, dst, turn)
 	{
 		// ˆÚ“®æ‚É‹î‚ª‚ ‚é‚È‚çA‹î‚ğæ‚é
 		var targetSymbol = brd.map[dst.row][dst.column];
 		var targetPiece = pieceInfo[targetSymbol];
-		if ((targetPiece.owner != currentTurn) && (targetPiece.owner != BLANK)) {
+		if ((targetPiece.owner != turn) && (targetPiece.owner != BLANK)) {
 			// ‰¤‚ğæ‚Á‚½‚çŸ‚¿
-			if ((currentTurn == PLAYER) && (targetSymbol == OPP_OU_SYMBOL) || 
-				(currentTurn == OPPONENT) && (targetSymbol == MY_OU_SYMBOL))  {
-				brd.winner = currentTurn;
+			if ((turn == PLAYER) && (targetSymbol == OPP_OU_SYMBOL) || 
+				(turn == OPPONENT) && (targetSymbol == MY_OU_SYMBOL))  {
+				brd.winner = turn;
 			}
 			// æ‚Á‚½‹î‚É‘Î‰‚·‚é©‹î‚ğæ“¾
 			targetSymbol = changeOwner(targetSymbol);
-			brd.pieceInHand[currentTurn].push(targetSymbol);
+			brd.pieceInHand[turn].push(targetSymbol);
 			brd.map[dst.row][dst.column] = BLANK_SYMBOL;
 			
-			if (currentTurn == PLAYER) {
+			if (turn == PLAYER) {
 				brd.pieceNum['OPPONENT'] -= 1;
-			} else if (currentTurn == OPPONENT) {
+			} else if (turn == OPPONENT) {
 				brd.pieceNum['PLAYER'] -= 1;
 			}
 		}
@@ -950,8 +950,8 @@ $(function() {
 		var selectedSymbol = brd.map[src.row][src.column];
 		var selectedPiece = pieceInfo[selectedSymbol];
 		// ‘Šèw’n‚É“ü‚Á‚½‚ç¬‚é
-		if (((currentTurn == PLAYER) && (dst.row <= 2)) || 
-		    ((currentTurn == OPPONENT) && (dst.row >= 6))) {
+		if (((turn == PLAYER) && (dst.row <= 2)) || 
+		    ((turn == OPPONENT) && (dst.row >= 6))) {
 		    if (selectedPiece.promoted == false) {
 				selectedSymbol = promotePiece(selectedSymbol);
 		    };
@@ -1279,10 +1279,11 @@ $(function() {
 						dst = new Cell(r, c);
 						if (isMovable(piece, src, dst)) {
 							var brd = board.clone();
-							tmpNextBoard = movePiece(brd, src, dst);
+							tmpNextBoard = movePiece(brd, src, dst, currentTurn);
 							score = negaAlpha(tmpNextBoard, 2, 
 											  Number.NEGATIVE_INFINITY, 
-											  Number.POSITIVE_INFINITY);
+											  Number.POSITIVE_INFINITY, 
+											  currentTurn);
 							if (score > max) {
 								max = score;
 								nextBoard = tmpNextBoard;
@@ -1302,7 +1303,7 @@ $(function() {
 	/*****************************/
 	/* Nega-ƒ¿–@‚Å‚Ì’Tõ              */
 	/*****************************/
-	function negaAlpha(brd, depth, a, b) {
+	function negaAlpha(brd, depth, a, b, turn) {
 		var i, j, k;
 		var symbol;
 		var piece;
@@ -1311,7 +1312,7 @@ $(function() {
 		var nextBoard;
 		
 		if (depth == 0) {
-			return brd.eval(currentTurn); 
+			return brd.eval(turn); 
 		}
 		
 		for (i=0; i<9; i++) {
@@ -1323,8 +1324,8 @@ $(function() {
 					for (k=0; k < piece.area.length; k++) {
 						dst = new Cell(i+piece.area[k][0], j+piece.area[k][1]);
 						if (isMovable(piece, src, dst)) {
-							nextBoard = movePiece(brd.clone(), src, dst);
-							a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a));
+							nextBoard = movePiece(brd.clone(), src, dst, turn);
+							a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a, turn*-1));
 							if (a > b) {
 								return a;
 							};
