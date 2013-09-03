@@ -155,7 +155,7 @@ $(function() {
 	
 	// 基準座標
 	const X0 = 17;
-	const Y0 = 50;
+	const Y0 = 75;
 	
 	const OPP_AREA_X0 = 43;
 	const OPP_AREA_Y0 = 60;
@@ -404,26 +404,6 @@ $(function() {
 	/************************************************************/
 	/* Operation code                                           */
 	/************************************************************/
-	/*
-	window.addEventListener
-		('click', 
-		 function(event)
-		 {
-		 	clickEvent(event);
-		 }, 
-		 false);
-	*/
-	
-	window.addEventListener
-		('keydown', 
-		 function(event)
-		 {
-	// 		code = event.keyCode;
-	// 		movePosition(code);
-	// 		printMap();
-	 	 }, 
-		 false);
-	
 	initGame();
 	
 	
@@ -711,82 +691,81 @@ $(function() {
 	
 	
 	/*****************************/
-	/* 将棋盤をクリック  */
+	/* 将棋盤をクリックした時の処理  */
 	/*****************************/
 	$("#board_area").click(function(event){
-		calcClickedCell(event);
+		detectCellOnBoard(event);
 		onBoardAction();
 		if (haveMoved == true) {
 			haveMoved = false;
 			makeOpponentMove();
-		};
+		}
 	});
 	
+	/*****************************/
+	/* クリックされた将棋盤上のマスの特定  */
+	/*****************************/
+	function detectCellOnBoard(event)
+	{
+		var hx, hy;
+		
+		hx = event.pageX;
+		hy = event.pageY;
+		
+		if (((X0 < hx) && (hx < X0 + X_SIZE * 9)) && 
+		    ((Y0 < hy) && (hy < Y0 + Y_SIZE * 9))) {
+			/* 将棋盤上 */
+			var x, y;
+			var i;
+		
+			x = (hx - X0)/X_SIZE;
+			for (i=0;i<9;i++) {
+				if (x < i+1) {
+					clickedCell.column = i;
+					break;
+				};
+			}
+			y = (hy - Y0)/Y_SIZE;
+			for (i=0;i<9;i++) {
+				if (y < i+1) {
+					clickedCell.row = i;
+					break;
+				};
+			};
+		};
+	}
 	
 	
 	/*****************************/
 	/* クリックされたマスの特定  */
 	/*****************************/
+	/*
 	function calcClickedCell(event)
 	{
 		var hx, hy;
-	
-		if (document.all) { // for IE
-			hx = event.offsetX;
-			hy = event.offsetY;
-		} else {
-			hx = event.layerX;
-			hy = event.layerY;
-		}
-	
-		// alert("clicked: (" + hx + ", " + hy + ")");
+		
+		hx = event.pageX;
+		hy = event.pageY;
 		
 		if (((X0 < hx) && (hx < X0 + X_SIZE * 9)) && 
 		    ((Y0 < hy) && (hy < Y0 + Y_SIZE * 9))) {
-			/* 将棋盤上 */
 			detectCellOnBoard(hx, hy);
 			return IS_BOARD_AREA;
 		} else if (((PLAYER_AREA_X0 < hx) && (hx < PLAYER_AREA_X0 + X_SIZE * 4)) && 
 		           ((PLAYER_AREA_Y0 < hy) && (hy < PLAYER_AREA_Y0 + Y_SIZE * 5))) {
-			/* 自分の持ち駒エリア */
 			detectCellOnPlayerArea(hx, hy);
 			// alert("PLAYER_AREA: " + clickedPlayerAreaCell.row + ", " + clickedPlayerAreaCell.column);
 			return IS_PLAYER_AREA;
 		} else if (((OPP_AREA_X0 < hx) && (hx < OPP_AREA_X0 + X_SIZE * 4)) && 
 		           ((OPP_AREA_Y0 < hy) && (hy < OPP_AREA_Y0 + Y_SIZE * 5))) {
-			/* 相手の持ち駒エリア */
 			detectCellOnOppArea(hx, hy);
 			// alert("OPP_AREA: " + clickedOppAreaCell.row + ", " + clickedOppAreaCell.column);
 			return IS_OPP_AREA;
 		} 
 	
-		/* クリック場所がエリア外 */
 		return false;
 	}
-	
-	/*****************************/
-	/* 将棋盤上のマスを特定      */
-	/*****************************/
-	function detectCellOnBoard(hx, hy)
-	{
-		var x, y;
-		var i;
-	
-		x = (hx - X0)/X_SIZE;
-		for (i=0;i<9;i++) {
-			if (x < i+1) {
-				clickedCell.column = i;
-				break;
-			}
-		}
-		y = (hy - Y0)/Y_SIZE;
-		for (i=0;i<9;i++) {
-			if (y < i+1) {
-				clickedCell.row = i;
-				break;
-			}
-		}
-	}
+	*/
 	
 	/********************************/
 	/* 将棋盤クリック時のアクション */
@@ -1124,29 +1103,46 @@ $(function() {
 		return;
 	}
 	
+	/********************************/
+	/* プレイヤーの持ち駒を使用 */
+	/********************************/
+	$("#player_pieces_area").click(function(event){
+		detectCellOnPlayerArea(event);
+		onPlayerAreaAction();
+	});
+	
+	
 	
 	/********************************/
 	/* プレイヤーエリアのマスを特定 */
 	/********************************/
-	function detectCellOnPlayerArea(hx, hy)
+	function detectCellOnPlayerArea(event)
 	{
-		var x, y;
-		var i;
-	
-		x = (hx - PLAYER_AREA_X0)/X_SIZE;
-		for (i=0;i<4;i++) {
-			if (x < i+1) {
-				clickedPlayerAreaCell.column = i;
-				break;
-			}
-		}
-		y = (hy - PLAYER_AREA_Y0)/Y_SIZE;
-		for (i=0;i<5;i++) {
-			if (y < i+1) {
-				clickedPlayerAreaCell.row = i;
-				break;
-			}
-		}
+		var hx, hy;
+		
+		hx = event.pageX;
+		hy = event.pageY;
+		
+		if (((PLAYER_AREA_X0 < hx) && (hx < PLAYER_AREA_X0 + X_SIZE * 4)) && 
+		    ((PLAYER_AREA_Y0 < hy) && (hy < PLAYER_AREA_Y0 + Y_SIZE * 5))) {
+			var x, y;
+			var i;
+		
+			x = (hx - PLAYER_AREA_X0)/X_SIZE;
+			for (i=0;i<4;i++) {
+				if (x < i+1) {
+					clickedPlayerAreaCell.column = i;
+					break;
+				};
+			};
+			y = (hy - PLAYER_AREA_Y0)/Y_SIZE;
+			for (i=0;i<5;i++) {
+				if (y < i+1) {
+					clickedPlayerAreaCell.row = i;
+					break;
+				};
+			};
+		};		
 	}
 	
 	/********************************/
