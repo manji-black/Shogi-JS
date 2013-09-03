@@ -136,6 +136,9 @@ $(function() {
 	const ROW = 0;
 	const COLUMN = 1;
 	
+	const ROW_NUM = 9;
+	const COLUMN_NUM = 9;
+	
 	// 手番・駒の所有者を表す情報
 	const PLAYER = -1;
 	const OPPONENT = 1;
@@ -379,8 +382,10 @@ $(function() {
 	
 	var clickedCell = new Cell(0, 0);
 	var selectedCell = new Cell(null, null);
-	var clickedPlayerAreaCell = new Cell(0, 0);
-	var selectedPlayerAreaCell = new Cell(0, 0);
+	// var clickedPlayerAreaCell = new Cell(0, 0);
+	var clickedPlayerAreaIdx = undefined;
+	// var selectedPlayerAreaCell = new Cell(0, 0);
+	var selectedPlayerAreaIdx = undefined;
 	var clickedOppAreaCell = new Cell(0, 0);
 	var selectedOppAreaCell = new Cell(0, 0);
 	
@@ -710,13 +715,9 @@ $(function() {
 		
 		if (piece.owner == currentTurn) {
 			if (selectState == ON_PLAYER_AREA) {
-				var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
-									+ selectedPlayerAreaCell.column;
-			
-				document.getElementById("my_cell_in_hand_"+cellNum).
+				document.getElementById("my_cell_in_hand_"+selectedPlayerAreaIdx).
 							style.backgroundImage = '';
-				selectedPlayerAreaCell.row == null;
-				selectedPlayerAreaCell.column == null;
+				selectedPlayerAreaIdx = undefined;
 			}
 			selectPiece(clickedCell.row, clickedCell.column);
 		} else {
@@ -735,10 +736,14 @@ $(function() {
 					}
 				}
 			} else if (selectState == ON_PLAYER_AREA) {
-				putPiece(currentTurn);
+				if (isPutable(board, selectedPlayerAreaIdx, clickedCell, currentTurn)) {
+					putPiece(currentTurn);
 
-				haveMoved = true;
-				changeTurn();
+					haveMoved = true;
+					changeTurn();
+				} else {
+					alert("そこには打てません！");
+				}
 			}
 		}
 	
@@ -1071,21 +1076,24 @@ $(function() {
 		     (hy < PLAYER_AREA_Y0 + PLAYER_AREA_Y_SIZE * 5))) {
 			var x, y;
 			var i;
+			var row=0, column=0;
 		
 			x = (hx - PLAYER_AREA_X0)/PLAYER_AREA_X_SIZE;
 			for (i=0;i<4;i++) {
 				if (x < i+1) {
-					clickedPlayerAreaCell.column = i;
+					column = i;
 					break;
 				};
 			};
 			y = (hy - PLAYER_AREA_Y0)/PLAYER_AREA_Y_SIZE;
 			for (i=0;i<5;i++) {
 				if (y < i+1) {
-					clickedPlayerAreaCell.row = i;
+					row = i;
 					break;
 				};
 			};
+			
+			clickedPlayerAreaIdx = (4 - row) * 4 + column;
 		};		
 	}
 	
@@ -1101,20 +1109,12 @@ $(function() {
 					getElementById("cell"+selectedCell.row+"-"+selectedCell.column).
 					style.backgroundImage = '';
 			} else if (selectState == ON_PLAYER_AREA) {
-				var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
-									+ selectedPlayerAreaCell.column;
-			
-				document.getElementById("my_cell_in_hand_"+cellNum).
+				document.getElementById("my_cell_in_hand_"+selectedPlayerAreaIdx).
 					style.backgroundImage = '';
 			}
 			/* プレイヤーの持ち駒を選択 */
-			selectedPlayerAreaCell.row = clickedPlayerAreaCell.row;
-			selectedPlayerAreaCell.column = clickedPlayerAreaCell.column;
-			
-			var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
-								+ selectedPlayerAreaCell.column;
-			
-			document.getElementById("my_cell_in_hand_"+cellNum).
+			selectedPlayerAreaIdx = clickedPlayerAreaIdx;
+			document.getElementById("my_cell_in_hand_"+selectedPlayerAreaIdx).
 				style.backgroundImage = 'url(img/focus/focus_bold_b.png)';
 			selectState = ON_PLAYER_AREA;
 		}
@@ -1123,12 +1123,52 @@ $(function() {
 	}
 	
 	/**
+	　* 持ち駒を配置可能か
+	　*/
+	function isPutable(brd, idx, dst, turn)
+	{
+		var symbol = brd.pieceInHand[turn][idx];
+		
+		if (symbol==MY_FU_SYMBOL) {
+			// 二歩か否か
+			for (var i=0; i<ROW_NUM; i++) {
+				if (brd.map[i][dst.column] == MY_FU_SYMBOL) {
+					return false;
+				};
+			};
+			
+			// 打ち歩詰めか否か
+			if (brd.map[dst.row-1][dst.column] == OPP_OU_SYMBOL) {
+				return false;
+			};
+		} else if (symbol==OPP_FU_SYMBOL) {
+			// 二歩か否か
+			for (var i=0; i<ROW_NUM; i++) {
+				if (brd.map[i][dst.column] == OPP_FU_SYMBOL) {
+					return false;
+				};
+			};
+			
+			// 打ち歩詰めか否か
+			if (brd.map[dst.row+1][dst.column] == MY_OU_SYMBOL) {
+				return false;
+			};
+		}
+		
+		
+		return true;
+	}
+	
+	
+	/**
 	　* 持ち駒を盤上に配置
 	　*/
 	function putPiece(turn)
 	{
-		var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
-				+ selectedPlayerAreaCell.column;
+		var cellNum = selectedPlayerAreaIdx;
+		if (turn==OPPONENT) {
+			cellNum = selectedOppAreaIdx;
+		}
 		
 		board.map[clickedCell.row][clickedCell.column]
 			= board.pieceInHand[turn][cellNum];
@@ -1136,8 +1176,7 @@ $(function() {
 		
 		document.getElementById("my_cell_in_hand_"+cellNum).
 			style.backgroundImage = '';
-		selectedPlayerAreaCell.row == null;
-		selectedPlayerAreaCell.column == null;
+		selectedPlayerAreaIdx = undefined;
 	}
 	
 	/**
