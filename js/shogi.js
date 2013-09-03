@@ -805,17 +805,7 @@ $(function() {
 					}
 				}
 			} else if (selectState == ON_PLAYER_AREA) {
-				var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
-									+ selectedPlayerAreaCell.column;
-				
-				board.map[clickedCell.row][clickedCell.column]
-								= board.pieceInHand[PLAYER][cellNum];
-				board.pieceInHand[PLAYER].splice(cellNum, 1);
-				
-				document.getElementById("my_cell_in_hand_"+cellNum).
-								style.backgroundImage = '';
-				selectedPlayerAreaCell.row == null;
-				selectedPlayerAreaCell.column == null;
+				putPiece(currentTurn);
 
 				haveMoved = true;
 				changeTurn();
@@ -1211,6 +1201,23 @@ $(function() {
 		return;
 	}
 	
+	/********************************/
+	/* 持ち駒を盤上に配置                                   */
+	/********************************/
+	function putPiece(turn)
+	{
+		var cellNum = (4 - selectedPlayerAreaCell.row) * 4 
+				+ selectedPlayerAreaCell.column;
+		
+		board.map[clickedCell.row][clickedCell.column]
+			= board.pieceInHand[turn][cellNum];
+		board.pieceInHand[turn].splice(cellNum, 1);
+		
+		document.getElementById("my_cell_in_hand_"+cellNum).
+			style.backgroundImage = '';
+		selectedPlayerAreaCell.row == null;
+		selectedPlayerAreaCell.column == null;
+	}
 	
 	/********************************/
 	/* 相手エリアのマスを特定 */
