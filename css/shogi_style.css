@@ -70,6 +70,7 @@ body
 {
 	background-image: url("../img/background/tatami/tatami01.jpg");
 	width: 100%;
+	height: 100%;
 	padding : 10px;
 	position : absolute; left : 0px; top : 26px;
 	z-index : 10;
@@ -79,6 +80,7 @@ body
 {
 	background-image: url("../img/background/paper/japanese-paper25-p.jpg");
 	width: 90%;
+	height: 100%;
 	padding : 10px;
 	position : absolute; left : 0px; top : 26px;
 	z-index : 20;

@@ -164,7 +164,7 @@ $(function() {
 	const OPP_AREA_Y0 = 60;
 	
 	const PLAYER_AREA_X0 = 11;
-	const PLAYER_AREA_Y0 = 266;
+	const PLAYER_AREA_Y0 = 194;
 	
 	const X_SIZE = 30;
 	const Y_SIZE = 34;
@@ -573,7 +573,7 @@ $(function() {
 			document.getElementById("my_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[PLAYER][k]);
 		}
-		for (;k<20;k++) {
+		for (;k<21;k++) {
 			document.getElementById("my_piece_in_hand_"+k).src = 
 												"img/piece/blank.png";
 		}
@@ -583,7 +583,7 @@ $(function() {
 			document.getElementById("opp_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[OPPONENT][k]);
 		}
-		for (;k<20;k++) {
+		for (;k<21;k++) {
 			document.getElementById("opp_piece_in_hand_"+k).src = 
 												"img/piece/blank.png";
 		}
@@ -1072,29 +1072,29 @@ $(function() {
 		hy = event.pageY;
 		
 		if (((PLAYER_AREA_X0 < hx) && 
-			 (hx < PLAYER_AREA_X0 + PLAYER_AREA_X_SIZE * 4)) && 
+			 (hx < PLAYER_AREA_X0 + PLAYER_AREA_X_SIZE * 7)) && 
 		    ((PLAYER_AREA_Y0 < hy) && 
-		     (hy < PLAYER_AREA_Y0 + PLAYER_AREA_Y_SIZE * 5))) {
+		     (hy < PLAYER_AREA_Y0 + PLAYER_AREA_Y_SIZE * 3))) {
 			var x, y;
 			var i;
 			var row=0, column=0;
 		
 			x = (hx - PLAYER_AREA_X0)/PLAYER_AREA_X_SIZE;
-			for (i=0;i<4;i++) {
+			for (i=0;i<7;i++) {
 				if (x < i+1) {
 					column = i;
 					break;
 				};
 			};
 			y = (hy - PLAYER_AREA_Y0)/PLAYER_AREA_Y_SIZE;
-			for (i=0;i<5;i++) {
+			for (i=0;i<3;i++) {
 				if (y < i+1) {
 					row = i;
 					break;
 				};
 			};
 			
-			clickedPlayerAreaIdx = (4 - row) * 4 + column;
+			clickedPlayerAreaIdx = (2 - row) * 7 + column;
 		};		
 	}
 	
@@ -1414,7 +1414,7 @@ $(function() {
 		backTarget = document.getElementById("result_back");
 		backTarget.style.visibility = "visible";
 	
-		document.getElementById("result_message").innerText = msg;
+		document.getElementById("result_message").textContent = msg;
 	
 		dialogTarget = document.getElementById("result_dialog");
 	
