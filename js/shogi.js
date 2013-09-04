@@ -1136,6 +1136,9 @@ $(function() {
 		var symbol = brd.pieceInHand[turn][idx];
 		
 		if (symbol==MY_FU_SYMBOL) {
+			// 動けない場所に打とうとしていないか
+			if (dst.row == 0) return false;
+			
 			// 二歩か否か
 			for (var i=0; i<ROW_NUM; i++) {
 				if (brd.map[i][dst.column] == MY_FU_SYMBOL) {
@@ -1148,6 +1151,9 @@ $(function() {
 				return false;
 			};
 		} else if (symbol==OPP_FU_SYMBOL) {
+			// 動けない場所に打とうとしていないか
+			if (dst.row == 8) return false;
+			
 			// 二歩か否か
 			for (var i=0; i<ROW_NUM; i++) {
 				if (brd.map[i][dst.column] == OPP_FU_SYMBOL) {
@@ -1225,7 +1231,7 @@ $(function() {
 	　* コンピュータ側の手の決定
 	　*/
 	function getOpponentMove() {
-		var i, j, k;
+		var i, j, k, l;
 		var nextBoard = board;	// 次の局面
 		var tmpNextBoard;
 		var symbol;
@@ -1246,8 +1252,6 @@ $(function() {
 						var c = j + piece.area[k][1];
 						dst = new Cell(r, c);
 						if (isMovable(board, piece, src, dst)) {
-							
-							
 							var brd = board.clone();
 							tmpNextBoard = movePiece(brd, src, dst, currentTurn);
 							score = negaAlpha(tmpNextBoard, 2, 
@@ -1336,19 +1340,21 @@ $(function() {
 					if (isPutable(nxtBrd, k, putDst, turn)) {
 						nextBoard = putPiece(nxtBrd, turn, k, putDst);
 						a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a, turn*-1));
+						if (a > b) {
+							delete nxtBrd;
+							delete putDst;
+							return a;
+						};
 					}
 					delete nxtBrd;
 					delete putDst;
-					if (a > b) {
-						return a;
-					};
 				};
 			};
 		}
 		
 		return a;
 	}
-		
+	
 	/**
 	 * ターンの交代
 	 */
