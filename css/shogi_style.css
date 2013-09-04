@@ -28,6 +28,11 @@ body
 	background-image: url("../img/board/ban_kaya_b.png");	
 }
 
+.app_info_body
+{
+	font-size: small;
+}
+
 /***********************/
 /* id                  */
 /***********************/
@@ -64,36 +69,19 @@ body
 #pieces_in_hand_area
 {
 	background-image: url("../img/background/tatami/tatami01.jpg");
+	width: 100%;
 	padding : 10px;
 	position : absolute; left : 0px; top : 26px;
 	z-index : 10;
 }
 
-/* ƒfƒoƒbƒOî•ñ */
-#debug_info_area
+#app_info_area
 {
-	margin : 10px auto;
+	background-image: url("../img/background/paper/japanese-paper25-p.jpg");
+	width: 90%;
 	padding : 10px;
-	width : 500px;
-	background-image: url("../img/board/ban_kaya_b.png");
-	font-family: "‚l‚r ‚o–¾’©","‚l‚r –¾’©",serif;
-}
-
-/* ƒvƒŒ[ƒ„[‚Ìó‘Ô */
-#player_info_area
-{
-	margin : 10px;
-	padding : 10px;
-	vertical-align : bottom;
-	/* background-image: url("img/board/ban_kaya_b.png"); */
-}
-/* ‘Šè‚Ìó‘Ô */
-#opp_info_area
-{
-	margin : 10px;
-	padding : 10px;
-	vertical-align : top;
-	/* background-image: url("img/board/ban_kaya_b.png"); */
+	position : absolute; left : 0px; top : 26px;
+	z-index : 20;
 }
 
 #result_back
@@ -115,16 +103,4 @@ body
     background-color:#FFFFFF; width:200px; height:100px;
 }
 
-#special_thx
-{
-	margin : 10px;
-	padding : 10px;
-	font-size: small;
-}
-
-#special_thx_link
-{
-	margin : 10px;
-	font-size: small;
-}
 
