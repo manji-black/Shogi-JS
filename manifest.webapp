@@ -1,7 +1,7 @@
 {
-	"name"	:	"Poor Shogi", 
+	"name"	:	"Ponkotsu Shogi", 
 	"description"	:	"Shogi application developed in javascript. Algorithm and quality are very poor.", 
-	"launch_path"	:	"/main.html", 
+	"launch_path"	:	"/index.html", 
 	"developer"	:	{
 		"name"	:	"manji_black", 
 		"url"	: 	"https://github.com/manji-black" 

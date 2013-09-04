@@ -727,7 +727,7 @@ $(function() {
 				var selectedSymbol = board.map[selectedCell.row][selectedCell.column];
 				var selectedPiece = pieceInfo[selectedSymbol];
 				if (selectedPiece.owner == currentTurn) {
-					if (isMovable(selectedPiece, selectedCell, clickedCell)) {
+					if (isMovable(board, selectedPiece, selectedCell, clickedCell)) {
 						board = movePiece(board, selectedCell, clickedCell, currentTurn);
 						printMap(board);
 						haveMoved = true;
@@ -755,7 +755,7 @@ $(function() {
 	/**
 	 * ˆÚ“®‰Â”\‚©”»’è‚·‚é
 	 */
-	function isMovable(piece, src, dest) {
+	function isMovable(brd, piece, src, dest) {
 		var i;
 		var symbol;
 		var p;
@@ -774,7 +774,7 @@ $(function() {
 			if ((src.row + piece.area[i][0] == dest.row) &&
 				(src.column + piece.area[i][1] == dest.column)) {
 				// ˆÚ“®æ‚Éè”Ô‚Ì‹î‚ª‚ ‚éê‡‚ÍˆÚ“®•s‰Â
-				var destSymbol = board.map[dest.row][dest.column];
+				var destSymbol = brd.map[dest.row][dest.column];
 				var destPiece = pieceInfo[destSymbol];
 				if (piece.owner == destPiece.owner) {
 					return false;
@@ -809,7 +809,7 @@ $(function() {
 						r += r_step;
 						c += c_step;
 						// alert("Row:"+r+" Col:"+c);
-						symbol = board.map[r][c];
+						symbol = brd.map[r][c];
 						p = pieceInfo[symbol];
 						if (p.owner != BLANK) {
 							return false;
@@ -1245,7 +1245,9 @@ $(function() {
 						var r = i + piece.area[k][0];
 						var c = j + piece.area[k][1];
 						dst = new Cell(r, c);
-						if (isMovable(piece, src, dst)) {
+						if (isMovable(board, piece, src, dst)) {
+							
+							
 							var brd = board.clone();
 							tmpNextBoard = movePiece(brd, src, dst, currentTurn);
 							score = negaAlpha(tmpNextBoard, 2, 
@@ -1314,7 +1316,7 @@ $(function() {
 				if (piece.owner == OPPONENT) {
 					for (k=0; k < piece.area.length; k++) {
 						dst = new Cell(i+piece.area[k][0], j+piece.area[k][1]);
-						if (isMovable(piece, src, dst)) {
+						if (isMovable(brd, piece, src, dst)) {
 							nextBoard = movePiece(brd.clone(), src, dst, turn);
 							a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a, turn*-1));
 							if (a > b) {
