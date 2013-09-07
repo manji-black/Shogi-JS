@@ -1,4 +1,4 @@
-{
+﻿{
 	"name"	:	"Ponkotsu Shogi", 
 	"description"	:	"Shogi application developed in javascript. Algorithm and quality are very poor.", 
 	"launch_path"	:	"/index.html", 

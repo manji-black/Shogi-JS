@@ -1,10 +1,10 @@
-
+ï»¿
 $(function() {
 	/************************************************************/
 	/*	Classes                                                 */
 	/************************************************************/
 	/**
-	 *	‹î‚ÌƒNƒ‰ƒX               
+	 *	é§’ã®ã‚¯ãƒ©ã‚¹               
 	 */
 	function Piece(symbol, owner, promoted, point, array) {
 		this.symbol = symbol;
@@ -12,7 +12,7 @@ $(function() {
 		this.promoted = promoted;
 		this.point = point;
 	
-		this.area = new Array();	// ˆÚ“®‰Â”\‚ÈêŠ
+		this.area = new Array();	// ç§»å‹•å¯èƒ½ãªå ´æ‰€
 		if (array != undefined) {
 			for (var i=0; i<array.length; i++) {
 				this.area.push(array[i]);
@@ -21,7 +21,7 @@ $(function() {
 	};
 	
 	/**
-	 * «Šû”Õ‚Ìƒ}ƒX‚ÌƒNƒ‰ƒX
+	 * å°†æ£‹ç›¤ã®ãƒã‚¹ã®ã‚¯ãƒ©ã‚¹
 	 */
 	function Cell(row, column) {
 		this.row = row;
@@ -29,7 +29,7 @@ $(function() {
 	};
 	
 	/**
-	 * «Šû”Õ‚ÌƒNƒ‰ƒX
+	 * å°†æ£‹ç›¤ã®ã‚¯ãƒ©ã‚¹
 	 */
 	function Board() {
 		this.map = new Array(9);
@@ -48,7 +48,7 @@ $(function() {
 		this.winner = BLANK;
 	};
 	
-	/** «Šû”Õ‚ÌƒNƒ[ƒ“‚Ìì¬ */
+	/** å°†æ£‹ç›¤ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã®ä½œæˆ */
 	Board.prototype.clone = function() {
 		var b = new Board();
 		for (var i=0; i<9; i++) {
@@ -72,7 +72,7 @@ $(function() {
 		return b;
 	}; 
 	
-	/** Œ»İ‚Ì‹Ç–Ê‚Ì•]‰¿ */
+	/** ç¾åœ¨ã®å±€é¢ã®è©•ä¾¡ */
 	Board.prototype.eval = function(turn) {
 		var playerPoint, opponentPoint;
 		var symbol, piece;
@@ -127,7 +127,7 @@ $(function() {
 	const RIGHT = 39;
 	const DOWN = 40;
 	
-	// «Šû”Õ‚ÌsE—ñ
+	// å°†æ£‹ç›¤ã®è¡Œãƒ»åˆ—
 	const TOP_EDGE = 0;
 	const BOTTOM_EDGE = 8;
 	const LEFT_EDGE = 0;
@@ -139,24 +139,24 @@ $(function() {
 	const ROW_NUM = 9;
 	const COLUMN_NUM = 9;
 	
-	// è”ÔE‹î‚ÌŠ—LÒ‚ğ•\‚·î•ñ
+	// æ‰‹ç•ªãƒ»é§’ã®æ‰€æœ‰è€…ã‚’è¡¨ã™æƒ…å ±
 	const PLAYER = -1;
 	const OPPONENT = 1;
 	const BLANK = 0;
 	
-	// «Šû”Õ‚ÌƒNƒŠƒbƒNó‘Ô
+	// å°†æ£‹ç›¤ã®ã‚¯ãƒªãƒƒã‚¯çŠ¶æ…‹
 	const UNSELECTED = 0;
 	const ON_BOARD = 1;
 	const ON_PLAYER_AREA = 2;
 	const ON_OPP_AREA = 3;
 	
-	// ƒNƒŠƒbƒNˆÊ’u
+	// ã‚¯ãƒªãƒƒã‚¯ä½ç½®
 	const IS_BLANK_AREA = 0;
 	const IS_BOARD_AREA = 1;
 	const IS_PLAYER_AREA = 2;
 	const IS_OPP_AREA = 3;
 	
-	// Šî€À•W
+	// åŸºæº–åº§æ¨™
 	const X0 = 17;
 	const Y0 = 75;
 	
@@ -172,7 +172,7 @@ $(function() {
 	const PLAYER_AREA_X_SIZE = 32;
 	const PLAYER_AREA_Y_SIZE = 36;
 	
-	//‹î‚Ìƒ|ƒCƒ“ƒg
+	//é§’ã®ãƒã‚¤ãƒ³ãƒˆ
 	const FU_POINT = 1;
 	const KYO_POINT = 10;
 	const KEI_POINT = 20;
@@ -189,41 +189,41 @@ $(function() {
 	const UMA_POINT = 500;
 	const RYU_POINT = 600;
 	
-	// ‹î‚ÌƒVƒ“ƒ{ƒ‹‚ÆˆÚ“®”ÍˆÍ
-	const OPP_FU_SYMBOL = "“G-•à";
+	// é§’ã®ã‚·ãƒ³ãƒœãƒ«ã¨ç§»å‹•ç¯„å›²
+	const OPP_FU_SYMBOL = "æ•µ-æ­©";
 	const OPP_FU_AREA = new Array([1, 0]);
 	
-	const OPP_KYO_SYMBOL = "“G-Ô";
+	const OPP_KYO_SYMBOL = "æ•µ-é¦™è»Š";
 	const OPP_KYO_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0]);
 	
-	const OPP_KEI_SYMBOL = "“G-Œj”n";
+	const OPP_KEI_SYMBOL = "æ•µ-æ¡‚é¦¬";
 	const OPP_KEI_AREA = 
 			new Array([2, -1], [2, 1]);
 	
-	const OPP_GIN_SYMBOL = "“G-‹â";
+	const OPP_GIN_SYMBOL = "æ•µ-éŠ€";
 	const OPP_GIN_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [-1, -1], [-1, 1]);
 	
-	const OPP_KIN_SYMBOL = "“G-‹à";
+	const OPP_KIN_SYMBOL = "æ•µ-é‡‘";
 	const OPP_KIN_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [0, -1], [0, 1], [-1, 0]);
 	
-	const OPP_HISHA_SYMBOL = "“G-”òÔ";
+	const OPP_HISHA_SYMBOL = "æ•µ-é£›è»Š";
 	const OPP_HISHA_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
 	
-	const OPP_KAKU_SYMBOL = "“G-Šps";
+	const OPP_KAKU_SYMBOL = "æ•µ-è§’è¡Œ";
 	const OPP_KAKU_AREA = 
 			new Array([1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
 	
-	const OPP_RYU_SYMBOL = "“G-—³‰¤";
+	const OPP_RYU_SYMBOL = "æ•µ-ç«œç‹";
 	const OPP_RYU_AREA = 
 			new Array([1, 1], [1, -1], [-1, 1], [-1, -1], 
 					  [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
@@ -231,7 +231,7 @@ $(function() {
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
 	
-	const OPP_UMA_SYMBOL = "“G-—³”n";
+	const OPP_UMA_SYMBOL = "æ•µ-ç«œé¦¬";
 	const OPP_UMA_AREA = 
 			new Array([1, 0], [-1, 0], [0, 1], [0, -1], 
 					  [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
@@ -239,49 +239,49 @@ $(function() {
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
 	
-	const OPP_OU_SYMBOL = "“G-‰¤";
+	const OPP_OU_SYMBOL = "æ•µ-ç‹";
 	const OPP_OU_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [0, -1], [0, 1], [-1, 0], [-1, 1], [-1, -1]);
 	
-	const OPP_TO_SYMBOL = "“G-‚Æ";
-	const OPP_NARIKYO_SYMBOL = "“G-¬";
-	const OPP_NARIKEI_SYMBOL = "“G-¬Œj";
-	const OPP_NARIGIN_SYMBOL = "“G-¬‹â";
+	const OPP_TO_SYMBOL = "æ•µ-ã¨";
+	const OPP_NARIKYO_SYMBOL = "æ•µ-æˆé¦™";
+	const OPP_NARIKEI_SYMBOL = "æ•µ-æˆæ¡‚";
+	const OPP_NARIGIN_SYMBOL = "æ•µ-æˆéŠ€";
 	
-	const MY_FU_SYMBOL = "©-•à";
+	const MY_FU_SYMBOL = "è‡ª-æ­©";
 	const MY_FU_AREA = new Array([-1, 0]);
 	
-	const MY_KYO_SYMBOL = "©-Ô";
+	const MY_KYO_SYMBOL = "è‡ª-é¦™è»Š";
 	const MY_KYO_AREA = 
 			new Array([-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0]);
 	
-	const MY_KEI_SYMBOL = "©-Œj”n";
+	const MY_KEI_SYMBOL = "è‡ª-æ¡‚é¦¬";
 	const MY_KEI_AREA = 
 			new Array([-2, -1], [-2, 1]);
 	
-	const MY_GIN_SYMBOL = "©-‹â";
+	const MY_GIN_SYMBOL = "è‡ª-éŠ€";
 	const MY_GIN_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [1, -1], [1, 1]);
 	
-	const MY_KIN_SYMBOL = "©-‹à";
+	const MY_KIN_SYMBOL = "è‡ª-é‡‘";
 	const MY_KIN_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [0, -1], [0, 1], [1, 0]);
 	
-	const MY_HISHA_SYMBOL = "©-”òÔ";
+	const MY_HISHA_SYMBOL = "è‡ª-é£›è»Š";
 	const MY_HISHA_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
 	
-	const MY_KAKU_SYMBOL = "©-Šps";
+	const MY_KAKU_SYMBOL = "è‡ª-è§’è¡Œ";
 	const MY_KAKU_AREA = 
 			new Array([1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
 	
-	const MY_RYU_SYMBOL = "©-—³‰¤";
+	const MY_RYU_SYMBOL = "è‡ª-ç«œç‹";
 	const MY_RYU_AREA = 
 			new Array([1, 1], [1, -1], [-1, 1], [-1, -1], 
 					  [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
@@ -289,7 +289,7 @@ $(function() {
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
 	
-	const MY_UMA_SYMBOL = "©-—³”n";
+	const MY_UMA_SYMBOL = "è‡ª-ç«œé¦¬";
 	const MY_UMA_AREA = 
 			new Array([1, 0], [-1, 0], [0, 1], [0, -1], 
 					  [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
@@ -297,19 +297,19 @@ $(function() {
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
 	
-	const MY_OU_SYMBOL = "©-‰¤";
+	const MY_OU_SYMBOL = "è‡ª-ç‹";
 	const MY_OU_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1], [1, -1]);
 	
-	const MY_TO_SYMBOL = "©-‚Æ";
-	const MY_NARIKYO_SYMBOL = "©-¬";
-	const MY_NARIKEI_SYMBOL = "©-¬Œj";
-	const MY_NARIGIN_SYMBOL = "©-¬‹â";
+	const MY_TO_SYMBOL = "è‡ª-ã¨";
+	const MY_NARIKYO_SYMBOL = "è‡ª-æˆé¦™";
+	const MY_NARIKEI_SYMBOL = "è‡ª-æˆæ¡‚";
+	const MY_NARIGIN_SYMBOL = "è‡ª-æˆéŠ€";
 	
-	const BLANK_SYMBOL = "›";
+	const BLANK_SYMBOL = "â—‹";
 	
-	//‹î‚Ìî•ñ
-	//“G‚Ì‹î
+	//é§’ã®æƒ…å ±
+	//æ•µã®é§’
 	const OPP_FU = 
 		new Piece(OPP_FU_SYMBOL, OPPONENT, false, FU_POINT, OPP_FU_AREA);
 	const OPP_KYO = 
@@ -339,7 +339,7 @@ $(function() {
 	const OPP_UMA = 
 		new Piece(OPP_UMA_SYMBOL, OPPONENT, true, KAKU_POINT, OPP_UMA_AREA);
 	
-	//ƒvƒŒƒCƒ„[‚Ì‹î
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é§’
 	const MY_FU = 
 		new Piece(MY_FU_SYMBOL, PLAYER, false, FU_POINT, MY_FU_AREA);
 	const MY_KYO = 
@@ -392,7 +392,7 @@ $(function() {
 	
 	var pieceInfo = new Array();
 	
-	// ƒ^[ƒ“B‚»‚Ì‚¤‚¿ƒ‰ƒ“ƒ_ƒ€‚ÉB
+	// ã‚¿ãƒ¼ãƒ³ã€‚ãã®ã†ã¡ãƒ©ãƒ³ãƒ€ãƒ ã«ã€‚
 	var currentTurn = PLAYER;
 	
 	var haveMoved = false;
@@ -408,18 +408,18 @@ $(function() {
 	/************************************************************/
 	
 	/**
-	 * ‘Î‹Ç‚Ì‰Šú‰»
+	 * å¯¾å±€ã®åˆæœŸåŒ–
 	 */
 	function initGame()
 	{
-		// ‹îî•ñ‚Ì‰Šú‰»
+		// é§’æƒ…å ±ã®åˆæœŸåŒ–
 		initPieceInfo();
 		
-		// «Šû”Õ‚Ì‰Šú‰»
+		// å°†æ£‹ç›¤ã®åˆæœŸåŒ–
 		initMap();
 		printMap(board);
 	
-		// ƒ^[ƒ“‚ÌŒˆ’è
+		// ã‚¿ãƒ¼ãƒ³ã®æ±ºå®š
 		n = Math.floor(Math.random() * 91) % 2;
 		// alert("Turn Num: " + n);
 		if (n == 1) {
@@ -435,11 +435,11 @@ $(function() {
 	}
 	
 	/**
-	 * ‹îî•ñ‚Ì‰Šú‰»
+	 * é§’æƒ…å ±ã®åˆæœŸåŒ–
 	 */
 	function initPieceInfo()
 	{
-		// “G‹î‚Ìî•ñ‚ğ’Ç‰Á
+		// æ•µé§’ã®æƒ…å ±ã‚’è¿½åŠ 
 		pieceInfo[OPP_FU_SYMBOL] = OPP_FU;
 		pieceInfo[OPP_KYO_SYMBOL] = OPP_KYO;
 		pieceInfo[OPP_KEI_SYMBOL] = OPP_KEI;
@@ -455,7 +455,7 @@ $(function() {
 		pieceInfo[OPP_RYU_SYMBOL] = OPP_RYU;
 		pieceInfo[OPP_UMA_SYMBOL] = OPP_UMA;
 	
-		// ©‹î‚Ìî•ñ‚ğ’Ç‰Á
+		// è‡ªé§’ã®æƒ…å ±ã‚’è¿½åŠ 
 		pieceInfo[MY_FU_SYMBOL] = MY_FU;
 		pieceInfo[MY_KYO_SYMBOL] = MY_KYO;
 		pieceInfo[MY_KEI_SYMBOL] = MY_KEI;
@@ -471,29 +471,29 @@ $(function() {
 		pieceInfo[MY_RYU_SYMBOL] = MY_RYU;
 		pieceInfo[MY_UMA_SYMBOL] = MY_UMA;
 		
-		// ‹ó‚Ìƒ}ƒX‚Ìî•ñ‚ğ’Ç‰Á
+		// ç©ºã®ãƒã‚¹ã®æƒ…å ±ã‚’è¿½åŠ 
 		pieceInfo[BLANK_SYMBOL] = BLANK_PIECE;
 	}
 	
 	/**
-	 * «Šû”Õ‰æ‘œ‚Ì‰Šú‰»
+	 * å°†æ£‹ç›¤ç”»åƒã®åˆæœŸåŒ–
 	 */
 	function initMap()
 	{
 		var i, j;
 		
-		// ˆês–Ú
-		board.map[0][0] = OPP_KYO_SYMBOL;	// Ô
-		board.map[0][1] = OPP_KEI_SYMBOL;	// Œj”n
-		board.map[0][2] = OPP_GIN_SYMBOL;	// ‹â«
-		board.map[0][3] = OPP_KIN_SYMBOL;	// ‹à«
-		board.map[0][4] = OPP_OU_SYMBOL;	// ‰¤«
-		board.map[0][5] = OPP_KIN_SYMBOL;	// ‹à«
-		board.map[0][6] = OPP_GIN_SYMBOL;	// ‹â«
-		board.map[0][7] = OPP_KEI_SYMBOL;	// Œj”n
-		board.map[0][8] = OPP_KYO_SYMBOL;	// Ô
+		// ä¸€è¡Œç›®
+		board.map[0][0] = OPP_KYO_SYMBOL;	// é¦™è»Š
+		board.map[0][1] = OPP_KEI_SYMBOL;	// æ¡‚é¦¬
+		board.map[0][2] = OPP_GIN_SYMBOL;	// éŠ€å°†
+		board.map[0][3] = OPP_KIN_SYMBOL;	// é‡‘å°†
+		board.map[0][4] = OPP_OU_SYMBOL;	// ç‹å°†
+		board.map[0][5] = OPP_KIN_SYMBOL;	// é‡‘å°†
+		board.map[0][6] = OPP_GIN_SYMBOL;	// éŠ€å°†
+		board.map[0][7] = OPP_KEI_SYMBOL;	// æ¡‚é¦¬
+		board.map[0][8] = OPP_KYO_SYMBOL;	// é¦™è»Š
 	
-		// “ñs–Ú
+		// äºŒè¡Œç›®
 		board.map[1][0] = BLANK_SYMBOL;
 		board.map[1][1] = OPP_HISHA_SYMBOL;
 		for (j=2;j<7;j++) {
@@ -502,24 +502,24 @@ $(function() {
 		board.map[1][7] = OPP_KAKU_SYMBOL;
 		board.map[1][8] = BLANK_SYMBOL;
 	
-		// Os–Ú
+		// ä¸‰è¡Œç›®
 		for (j=0;j<9;j++) {
 			board.map[2][j] = OPP_FU_SYMBOL;
 		}
 		
-		// l`˜Zs–Ú
+		// å››ï½å…­è¡Œç›®
 		for (i=3;i<6;i++) { 
 			for (j=0;j<9;j++) {
 				board.map[i][j] = BLANK_SYMBOL;
 			};
 		}
 		
-		// µs–Ú
+		// ä¸ƒè¡Œç›®
 		for (j=0;j<9;j++) {
 			board.map[6][j] = MY_FU_SYMBOL;
 		}
 	
-		// ”ªs–Ú
+		// å…«è¡Œç›®
 		board.map[7][0] = BLANK_SYMBOL;
 		board.map[7][1] = MY_KAKU_SYMBOL;
 		for (j=2;j<7;j++) {
@@ -528,16 +528,16 @@ $(function() {
 		board.map[7][7] = MY_HISHA_SYMBOL;
 		board.map[7][8] = BLANK_SYMBOL;
 	
-		// ‹ãs–Ú
-		board.map[8][0] = MY_KYO_SYMBOL;	// Ô
-		board.map[8][1] = MY_KEI_SYMBOL;	// Œj”n
-		board.map[8][2] = MY_GIN_SYMBOL;	// ‹â«
-		board.map[8][3] = MY_KIN_SYMBOL;	// ‹à«
-		board.map[8][4] = MY_OU_SYMBOL;		// ‰¤«
-		board.map[8][5] = MY_KIN_SYMBOL;	// ‹à«
-		board.map[8][6] = MY_GIN_SYMBOL;	// ‹â«
-		board.map[8][7] = MY_KEI_SYMBOL;	// Œj”n
-		board.map[8][8] = MY_KYO_SYMBOL;	// Ô
+		// ä¹è¡Œç›®
+		board.map[8][0] = MY_KYO_SYMBOL;	// é¦™è»Š
+		board.map[8][1] = MY_KEI_SYMBOL;	// æ¡‚é¦¬
+		board.map[8][2] = MY_GIN_SYMBOL;	// éŠ€å°†
+		board.map[8][3] = MY_KIN_SYMBOL;	// é‡‘å°†
+		board.map[8][4] = MY_OU_SYMBOL;		// ç‹å°†
+		board.map[8][5] = MY_KIN_SYMBOL;	// é‡‘å°†
+		board.map[8][6] = MY_GIN_SYMBOL;	// éŠ€å°†
+		board.map[8][7] = MY_KEI_SYMBOL;	// æ¡‚é¦¬
+		board.map[8][8] = MY_KYO_SYMBOL;	// é¦™è»Š
 		
 		board.pieceInHand[PLAYER] = [];
 		board.pieceInHand[OPPONENT] = [];
@@ -550,14 +550,14 @@ $(function() {
 	
 	
 	/**
-	 * «Šû”Õ‰æ‘œ‚ÌXV
+	 * å°†æ£‹ç›¤ç”»åƒã®æ›´æ–°
 	 */
 	function printMap(brd)
 	{
 		var i, j, k;
 		var pieceObj;
 	
-		// «Šû”Õ‚Ì•`‰æ
+		// å°†æ£‹ç›¤ã®æç”»
 		for (i=0;i<9;i++) {
 			var mapStr = "";
 			for (j=0;j<9;j++) {
@@ -568,7 +568,7 @@ $(function() {
 			}
 		}
 	
-		// ƒvƒŒƒCƒ„[‚Ì‚¿‹î‚Ì•`‰æ
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æŒã¡é§’ã®æç”»
 		for (k=0;k<brd.pieceInHand[PLAYER].length;k++) {
 			document.getElementById("my_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[PLAYER][k]);
@@ -578,7 +578,7 @@ $(function() {
 												"img/piece/blank.png";
 		}
 		
-		// ƒRƒ“ƒsƒ…[ƒ^‚Ì‚¿‹î‚Ì•`‰æ
+		// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ã®æŒã¡é§’ã®æç”»
 		for (k=0;k<brd.pieceInHand[OPPONENT].length;k++) {
 			document.getElementById("opp_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[OPPONENT][k]);
@@ -590,13 +590,13 @@ $(function() {
 	}
 	
 	/**
-	 * ‹î‰æ‘œ‚ÌƒpƒX‚Ìæ“¾
+	 * é§’ç”»åƒã®ãƒ‘ã‚¹ã®å–å¾—
 	 */
 	function getPieceImage(symbol)
 	{
 		imgPath = "img/piece/blank.png";
 		
-		// ©‹î‚Ì‰æ‘œ‚Ìæ“¾
+		// è‡ªé§’ã®ç”»åƒã®å–å¾—
 		if (MY_FU_SYMBOL == symbol) {
 			imgPath = "img/piece/S/Sfu.png";
 		} else if (MY_KYO_SYMBOL == symbol) {
@@ -626,7 +626,7 @@ $(function() {
 		} else if (MY_OU_SYMBOL == symbol) {
 			imgPath = "img/piece/S/Sou.png";
 		}
-		// “G‹î‚Ì‰æ‘œ‚Ìæ“¾
+		// æ•µé§’ã®ç”»åƒã®å–å¾—
 		else if (OPP_FU_SYMBOL == symbol) {
 			imgPath = "img/piece/G/Gfu.png";
 		} else if (OPP_KYO_SYMBOL == symbol) {
@@ -661,7 +661,7 @@ $(function() {
 	}
 	
 	/**
-	 * «Šû”Õ‚ğƒNƒŠƒbƒN‚µ‚½‚Ìˆ—
+	 * å°†æ£‹ç›¤ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸæ™‚ã®å‡¦ç†
 	 */
 	$("#board_area").click(function(event){
 		detectCellOnBoard(event);
@@ -673,7 +673,7 @@ $(function() {
 	});
 	
 	/**
-	 * ƒNƒŠƒbƒN‚³‚ê‚½«Šû”Õã‚Ìƒ}ƒX‚Ì“Á’è
+	 * ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸå°†æ£‹ç›¤ä¸Šã®ãƒã‚¹ã®ç‰¹å®š
 	 */
 	function detectCellOnBoard(event)
 	{
@@ -684,7 +684,7 @@ $(function() {
 		
 		if (((X0 < hx) && (hx < X0 + X_SIZE * 9)) && 
 		    ((Y0 < hy) && (hy < Y0 + Y_SIZE * 9))) {
-			/* «Šû”Õã */
+			/* å°†æ£‹ç›¤ä¸Š */
 			var x, y;
 			var i;
 		
@@ -707,7 +707,7 @@ $(function() {
 	
 	
 	/**
-	 * «Šû”ÕƒNƒŠƒbƒN‚ÌƒAƒNƒVƒ‡ƒ“
+	 * å°†æ£‹ç›¤ã‚¯ãƒªãƒƒã‚¯æ™‚ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 	 */
 	function onBoardAction()
 	{
@@ -733,7 +733,7 @@ $(function() {
 						haveMoved = true;
 						changeTurn();
 					} else {
-						alert("‚»‚±‚É‚Í“®‚©‚¹‚Ü‚¹‚ñI");
+						alert("ãã“ã«ã¯å‹•ã‹ã›ã¾ã›ã‚“ï¼");
 					}
 				}
 			} else if (selectState == ON_PLAYER_AREA) {
@@ -743,7 +743,7 @@ $(function() {
 					haveMoved = true;
 					changeTurn();
 				} else {
-					alert("‚»‚±‚É‚Í‘Å‚Ä‚Ü‚¹‚ñI");
+					alert("ãã“ã«ã¯æ‰“ã¦ã¾ã›ã‚“ï¼");
 				}
 			}
 		}
@@ -753,7 +753,7 @@ $(function() {
 	}
 	
 	/**
-	 * ˆÚ“®‰Â”\‚©”»’è‚·‚é
+	 * ç§»å‹•å¯èƒ½ã‹åˆ¤å®šã™ã‚‹
 	 */
 	function isMovable(brd, piece, src, dest) {
 		var i;
@@ -763,29 +763,29 @@ $(function() {
 		// alert("Src: (" + src.row + ", " + src.column + "), " + 
 		//		"Dest: (" + dest.row + ", " + dest.column + ") ");
 		
-		// ˆÚ“®æ‚ª«Šû”Õ‚Ì”ÍˆÍŠO‚È‚çAˆÚ“®•s‰Â
+		// ç§»å‹•å…ˆãŒå°†æ£‹ç›¤ã®ç¯„å›²å¤–ãªã‚‰ã€ç§»å‹•ä¸å¯
 		if (((dest.row < 0) || (8 < dest.row)) || 
 			((dest.column < 0) || (8 < dest.column))) {
 			return false;
 		}
 		
 		for (i=0;i<piece.area.length;i++) {
-			// ˆÚ“®æ‚Ìƒ}ƒX‚ªA‚»‚Ì‹î‚ÌˆÚ“®”ÍˆÍ“à
+			// ç§»å‹•å…ˆã®ãƒã‚¹ãŒã€ãã®é§’ã®ç§»å‹•ç¯„å›²å†…
 			if ((src.row + piece.area[i][0] == dest.row) &&
 				(src.column + piece.area[i][1] == dest.column)) {
-				// ˆÚ“®æ‚Éè”Ô‚Ì‹î‚ª‚ ‚éê‡‚ÍˆÚ“®•s‰Â
+				// ç§»å‹•å…ˆã«æ‰‹ç•ªã®é§’ãŒã‚ã‚‹å ´åˆã¯ç§»å‹•ä¸å¯
 				var destSymbol = brd.map[dest.row][dest.column];
 				var destPiece = pieceInfo[destSymbol];
 				if (piece.owner == destPiece.owner) {
 					return false;
 				}
 				
-				// Œj”n‚È‚ç‘¦ˆÚ“®
+				// æ¡‚é¦¬ãªã‚‰å³ç§»å‹•
 				if ((piece.symbol == MY_KEI_SYMBOL) || 
 					(piece.symbol == OPP_KEI_SYMBOL)) {
 					return true;
 				} else {
-					// Œj”nˆÈŠO‚È‚çAŒ»İ’n`ˆÚ“®æ‚ÌŠÔ‚É‹î‚ª‚È‚¢ê‡AˆÚ“®
+					// æ¡‚é¦¬ä»¥å¤–ãªã‚‰ã€ç¾åœ¨åœ°ï½ç§»å‹•å…ˆã®é–“ã«é§’ãŒãªã„å ´åˆã€ç§»å‹•
 					var row_diff = dest.row - src.row;
 					var column_diff = dest.column - src.column;
 					
@@ -825,7 +825,7 @@ $(function() {
 	}
 	
 	/**
-	 * ƒNƒŠƒbƒN‚³‚ê‚½‹î‚Ì‘I‘ğ
+	 * ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸé§’ã®é¸æŠ
 	 */
 	function selectPiece(row, column)
 	{
@@ -851,20 +851,20 @@ $(function() {
 	}
 	
 	/**
-	 * ‹î‚ÌˆÚ“®
+	 * é§’ã®ç§»å‹•
 	 */
 	function movePiece(brd, src, dst, turn)
 	{
-		// ˆÚ“®æ‚É‹î‚ª‚ ‚é‚È‚çA‹î‚ğæ‚é
+		// ç§»å‹•å…ˆã«é§’ãŒã‚ã‚‹ãªã‚‰ã€é§’ã‚’å–ã‚‹
 		var targetSymbol = brd.map[dst.row][dst.column];
 		var targetPiece = pieceInfo[targetSymbol];
 		if ((targetPiece.owner != turn) && (targetPiece.owner != BLANK)) {
-			// ‰¤‚ğæ‚Á‚½‚çŸ‚¿
+			// ç‹ã‚’å–ã£ãŸã‚‰å‹ã¡
 			if ((turn == PLAYER) && (targetSymbol == OPP_OU_SYMBOL) || 
 				(turn == OPPONENT) && (targetSymbol == MY_OU_SYMBOL))  {
 				brd.winner = turn;
 			}
-			// æ‚Á‚½‹î‚É‘Î‰‚·‚é©‹î‚ğæ“¾
+			// å–ã£ãŸé§’ã«å¯¾å¿œã™ã‚‹è‡ªé§’ã‚’å–å¾—
 			targetSymbol = changeOwner(targetSymbol);
 			brd.pieceInHand[turn].push(targetSymbol);
 			brd.map[dst.row][dst.column] = BLANK_SYMBOL;
@@ -876,10 +876,10 @@ $(function() {
 			}
 		}
 		
-		// ‹î‚ÌˆÚ“®
+		// é§’ã®ç§»å‹•
 		var selectedSymbol = brd.map[src.row][src.column];
 		var selectedPiece = pieceInfo[selectedSymbol];
-		// ‘Šèw’n‚É“ü‚Á‚½‚ç¬‚é
+		// ç›¸æ‰‹é™£åœ°ã«å…¥ã£ãŸã‚‰æˆã‚‹
 		if (((turn == PLAYER) && (dst.row <= 2)) || 
 		    ((turn == OPPONENT) && (dst.row >= 6))) {
 		    if (selectedPiece.promoted == false) {
@@ -888,7 +888,7 @@ $(function() {
 		}
 		brd.map[dst.row][dst.column] = selectedSymbol;
 	
-		// ˆÚ“®‘O‚Ì‹î‘I‘ğ‚Ì‰ğœ
+		// ç§»å‹•å‰ã®é§’é¸æŠã®è§£é™¤
 		brd.map[src.row][src.column] =BLANK_SYMBOL;
 		selectState = UNSELECTED;
 		document.
@@ -899,13 +899,13 @@ $(function() {
 	}
 	
 	/**
-	 * æ‚Á‚½‹î‚ÌŠ—LÒ‚ğ•ÏX‚µ‚½ƒVƒ“ƒ{ƒ‹‚ğ•Ô‚·B
-	 * ¬‚Á‚Ä‚¢‚éê‡‚ÍŠî‚É–ß‚·B
+	 * å–ã£ãŸé§’ã®æ‰€æœ‰è€…ã‚’å¤‰æ›´ã—ãŸã‚·ãƒ³ãƒœãƒ«ã‚’è¿”ã™ã€‚
+	 * æˆã£ã¦ã„ã‚‹å ´åˆã¯åŸºã«æˆ»ã™ã€‚
 	 */
 	function changeOwner(symbol) {
 		var changedSymbol = BLANK_SYMBOL;
 		
-		// ƒvƒŒƒCƒ„[‹î‚ªæ‚ç‚ê‚½ê‡
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é§’ãŒå–ã‚‰ã‚ŒãŸå ´åˆ
 		if ((MY_FU_SYMBOL == symbol) || 
 			(MY_TO_SYMBOL == symbol)	){
 			changedSymbol = OPP_FU_SYMBOL;
@@ -929,7 +929,7 @@ $(function() {
 		} else if (MY_OU_SYMBOL == symbol) {
 			changedSymbol = OPP_OU_SYMBOL;
 		}
-		// ƒRƒ“ƒsƒ…[ƒ^‹î‚ªæ‚ç‚ê‚½ê‡
+		// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿é§’ãŒå–ã‚‰ã‚ŒãŸå ´åˆ
 		if ((OPP_FU_SYMBOL == symbol) || 
 			(OPP_TO_SYMBOL == symbol)	){
 			changedSymbol = MY_FU_SYMBOL;
@@ -958,38 +958,38 @@ $(function() {
 	};
 	
 	/**
-	 * ‘Šèw’n‚É“ü‚Á‚½‹î‚ğ¬‚ç‚¹‚é
+	 * ç›¸æ‰‹é™£åœ°ã«å…¥ã£ãŸé§’ã‚’æˆã‚‰ã›ã‚‹
 	 */
 	function promotePiece(symbol)
 	{
 		var promSymbol = symbol;
 	
-		// ƒvƒŒƒCƒ„[‹î‚ğ¬‚ç‚¹‚éê‡
-		if (MY_FU_SYMBOL == symbol) {	// •à
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é§’ã‚’æˆã‚‰ã›ã‚‹å ´åˆ
+		if (MY_FU_SYMBOL == symbol) {	// æ­©
 			promSymbol = MY_TO_SYMBOL;
-		} else if (MY_KYO_SYMBOL == symbol) {	// Ô
+		} else if (MY_KYO_SYMBOL == symbol) {	// é¦™è»Š
 			promSymbol = MY_NARIKYO_SYMBOL;
-		} else if (MY_KEI_SYMBOL == symbol) {	// Œj”n
+		} else if (MY_KEI_SYMBOL == symbol) {	// æ¡‚é¦¬
 			promSymbol = MY_NARIKEI_SYMBOL;
-		} else if (MY_GIN_SYMBOL == symbol) {	// ‹â«
+		} else if (MY_GIN_SYMBOL == symbol) {	// éŠ€å°†
 			promSymbol = MY_NARIGIN_SYMBOL;
-		} else if (MY_HISHA_SYMBOL == symbol) {	// ”òÔ
+		} else if (MY_HISHA_SYMBOL == symbol) {	// é£›è»Š
 			promSymbol = MY_RYU_SYMBOL;
-		} else if (MY_KAKU_SYMBOL == symbol) {	// Šes
+		} else if (MY_KAKU_SYMBOL == symbol) {	// å„è¡Œ
 			promSymbol = MY_UMA_SYMBOL;
 		}
-		// ƒRƒ“ƒsƒ…[ƒ^‹î‚ğ¬‚ç‚¹‚éê‡
-		if (OPP_FU_SYMBOL == symbol) {	// •à
+		// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿é§’ã‚’æˆã‚‰ã›ã‚‹å ´åˆ
+		if (OPP_FU_SYMBOL == symbol) {	// æ­©
 			promSymbol = OPP_TO_SYMBOL;
-		} else if (OPP_KYO_SYMBOL == symbol) {	// Ô
+		} else if (OPP_KYO_SYMBOL == symbol) {	// é¦™è»Š
 			promSymbol = OPP_NARIKYO_SYMBOL;
-		} else if (OPP_KEI_SYMBOL == symbol) {	// Œj”n
+		} else if (OPP_KEI_SYMBOL == symbol) {	// æ¡‚é¦¬
 			promSymbol = OPP_NARIKEI_SYMBOL;
-		} else if (OPP_GIN_SYMBOL == symbol) {	// ‹â«
+		} else if (OPP_GIN_SYMBOL == symbol) {	// éŠ€å°†
 			promSymbol = OPP_NARIGIN_SYMBOL;
-		} else if (OPP_HISHA_SYMBOL == symbol) {	// ”òÔ
+		} else if (OPP_HISHA_SYMBOL == symbol) {	// é£›è»Š
 			promSymbol = OPP_RYU_SYMBOL;
-		} else if (OPP_KAKU_SYMBOL == symbol) {	// Šes
+		} else if (OPP_KAKU_SYMBOL == symbol) {	// å„è¡Œ
 			promSymbol = OPP_UMA_SYMBOL;
 		}
 	
@@ -997,38 +997,38 @@ $(function() {
 	}
 	
 	/**
-	 * æ‚Á‚½‹î‚ğ~Ši‚³‚¹‚é
+	 * å–ã£ãŸé§’ã‚’é™æ ¼ã•ã›ã‚‹
 	 */
 	function demotePiece(symbol)
 	{
 		var demSymbol = symbol;
 	
-		// ƒvƒŒƒCƒ„[‹î‚ğ~Ši‚³‚¹‚éê‡
-		if (MY_TO_SYMBOL == symbol) {	// ‚Æ
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é§’ã‚’é™æ ¼ã•ã›ã‚‹å ´åˆ
+		if (MY_TO_SYMBOL == symbol) {	// ã¨
 			promSymbol = MY_FU_SYMBOL;
-		} else if (MY_NARIKYO_SYMBOL == symbol) {	// ¬
+		} else if (MY_NARIKYO_SYMBOL == symbol) {	// æˆé¦™
 			promSymbol = MY_KYO_SYMBOL;
-		} else if (MY_NARIKEI_SYMBOL == symbol) {	// Œj”n
+		} else if (MY_NARIKEI_SYMBOL == symbol) {	// æ¡‚é¦¬
 			promSymbol = MY_KEI_SYMBOL;
-		} else if (MY_NARIGIN_SYMBOL == symbol) {	// ¬‹â
+		} else if (MY_NARIGIN_SYMBOL == symbol) {	// æˆéŠ€
 			promSymbol = MY_GIN_SYMBOL;
-		} else if (MY_RYU_SYMBOL == symbol) {	// —³‰¤
+		} else if (MY_RYU_SYMBOL == symbol) {	// ç«œç‹
 			promSymbol = MY_HISHA_SYMBOL;
-		} else if (MY_UMA_SYMBOL == symbol) {	// —³”n
+		} else if (MY_UMA_SYMBOL == symbol) {	// ç«œé¦¬
 			promSymbol = MY_KAKU_SYMBOL;
 		}
-		// ƒRƒ“ƒsƒ…[ƒ^‹î‚ğ~Ši‚³‚¹‚éê‡
-		if (OPP_TO_SYMBOL == symbol) {	// ‚Æ
+		// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿é§’ã‚’é™æ ¼ã•ã›ã‚‹å ´åˆ
+		if (OPP_TO_SYMBOL == symbol) {	// ã¨
 			promSymbol = OPP_FU_SYMBOL;
-		} else if (OPP_NARIKYO_SYMBOL == symbol) {	// ¬
+		} else if (OPP_NARIKYO_SYMBOL == symbol) {	// æˆé¦™
 			promSymbol = OPP_KYO_SYMBOL;
-		} else if (OPP_NARIKEI_SYMBOL == symbol) {	// Œj”n
+		} else if (OPP_NARIKEI_SYMBOL == symbol) {	// æ¡‚é¦¬
 			promSymbol = OPP_KEI_SYMBOL;
-		} else if (OPP_NARIGIN_SYMBOL == symbol) {	// ¬‹â
+		} else if (OPP_NARIGIN_SYMBOL == symbol) {	// æˆéŠ€
 			promSymbol = OPP_GIN_SYMBOL;
-		} else if (OPP_RYU_SYMBOL == symbol) {	// —³‰¤
+		} else if (OPP_RYU_SYMBOL == symbol) {	// ç«œç‹
 			promSymbol = OPP_HISHA_SYMBOL;
-		} else if (OPP_UMA_SYMBOL == symbol) {	// —³”n
+		} else if (OPP_UMA_SYMBOL == symbol) {	// ç«œé¦¬
 			promSymbol = OPP_KAKU_SYMBOL;
 		}
 	
@@ -1036,16 +1036,16 @@ $(function() {
 	}
 	
 	/**
-	 * Ÿ‚¿•‰‚¯‚Ì”»’è
+	 * å‹ã¡è² ã‘ã®åˆ¤å®š
 	 */
 	function judgeWinner(brd)
 	{
 		if (BLANK != brd.winner) {
 			var message = "";
 			if (brd.winner == PLAYER) {
-				message = "‚ ‚È‚½‚ÌŸ‚¿‚Å‚·I";
+				message = "ã‚ãªãŸã®å‹ã¡ã§ã™ï¼";
 			} else if (brd.winner == OPPONENT) {
-				message = "‚ ‚È‚½‚Ì•‰‚¯‚Å‚·c";
+				message = "ã‚ãªãŸã®è² ã‘ã§ã™â€¦";
 			}
 			showDialog(message);
 		}
@@ -1054,7 +1054,7 @@ $(function() {
 	}
 	
 	/**
-	 * ƒvƒŒƒCƒ„[‚Ì‚¿‹î‚ğg—p
+	 * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æŒã¡é§’ã‚’ä½¿ç”¨
 	 */
 	$("#player_pieces_area").click(function(event){
 		detectCellOnPlayerArea(event);
@@ -1062,7 +1062,7 @@ $(function() {
 	});
 		
 	/**
-	 * ƒvƒŒƒCƒ„[ƒGƒŠƒA‚Ìƒ}ƒX‚ğ“Á’è
+	 * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¨ãƒªã‚¢ã®ãƒã‚¹ã‚’ç‰¹å®š
 	 */
 	function detectCellOnPlayerArea(event)
 	{
@@ -1099,13 +1099,13 @@ $(function() {
 	}
 	
 	/**
-	 * ƒvƒŒ[ƒ„[‚Ì‚¿‹îƒGƒŠƒA@ƒNƒŠƒbƒN‚ÌƒAƒNƒVƒ‡ƒ“
+	 * ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ã®æŒã¡é§’ã‚¨ãƒªã‚¢ã€€ã‚¯ãƒªãƒƒã‚¯æ™‚ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 	 */
 	function onPlayerAreaAction()
 	{
 		if (currentTurn == PLAYER) {
 			if (selectState == ON_BOARD) {
-				/* «Šû”Õã‚ÌƒRƒ}‚Ì‘I‘ğ‰ğœ */
+				/* å°†æ£‹ç›¤ä¸Šã®ã‚³ãƒã®é¸æŠè§£é™¤ */
 				document.
 					getElementById("cell"+selectedCell.row+"-"+selectedCell.column).
 					style.backgroundImage = '';
@@ -1113,7 +1113,7 @@ $(function() {
 				document.getElementById("my_cell_in_hand_"+selectedPlayerAreaIdx).
 					style.backgroundImage = '';
 			}
-			/* ƒvƒŒƒCƒ„[‚Ì‚¿‹î‚ğ‘I‘ğ */
+			/* ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æŒã¡é§’ã‚’é¸æŠ */
 			selectedPlayerAreaIdx = clickedPlayerAreaIdx;
 			document.getElementById("my_cell_in_hand_"+selectedPlayerAreaIdx).
 				style.backgroundImage = 'url(img/focus/focus_bold_b.png)';
@@ -1124,11 +1124,11 @@ $(function() {
 	}
 	
 	/**
-	@* ‚¿‹î‚ğ”z’u‰Â”\‚©
-	@*/
+	ã€€* æŒã¡é§’ã‚’é…ç½®å¯èƒ½ã‹
+	ã€€*/
 	function isPutable(brd, idx, dst, turn)
 	{
-		// ’u‚­êŠ‚ª‹ó‚¢‚Ä‚¢‚é‚©
+		// ç½®ãå ´æ‰€ãŒç©ºã„ã¦ã„ã‚‹ã‹
 		if (brd.map[dst.row][dst.column] != BLANK_SYMBOL) {
 			return false;
 		}
@@ -1136,32 +1136,32 @@ $(function() {
 		var symbol = brd.pieceInHand[turn][idx];
 		
 		if (symbol==MY_FU_SYMBOL) {
-			// “®‚¯‚È‚¢êŠ‚É‘Å‚Æ‚¤‚Æ‚µ‚Ä‚¢‚È‚¢‚©
+			// å‹•ã‘ãªã„å ´æ‰€ã«æ‰“ã¨ã†ã¨ã—ã¦ã„ãªã„ã‹
 			if (dst.row == 0) return false;
 			
-			// “ñ•à‚©”Û‚©
+			// äºŒæ­©ã‹å¦ã‹
 			for (var i=0; i<ROW_NUM; i++) {
 				if (brd.map[i][dst.column] == MY_FU_SYMBOL) {
 					return false;
 				};
 			};
 			
-			// ‘Å‚¿•à‹l‚ß‚©”Û‚©
+			// æ‰“ã¡æ­©è©°ã‚ã‹å¦ã‹
 			if (brd.map[dst.row-1][dst.column] == OPP_OU_SYMBOL) {
 				return false;
 			};
 		} else if (symbol==OPP_FU_SYMBOL) {
-			// “®‚¯‚È‚¢êŠ‚É‘Å‚Æ‚¤‚Æ‚µ‚Ä‚¢‚È‚¢‚©
+			// å‹•ã‘ãªã„å ´æ‰€ã«æ‰“ã¨ã†ã¨ã—ã¦ã„ãªã„ã‹
 			if (dst.row == 8) return false;
 			
-			// “ñ•à‚©”Û‚©
+			// äºŒæ­©ã‹å¦ã‹
 			for (var i=0; i<ROW_NUM; i++) {
 				if (brd.map[i][dst.column] == OPP_FU_SYMBOL) {
 					return false;
 				};
 			};
 			
-			// ‘Å‚¿•à‹l‚ß‚©”Û‚©
+			// æ‰“ã¡æ­©è©°ã‚ã‹å¦ã‹
 			if (brd.map[dst.row+1][dst.column] == MY_OU_SYMBOL) {
 				return false;
 			};
@@ -1173,8 +1173,8 @@ $(function() {
 	
 	
 	/**
-	@* ‚¿‹î‚ğ”Õã‚É”z’u
-	@*/
+	ã€€* æŒã¡é§’ã‚’ç›¤ä¸Šã«é…ç½®
+	ã€€*/
 	function putPiece(brd, turn, idx, dst)
 	{
 		brd.map[dst.row][dst.column]
@@ -1194,8 +1194,8 @@ $(function() {
 	}
 	
 	/**
-	@* ‘ŠèƒGƒŠƒA‚Ìƒ}ƒX‚ğ“Á’è
-	@*/
+	ã€€* ç›¸æ‰‹ã‚¨ãƒªã‚¢ã®ãƒã‚¹ã‚’ç‰¹å®š
+	ã€€*/
 	function detectCellOnOppArea(hx, hy)
 	{
 		var x, y;
@@ -1218,8 +1218,8 @@ $(function() {
 	};
 	
 	/**
-	@* ƒRƒ“ƒsƒ…[ƒ^‚Ìè”Ô
-	@*/
+	ã€€* ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ã®æ‰‹ç•ª
+	ã€€*/
 	function makeOpponentMove() {
 		board = getOpponentMove();
 		printMap(board);
@@ -1228,11 +1228,11 @@ $(function() {
 	}
 	
 	/**
-	@* ƒRƒ“ƒsƒ…[ƒ^‘¤‚Ìè‚ÌŒˆ’è
-	@*/
+	ã€€* ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿å´ã®æ‰‹ã®æ±ºå®š
+	ã€€*/
 	function getOpponentMove() {
 		var i, j, k, l;
-		var nextBoard = board;	// Ÿ‚Ì‹Ç–Ê
+		var nextBoard = board;	// æ¬¡ã®å±€é¢
 		var tmpNextBoard;
 		var symbol;
 		var piece;
@@ -1298,7 +1298,7 @@ $(function() {
 	
 	
 	/**
-	 * Nega-ƒ¿–@‚Å‚Ì’Tõ
+	 * Nega-Î±æ³•ã§ã®æ¢ç´¢
 	 */
 	function negaAlpha(brd, depth, a, b, turn) {
 		var i, j, k;
@@ -1356,7 +1356,7 @@ $(function() {
 	}
 	
 	/**
-	 * ƒ^[ƒ“‚ÌŒğ‘ã
+	 * ã‚¿ãƒ¼ãƒ³ã®äº¤ä»£
 	 */
 	function changeTurn()
 	{
@@ -1369,7 +1369,7 @@ $(function() {
 	}
 	
 	/**
-	 * ƒ^[ƒ“‚Ì•\¦
+	 * ã‚¿ãƒ¼ãƒ³ã®è¡¨ç¤º
 	 */
 	function printTurn()
 	{
@@ -1379,7 +1379,7 @@ $(function() {
 				document.getElementsByClassName("opp_status");
 		
 		if (currentTurn == PLAYER) {
-			/* ƒ^[ƒ“‚ğ•\‚·ƒ‰ƒ“ƒv‚Ì“§‰ß“x‚ğ•ÏX */
+			/* ã‚¿ãƒ¼ãƒ³ã‚’è¡¨ã™ãƒ©ãƒ³ãƒ—ã®é€éåº¦ã‚’å¤‰æ›´ */
 			for (var i=0; i<playerStatusElements.length; i++) {
 				playerStatusElements[i].style.filter = 'alpha(opacity=100)';
 				playerStatusElements[i].style.MozOpacity = 1.0;
@@ -1391,7 +1391,7 @@ $(function() {
 				oppStatusElements[i].style.opacity = 0.3;
 			}
 		} else {
-			/* ƒ^[ƒ“‚ğ•\‚·ƒ‰ƒ“ƒv‚Ì“§‰ß“x‚ğ•ÏX */
+			/* ã‚¿ãƒ¼ãƒ³ã‚’è¡¨ã™ãƒ©ãƒ³ãƒ—ã®é€éåº¦ã‚’å¤‰æ›´ */
 			for (var i=0; i<playerStatusElements.length; i++) {
 				playerStatusElements[i].style.filter = 'alpha(opacity=30)';
 				playerStatusElements[i].style.MozOpacity = 0.3;
@@ -1407,7 +1407,7 @@ $(function() {
 	
 	
 	/**
-	 * ‘Î‹ÇŒ‹‰Êƒ_ƒCƒAƒƒO‚Ì•\¦
+	 * å¯¾å±€çµæœãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤º
 	 */
 	function showDialog(msg)
 	{
@@ -1426,7 +1426,7 @@ $(function() {
 	}
 	
 	/**
-	 * ‘Î‹ÇŒ‹‰Êƒ_ƒCƒAƒƒO‚ğÁ‚µA‚à‚¤ˆê“x‘Î‹Ç‚ğŠJn
+	 * å¯¾å±€çµæœãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’æ¶ˆã—ã€ã‚‚ã†ä¸€åº¦å¯¾å±€ã‚’é–‹å§‹
 	 */
 	$("#retry_button").click(function() {
 		backTarget = document.getElementById("result_back");

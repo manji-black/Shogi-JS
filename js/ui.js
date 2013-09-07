@@ -1,12 +1,12 @@
-$(function() {
-	/*=== ‚¿‹îƒGƒŠƒA‚Ì•\¦ ===*/
+ï»¿$(function() {
+	/*=== æŒã¡é§’ã‚¨ãƒªã‚¢ã®è¡¨ç¤º ===*/
 	$("#pieces_in_hand_area").hide();
 	
 	$("#pieces_in_hand_button").click(function() {
 		$("#pieces_in_hand_area").toggle("slide", 500);
 	});
 	
-	/*=== ƒAƒvƒŠî•ñƒGƒŠƒA‚Ì•\¦ ===*/
+	/*=== ã‚¢ãƒ—ãƒªæƒ…å ±ã‚¨ãƒªã‚¢ã®è¡¨ç¤º ===*/
 	$("#app_info_area")
 		.accordion({header: "h5", 
 					collapsible: true});

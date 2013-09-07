@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
 <head>
 	<title>Ponkotsu Shogi</title>
@@ -12,17 +12,17 @@
 <body>
 	<div id="button_area">
 		<div id="pieces_in_hand_button" class="ui-state-default ui-corner-all">
-		������
+		持ち駒
 		</div>
 		<div id="app_info_button" class="ui-state-default ui-corner-all">
-		�A�v�����
+		アプリ情報
 		</div>
 	</div>
 	
 	<div id="pieces_in_hand_area">
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td class="opp_status" colspan="7" height="30" align="center">�R���s���[�^</td>
+				<td class="opp_status" colspan="7" height="30" align="center">コンピュータ</td>
 			</tr>
 			<tr>
 				<td>
@@ -186,7 +186,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="player_status" colspan="7" height="30" align="center">�v���C���[</td>
+				<td class="player_status" colspan="7" height="30" align="center">プレイヤー</td>
 			</tr>
 		</table>
 	</div>
@@ -195,7 +195,7 @@
 	<div id="container">
 		<table width="287" border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td class="opp_status" colspan="4" height="30" align="center">�R���s���[�^</td>
+				<td class="opp_status" colspan="4" height="30" align="center">コンピュータ</td>
 			</tr>
 			<tr>
 				<td  background="img/board/ban_kaya_b.png">
@@ -471,30 +471,30 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="player_status" colspan="4" height="30" align="center">�v���C���[</td>
+				<td class="player_status" colspan="4" height="30" align="center">プレイヤー</td>
 			</tr>
 		</table>
 	</div>
 	
 	<div id="app_info_area">
 		<div>
-			<h5><a href="#">�V�ѕ�</a></h5>
+			<h5><a href="#">遊び方</a></h5>
 			<div class="app_info_body">
 				<ul>
-					<li>�v���C���[�ƃR���s���[�^���A���݂Ɏw���Ă����܂��B
-					�����Տ㕔�́u�R���s���[�^�v�Ə����Չ����́u�v���C���[�v�̂����A
-					�n�C���C�g����Ă���������̎�Ԃł��B</li>
-					<li>��𓮂����ꍇ�́A��������������^�b�`�őI����A
-					���̋�̈ړ�����^�b�`���ĉ������B
-					�������Ȃ��ꍇ�́Aalert���\�������̂ŁA��蒼���ĉ������B</li>
-					<li>�u������v�{�^�����������ĕ\������鎝�����I�����āA
-					�z�u����^�b�`���邱�ƂŁA�������ł��Ƃ��ł��܂��B
-					�łĂȂ��ʒu���^�b�`�����ꍇ�́Aalert���\�������̂ŁA��蒼���ĉ������B</li>
+					<li>プレイヤーとコンピュータが、交互に指していきます。
+					将棋盤上部の「コンピュータ」と将棋盤下部の「プレイヤー」のうち、
+					ハイライトされている方が今の手番です。</li>
+					<li>駒を動かす場合は、動かしたい駒をタッチで選択後、
+					その駒の移動先をタッチして下さい。
+					動かせない場合は、alertが表示されるので、やり直して下さい。</li>
+					<li>「持ち駒」ボタンを押下して表示される持ち駒を選択して、
+					配置先をタッチすることで、持ち駒を打つことができます。
+					打てない位置をタッチした場合は、alertが表示されるので、やり直して下さい。</li>
 				</ul>
 			</div>
 		</div>
 		<div>
-			<h5><a href="#">�f�ދ���</a></h5>
+			<h5><a href="#">素材協力</a></h5>
 			<div class="app_info_body">
 				<ul>
 					<li>
@@ -505,7 +505,7 @@
 						</div>
 					</li>
 					<li>
-						<a href="http://free-texture.net/">�t���[�e�N�X�`���f�ފ�</a><br/>
+						<a href="http://free-texture.net/">フリーテクスチャ素材館</a><br/>
 					</li>
 				</ul>
 			</div>
@@ -517,7 +517,7 @@
 	<div id="result_dialog">
 		<p id="result_message"></p>
 		<div style="text-align:center">
-			<input id="retry_button" type="button" value="������x�΋�" />
+			<input id="retry_button" type="button" value="もう一度対局" />
 		</div>
 	</div>
 	
