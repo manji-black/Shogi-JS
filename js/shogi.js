@@ -4,7 +4,7 @@ $(function() {
 	/*	Classes                                                 */
 	/************************************************************/
 	/**
-	 *	駒のクラス               
+	 *	駒のクラス
 	 */
 	function Piece(symbol, owner, promoted, point, array) {
 		this.symbol = symbol;
@@ -13,7 +13,7 @@ $(function() {
 		this.point = point;
 	
 		this.area = new Array();	// 移動可能な場所
-		if (array != undefined) {
+		if ((array != undefined) && (array != null)) {
 			for (var i=0; i<array.length; i++) {
 				this.area.push(array[i]);
 			}
@@ -76,22 +76,46 @@ $(function() {
 	Board.prototype.eval = function(turn) {
 		var playerPoint, opponentPoint;
 		var symbol, piece;
+		var src, dst;
 		
 		playerPoint = 0;
 		opponentPoint = 0;
+		src = new Cell(0, 0);
+		dst = new Cell(0, 0);
 		
+		// 盤上の駒の評価
 		for (var i=0; i<9; i++) {
 			for (var j=0; j<9; j++) {
 				symbol = this.map[i][j];
 				piece = pieceInfo[symbol];
+				
+				// 駒の持ち点を単純に加算
 				if (piece.owner == PLAYER) {
 					playerPoint += piece.point;
 				} else if (piece.owner == OPPONENT) {
 					opponentPoint += piece.point;
 				};
+				
+				// 王に利いているかを評価
+				for (var k=0; k<piece.area.length; k++) {
+					src.row = i;
+					src.column = j;
+					dst.row = src.row + piece.area[k][0];
+					dst.column = src.column + piece.area[k][1];
+					if (isMovable(this, piece, src, dst)) {
+						if ((piece.owner == PLAYER) && 
+								(this.map[dst.row][dst.column] == OPP_OU_SYMBOL)) {
+								playerPoint += OU_POINT/2;
+						} else if ((piece.owner == OPPONENT) && 
+								   (this.map[dst.row][dst.column] == MY_OU_SYMBOL)) {
+							opponentPoint += OU_POINT/2;
+						}
+					}
+				}
 			};
 		};
-		
+
+		// 持ち駒の評価
 		for (var i=0; i<this.pieceInHand[PLAYER].length; i++) {
 			symbol = this.pieceInHand[PLAYER][i];
 			piece = pieceInfo[symbol];
