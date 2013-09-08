@@ -34,10 +34,7 @@ $(function() {
 	 * 将棋盤のクラス
 	 */
 	function Board() {
-		this.map = new Array(9);
-		for (var i=0;i<9;i++) {
-			this.map[i]=new Array(9);
-		}
+		this.map = new Uint8Array(81);
 		
 		this.pieceInHand = new Array(2);
 		this.pieceInHand[PLAYER] = new Array();
@@ -55,7 +52,7 @@ $(function() {
 		var b = new Board();
 		for (var i=0; i<9; i++) {
 			for (var j=0; j<9; j++) {
-				b.map[i][j] = this.map[i][j];
+				b.map[i*9+j] = this.map[i*9+j];
 			};
 		};
 		
@@ -88,7 +85,7 @@ $(function() {
 		// 盤上の駒の評価
 		for (var i=0; i<9; i++) {
 			for (var j=0; j<9; j++) {
-				symbol = this.map[i][j];
+				symbol = this.map[i*9+j];
 				piece = pieceInfo[symbol];
 				
 				// 駒の持ち点を単純に加算
@@ -107,10 +104,10 @@ $(function() {
 						dst.column = src.column + piece.area[k+1];
 						if (isMovable(this, piece, src, dst)) {
 							if ((piece.owner == PLAYER) && 
-									(this.map[dst.row][dst.column] == OPP_OU_SYMBOL)) {
+									(this.map[dst.row*9+dst.column] == OPP_OU_SYMBOL)) {
 									playerPoint += OU_POINT/2;
 							} else if ((piece.owner == OPPONENT) && 
-									   (this.map[dst.row][dst.column] == MY_OU_SYMBOL)) {
+									   (this.map[dst.row*9+dst.column] == MY_OU_SYMBOL)) {
 								opponentPoint += OU_POINT/2;
 							}
 						}
@@ -552,61 +549,61 @@ $(function() {
 		var i, j;
 		
 		// 一行目
-		board.map[0][0] = OPP_KYO_SYMBOL;	// 香車
-		board.map[0][1] = OPP_KEI_SYMBOL;	// 桂馬
-		board.map[0][2] = OPP_GIN_SYMBOL;	// 銀将
-		board.map[0][3] = OPP_KIN_SYMBOL;	// 金将
-		board.map[0][4] = OPP_OU_SYMBOL;	// 王将
-		board.map[0][5] = OPP_KIN_SYMBOL;	// 金将
-		board.map[0][6] = OPP_GIN_SYMBOL;	// 銀将
-		board.map[0][7] = OPP_KEI_SYMBOL;	// 桂馬
-		board.map[0][8] = OPP_KYO_SYMBOL;	// 香車
+		board.map[0] = OPP_KYO_SYMBOL;	// 香車
+		board.map[1] = OPP_KEI_SYMBOL;	// 桂馬
+		board.map[2] = OPP_GIN_SYMBOL;	// 銀将
+		board.map[3] = OPP_KIN_SYMBOL;	// 金将
+		board.map[4] = OPP_OU_SYMBOL;	// 王将
+		board.map[5] = OPP_KIN_SYMBOL;	// 金将
+		board.map[6] = OPP_GIN_SYMBOL;	// 銀将
+		board.map[7] = OPP_KEI_SYMBOL;	// 桂馬
+		board.map[8] = OPP_KYO_SYMBOL;	// 香車
 	
 		// 二行目
-		board.map[1][0] = BLANK_SYMBOL;
-		board.map[1][1] = OPP_HISHA_SYMBOL;
+		board.map[9] = BLANK_SYMBOL;
+		board.map[10] = OPP_HISHA_SYMBOL;
 		for (j=2;j<7;j++) {
-			board.map[1][j] = BLANK_SYMBOL;
+			board.map[9+j] = BLANK_SYMBOL;
 		}
-		board.map[1][7] = OPP_KAKU_SYMBOL;
-		board.map[1][8] = BLANK_SYMBOL;
+		board.map[16] = OPP_KAKU_SYMBOL;
+		board.map[17] = BLANK_SYMBOL;
 	
 		// 三行目
 		for (j=0;j<9;j++) {
-			board.map[2][j] = OPP_FU_SYMBOL;
+			board.map[18+j] = OPP_FU_SYMBOL;
 		}
 		
 		// 四～六行目
 		for (i=3;i<6;i++) { 
 			for (j=0;j<9;j++) {
-				board.map[i][j] = BLANK_SYMBOL;
+				board.map[i*9+j] = BLANK_SYMBOL;
 			};
 		}
 		
 		// 七行目
 		for (j=0;j<9;j++) {
-			board.map[6][j] = MY_FU_SYMBOL;
+			board.map[54+j] = MY_FU_SYMBOL;
 		}
 	
 		// 八行目
-		board.map[7][0] = BLANK_SYMBOL;
-		board.map[7][1] = MY_KAKU_SYMBOL;
+		board.map[63] = BLANK_SYMBOL;
+		board.map[64] = MY_KAKU_SYMBOL;
 		for (j=2;j<7;j++) {
-			board.map[7][j] = BLANK_SYMBOL;
+			board.map[63+j] = BLANK_SYMBOL;
 		}
-		board.map[7][7] = MY_HISHA_SYMBOL;
-		board.map[7][8] = BLANK_SYMBOL;
+		board.map[70] = MY_HISHA_SYMBOL;
+		board.map[71] = BLANK_SYMBOL;
 	
 		// 九行目
-		board.map[8][0] = MY_KYO_SYMBOL;	// 香車
-		board.map[8][1] = MY_KEI_SYMBOL;	// 桂馬
-		board.map[8][2] = MY_GIN_SYMBOL;	// 銀将
-		board.map[8][3] = MY_KIN_SYMBOL;	// 金将
-		board.map[8][4] = MY_OU_SYMBOL;		// 王将
-		board.map[8][5] = MY_KIN_SYMBOL;	// 金将
-		board.map[8][6] = MY_GIN_SYMBOL;	// 銀将
-		board.map[8][7] = MY_KEI_SYMBOL;	// 桂馬
-		board.map[8][8] = MY_KYO_SYMBOL;	// 香車
+		board.map[72] = MY_KYO_SYMBOL;	// 香車
+		board.map[73] = MY_KEI_SYMBOL;	// 桂馬
+		board.map[74] = MY_GIN_SYMBOL;	// 銀将
+		board.map[75] = MY_KIN_SYMBOL;	// 金将
+		board.map[76] = MY_OU_SYMBOL;		// 王将
+		board.map[77] = MY_KIN_SYMBOL;	// 金将
+		board.map[78] = MY_GIN_SYMBOL;	// 銀将
+		board.map[79] = MY_KEI_SYMBOL;	// 桂馬
+		board.map[80] = MY_KYO_SYMBOL;	// 香車
 		
 		board.pieceInHand[PLAYER] = [];
 		board.pieceInHand[OPPONENT] = [];
@@ -630,7 +627,7 @@ $(function() {
 		for (i=0;i<9;i++) {
 			var mapStr = "";
 			for (j=0;j<9;j++) {
-				pieceObj = brd.map[i][j];
+				pieceObj = brd.map[i*9+j];
 				var id = "piece"+i+"-"+j;
 				var cell = document.getElementById(id);
 				cell.src = getPieceImage(pieceObj);
@@ -780,7 +777,7 @@ $(function() {
 	 */
 	function onBoardAction()
 	{
-		var symbol = board.map[clickedCell.row][clickedCell.column];
+		var symbol = board.map[clickedCell.row*9+clickedCell.column];
 		var piece = pieceInfo[symbol];
 		
 		if (piece.owner == currentTurn) {
@@ -793,7 +790,7 @@ $(function() {
 		} else {
 			if ((selectState == ON_BOARD) && 
 				(selectedCell.row != null) && (selectedCell.column != null)) {
-				var selectedSymbol = board.map[selectedCell.row][selectedCell.column];
+				var selectedSymbol = board.map[selectedCell.row*9+selectedCell.column];
 				var selectedPiece = pieceInfo[selectedSymbol];
 				if (selectedPiece.owner == currentTurn) {
 					if (isMovable(board, selectedPiece, selectedCell, clickedCell)) {
@@ -843,7 +840,7 @@ $(function() {
 			if ((src.row + piece.area[i] == dest.row) &&
 				(src.column + piece.area[i+1] == dest.column)) {
 				// 移動先に手番の駒がある場合は移動不可
-				var destSymbol = brd.map[dest.row][dest.column];
+				var destSymbol = brd.map[dest.row*9+dest.column];
 				var destPiece = pieceInfo[destSymbol];
 				if (piece.owner == destPiece.owner) {
 					return false;
@@ -878,7 +875,7 @@ $(function() {
 						r += r_step;
 						c += c_step;
 						// alert("Row:"+r+" Col:"+c);
-						symbol = brd.map[r][c];
+						symbol = brd.map[r*9+c];
 						p = pieceInfo[symbol];
 						if (p.owner != BLANK) {
 							return false;
@@ -925,7 +922,7 @@ $(function() {
 	function movePiece(brd, src, dst, turn)
 	{
 		// 移動先に駒があるなら、駒を取る
-		var targetSymbol = brd.map[dst.row][dst.column];
+		var targetSymbol = brd.map[dst.row*9+dst.column];
 		var targetPiece = pieceInfo[targetSymbol];
 		if ((targetPiece.owner != turn) && (targetPiece.owner != BLANK)) {
 			// 王を取ったら勝ち
@@ -936,7 +933,7 @@ $(function() {
 			// 取った駒に対応する自駒を取得
 			targetSymbol = changeOwner(targetSymbol);
 			brd.pieceInHand[turn].push(targetSymbol);
-			brd.map[dst.row][dst.column] = BLANK_SYMBOL;
+			brd.map[dst.row*9+dst.column] = BLANK_SYMBOL;
 			
 			if (turn == PLAYER) {
 				brd.pieceNum['OPPONENT'] -= 1;
@@ -946,7 +943,7 @@ $(function() {
 		}
 		
 		// 駒の移動
-		var selectedSymbol = brd.map[src.row][src.column];
+		var selectedSymbol = brd.map[src.row*9+src.column];
 		var selectedPiece = pieceInfo[selectedSymbol];
 		// 相手陣地に入ったら成る
 		if (((turn == PLAYER) && (dst.row <= 2)) || 
@@ -955,10 +952,10 @@ $(function() {
 				selectedSymbol = promotePiece(selectedSymbol);
 		    };
 		}
-		brd.map[dst.row][dst.column] = selectedSymbol;
+		brd.map[dst.row*9+dst.column] = selectedSymbol;
 	
 		// 移動前の駒選択の解除
-		brd.map[src.row][src.column] =BLANK_SYMBOL;
+		brd.map[src.row*9+src.column] =BLANK_SYMBOL;
 		selectState = UNSELECTED;
 		document.
 			getElementById("cell"+src.row+"-"+src.column).
@@ -1198,7 +1195,7 @@ $(function() {
 	function isPutable(brd, idx, dst, turn)
 	{
 		// 置く場所が空いているか
-		if (brd.map[dst.row][dst.column] != BLANK_SYMBOL) {
+		if (brd.map[dst.row*9+dst.column] != BLANK_SYMBOL) {
 			return false;
 		}
 		
@@ -1210,13 +1207,13 @@ $(function() {
 			
 			// 二歩か否か
 			for (var i=0; i<ROW_NUM; i++) {
-				if (brd.map[i][dst.column] == MY_FU_SYMBOL) {
+				if (brd.map[i*9+dst.column] == MY_FU_SYMBOL) {
 					return false;
 				};
 			};
 			
 			// 打ち歩詰めか否か
-			if (brd.map[dst.row-1][dst.column] == OPP_OU_SYMBOL) {
+			if (brd.map[(dst.row-1)*9+dst.column] == OPP_OU_SYMBOL) {
 				return false;
 			};
 		} else if (symbol==OPP_FU_SYMBOL) {
@@ -1225,13 +1222,13 @@ $(function() {
 			
 			// 二歩か否か
 			for (var i=0; i<ROW_NUM; i++) {
-				if (brd.map[i][dst.column] == OPP_FU_SYMBOL) {
+				if (brd.map[i*9+dst.column] == OPP_FU_SYMBOL) {
 					return false;
 				};
 			};
 			
 			// 打ち歩詰めか否か
-			if (brd.map[dst.row+1][dst.column] == MY_OU_SYMBOL) {
+			if (brd.map[(dst.row+1)*9+dst.column] == MY_OU_SYMBOL) {
 				return false;
 			};
 		}
@@ -1246,7 +1243,7 @@ $(function() {
 	　*/
 	function putPiece(brd, turn, idx, dst)
 	{
-		brd.map[dst.row][dst.column]
+		brd.map[dst.row*9+dst.column]
 			= board.pieceInHand[turn][idx];
 		brd.pieceInHand[turn].splice(idx, 1);
 		
@@ -1312,7 +1309,7 @@ $(function() {
 		
 		for (i=0; i<9; i++) {
 			for (j=0; j<9; j++) {
-				symbol = board.map[i][j];
+				symbol = board.map[i*9+j];
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
@@ -1383,7 +1380,7 @@ $(function() {
 		
 		for (i=0; i<9; i++) {
 			for (j=0; j<9; j++) {
-				symbol = brd.map[i][j];
+				symbol = brd.map[i*9+j];
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
