@@ -1,5 +1,6 @@
 ﻿
 $(function() {
+	"use asm";
 	/************************************************************/
 	/*	Classes                                                 */
 	/************************************************************/
@@ -26,8 +27,8 @@ $(function() {
 	 * 将棋盤のマスのクラス
 	 */
 	function Cell(row, column) {
-		this.row = row;
-		this.column = column;
+		this.row = row | 0;
+		this.column = column | 0;
 	};
 	
 	/**
@@ -147,72 +148,72 @@ $(function() {
 	/************************************************************/
 	/* Constant Value */
 	/************************************************************/
-	const LEFT = 37;
-	const UP = 38;
-	const RIGHT = 39;
-	const DOWN = 40;
+	const LEFT = 37 | 0;
+	const UP = 38 | 0;
+	const RIGHT = 39 | 0;
+	const DOWN = 40 | 0;
 	
 	// 将棋盤の行・列
-	const TOP_EDGE = 0;
-	const BOTTOM_EDGE = 8;
-	const LEFT_EDGE = 0;
-	const RIGHT_EDGE = 8;
+	const TOP_EDGE = 0 | 0;
+	const BOTTOM_EDGE = 8 | 0;
+	const LEFT_EDGE = 0 | 0;
+	const RIGHT_EDGE = 8 | 0;
 	
-	const ROW = 0;
-	const COLUMN = 1;
+	const ROW = 0 | 0;
+	const COLUMN = 1 | 0;
 	
-	const ROW_NUM = 9;
-	const COLUMN_NUM = 9;
+	const ROW_NUM = 9 | 0;
+	const COLUMN_NUM = 9 | 0;
 	
 	// 手番・駒の所有者を表す情報
-	const PLAYER = -1;
-	const OPPONENT = 1;
-	const BLANK = 0;
+	const PLAYER = -1 | 0;
+	const OPPONENT = 1 | 0;
+	const BLANK = 0 | 0;
 	
 	// 将棋盤のクリック状態
-	const UNSELECTED = 0;
-	const ON_BOARD = 1;
-	const ON_PLAYER_AREA = 2;
-	const ON_OPP_AREA = 3;
+	const UNSELECTED = 0 | 0;
+	const ON_BOARD = 1 | 0;
+	const ON_PLAYER_AREA = 2 | 0;
+	const ON_OPP_AREA = 3 | 0;
 	
 	// クリック位置
-	const IS_BLANK_AREA = 0;
-	const IS_BOARD_AREA = 1;
-	const IS_PLAYER_AREA = 2;
-	const IS_OPP_AREA = 3;
+	const IS_BLANK_AREA = 0 | 0;
+	const IS_BOARD_AREA = 1 | 0;
+	const IS_PLAYER_AREA = 2 | 0;
+	const IS_OPP_AREA = 3 | 0;
 	
 	// 基準座標
-	const X0 = 17;
-	const Y0 = 75;
+	const X0 = 17 | 0;
+	const Y0 = 75 | 0;
 	
-	const OPP_AREA_X0 = 43;
-	const OPP_AREA_Y0 = 60;
+	const OPP_AREA_X0 = 43 | 0;
+	const OPP_AREA_Y0 = 60 | 0;
 	
-	const PLAYER_AREA_X0 = 11;
-	const PLAYER_AREA_Y0 = 194;
+	const PLAYER_AREA_X0 = 11 | 0;
+	const PLAYER_AREA_Y0 = 194 | 0;
 	
-	const X_SIZE = 30;
-	const Y_SIZE = 34;
+	const X_SIZE = 30 | 0;
+	const Y_SIZE = 34 | 0;
 	
-	const PLAYER_AREA_X_SIZE = 32;
-	const PLAYER_AREA_Y_SIZE = 36;
+	const PLAYER_AREA_X_SIZE = 32 | 0;
+	const PLAYER_AREA_Y_SIZE = 36 | 0;
 	
 	//駒のポイント
-	const FU_POINT = 1;
-	const KYO_POINT = 10;
-	const KEI_POINT = 20;
-	const GIN_POINT = 30;
-	const KIN_POINT = 80;
-	const KAKU_POINT = 300;
-	const HISHA_POINT = 400;
-	const OU_POINT = 1000;
+	const FU_POINT = 1 | 0;
+	const KYO_POINT = 10 | 0;
+	const KEI_POINT = 20 | 0;
+	const GIN_POINT = 30 | 0;
+	const KIN_POINT = 80 | 0;
+	const KAKU_POINT = 300 | 0;
+	const HISHA_POINT = 400 | 0;
+	const OU_POINT = 10000 | 0;
 	
-	const TO_POINT = 40;
-	const NARIKYO_POINT = 50;
-	const NARIKEI_POINT = 60;
-	const NARIGIN_POINT = 70;
-	const UMA_POINT = 500;
-	const RYU_POINT = 600;
+	const TO_POINT = 40 | 0;
+	const NARIKYO_POINT = 50 | 0;
+	const NARIKEI_POINT = 60 | 0;
+	const NARIGIN_POINT = 70 | 0;
+	const UMA_POINT = 500 | 0;
+	const RYU_POINT = 600 | 0;
 	
 	/* 駒のシンボル。8bitで表す。
 	 * 
@@ -225,35 +226,35 @@ $(function() {
 	 *    |　駒のオーナー（0：プレイヤー、1:コンピュータ）
 	 *    駒か空白か（0:空白、1:駒）
 	 */
-	const OPP_FU_SYMBOL = 0xC0;		// 0b 1100 0000:"敵-歩"
-	const OPP_KYO_SYMBOL = 0xC1;	// 0b 1100 0001:"敵-香車"
-	const OPP_KEI_SYMBOL = 0xC2;	// 0b 1100 0010:"敵-桂馬"
-	const OPP_GIN_SYMBOL = 0xC3;	// 0b 1100 0011:"敵-銀"
-	const OPP_KIN_SYMBOL = 0xC4;	// 0b 1100 0100:"敵-金"
-	const OPP_HISHA_SYMBOL = 0xC5;	// 0b 1100 0101:"敵-飛車"
-	const OPP_KAKU_SYMBOL = 0xC6;	// 0b 1100 0110:"敵-角行"
-	const OPP_OU_SYMBOL = 0xC7;		// 0b 1100 0111:"敵-王"
-	const OPP_TO_SYMBOL = 0xE0;		// 0b 1110 0000:"敵-と"
-	const OPP_NARIKYO_SYMBOL = 0xE1;	// 0b 1110 0001:"敵-成香"
-	const OPP_NARIKEI_SYMBOL = 0xE2;	// 0b 1110 0010:"敵-成桂"
-	const OPP_NARIGIN_SYMBOL = 0xE3;	// 0b 1110 0011:"敵-成銀"
-	const OPP_RYU_SYMBOL = 0xE4;	// 0b 1110 0100:"敵-竜王"
-	const OPP_UMA_SYMBOL = 0xE5;	// 0b 1110 0101:"敵-竜馬"
+	const OPP_FU_SYMBOL = 0xC0 | 0;		// 0b 1100 0000:"敵-歩"
+	const OPP_KYO_SYMBOL = 0xC1 | 0;	// 0b 1100 0001:"敵-香車"
+	const OPP_KEI_SYMBOL = 0xC2 | 0;	// 0b 1100 0010:"敵-桂馬"
+	const OPP_GIN_SYMBOL = 0xC3 | 0;	// 0b 1100 0011:"敵-銀"
+	const OPP_KIN_SYMBOL = 0xC4 | 0;	// 0b 1100 0100:"敵-金"
+	const OPP_HISHA_SYMBOL = 0xC5 | 0;	// 0b 1100 0101:"敵-飛車"
+	const OPP_KAKU_SYMBOL = 0xC6 | 0;	// 0b 1100 0110:"敵-角行"
+	const OPP_OU_SYMBOL = 0xC7 | 0;		// 0b 1100 0111:"敵-王"
+	const OPP_TO_SYMBOL = 0xE0 | 0;		// 0b 1110 0000:"敵-と"
+	const OPP_NARIKYO_SYMBOL = 0xE1 | 0;	// 0b 1110 0001:"敵-成香"
+	const OPP_NARIKEI_SYMBOL = 0xE2 | 0;	// 0b 1110 0010:"敵-成桂"
+	const OPP_NARIGIN_SYMBOL = 0xE3 | 0;	// 0b 1110 0011:"敵-成銀"
+	const OPP_RYU_SYMBOL = 0xE4 | 0;	// 0b 1110 0100:"敵-竜王"
+	const OPP_UMA_SYMBOL = 0xE5 | 0;	// 0b 1110 0101:"敵-竜馬"
 	
-	const MY_FU_SYMBOL = 0x80;		// 0b 1000 0000:"自-歩"
-	const MY_KYO_SYMBOL = 0x81;		// 0b 1000 0001:"自-香車"
-	const MY_KEI_SYMBOL = 0x82;		// 0b 1000 0010:"自-桂馬"
-	const MY_GIN_SYMBOL = 0x83;		// 0b 1000 0011:"自-銀"
-	const MY_KIN_SYMBOL = 0x84;		// 0b 1000 0100:"自-金"
-	const MY_HISHA_SYMBOL = 0x85;	// 0b 1000 0101:"自-飛車"
-	const MY_KAKU_SYMBOL = 0x86;	// 0b 1000 0110:"自-角行"
-	const MY_OU_SYMBOL = 0x87;		// 0b 1000 0111:"自-王"
-	const MY_TO_SYMBOL = 0xA0;		// 0b 1010 0000:"自-と"
-	const MY_NARIKYO_SYMBOL = 0xA1;	// 0b 1010 0001:"自-成香"
-	const MY_NARIKEI_SYMBOL = 0xA2;	// 0b 1010 0010:"自-成桂"
-	const MY_NARIGIN_SYMBOL = 0xA3;	// 0b 1010 0011:"自-成銀"
-	const MY_RYU_SYMBOL = 0xA4;		// 0b 1010 0100:"自-竜王"
-	const MY_UMA_SYMBOL = 0xA5;		// 0b 1010 0101:"自-竜馬"
+	const MY_FU_SYMBOL = 0x80 | 0;		// 0b 1000 0000:"自-歩"
+	const MY_KYO_SYMBOL = 0x81 | 0;		// 0b 1000 0001:"自-香車"
+	const MY_KEI_SYMBOL = 0x82 | 0;		// 0b 1000 0010:"自-桂馬"
+	const MY_GIN_SYMBOL = 0x83 | 0;		// 0b 1000 0011:"自-銀"
+	const MY_KIN_SYMBOL = 0x84 | 0;		// 0b 1000 0100:"自-金"
+	const MY_HISHA_SYMBOL = 0x85 | 0;	// 0b 1000 0101:"自-飛車"
+	const MY_KAKU_SYMBOL = 0x86 | 0;	// 0b 1000 0110:"自-角行"
+	const MY_OU_SYMBOL = 0x87 | 0;		// 0b 1000 0111:"自-王"
+	const MY_TO_SYMBOL = 0xA0 | 0;		// 0b 1010 0000:"自-と"
+	const MY_NARIKYO_SYMBOL = 0xA1 | 0;	// 0b 1010 0001:"自-成香"
+	const MY_NARIKEI_SYMBOL = 0xA2 | 0;	// 0b 1010 0010:"自-成桂"
+	const MY_NARIGIN_SYMBOL = 0xA3 | 0;	// 0b 1010 0011:"自-成銀"
+	const MY_RYU_SYMBOL = 0xA4 | 0;		// 0b 1010 0100:"自-竜王"
+	const MY_UMA_SYMBOL = 0xA5 | 0;		// 0b 1010 0101:"自-竜馬"
 	
 	// 駒の移動範囲
 	const OPP_FU_AREA = 
@@ -442,19 +443,14 @@ $(function() {
 	// Variables
 	/************************************************************/
 	
-	var i;
 	var board = new Board();
 	var selectState = UNSELECTED;
 	
 	var clickedCell = new Cell(0, 0);
 	var selectedCell = new Cell(null, null);
-	// var clickedPlayerAreaCell = new Cell(0, 0);
 	var clickedPlayerAreaIdx = undefined;
-	// var selectedPlayerAreaCell = new Cell(0, 0);
 	var selectedPlayerAreaIdx = undefined;
 	var clickedOppAreaCell = new Cell(0, 0);
-	// var selectedOppAreaCell = new Cell(0, 0);
-	var selectedOppAreaIdx = undefined;
 	
 	var pieceInfo = new Array();
 	
@@ -505,6 +501,7 @@ $(function() {
 	 */
 	function initPieceInfo()
 	{
+		
 		// 敵駒の情報を追加
 		pieceInfo[OPP_FU_SYMBOL] = OPP_FU;
 		pieceInfo[OPP_KYO_SYMBOL] = OPP_KYO;
@@ -620,13 +617,14 @@ $(function() {
 	 */
 	function printMap(brd)
 	{
+		
 		var i, j, k;
 		var pieceObj;
 	
 		// 将棋盤の描画
-		for (i=0;i<9;i++) {
+		for (i=0|0;i<9;i++) {
 			var mapStr = "";
-			for (j=0;j<9;j++) {
+			for (j=0|0;j<9;j++) {
 				pieceObj = brd.map[i*9+j];
 				var id = "piece"+i+"-"+j;
 				var cell = document.getElementById(id);
@@ -635,7 +633,7 @@ $(function() {
 		}
 	
 		// プレイヤーの持ち駒の描画
-		for (k=0;k<brd.pieceInHand[PLAYER].length;k++) {
+		for (k=0|0;k<brd.pieceInHand[PLAYER].length;k++) {
 			document.getElementById("my_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[PLAYER][k]);
 		}
@@ -645,7 +643,7 @@ $(function() {
 		}
 		
 		// コンピュータの持ち駒の描画
-		for (k=0;k<brd.pieceInHand[OPPONENT].length;k++) {
+		for (k=0|0;k<brd.pieceInHand[OPPONENT].length;k++) {
 			document.getElementById("opp_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[OPPONENT][k]);
 		}
@@ -745,8 +743,8 @@ $(function() {
 	{
 		var hx, hy;
 		
-		hx = event.pageX;
-		hy = event.pageY;
+		hx = event.pageX|0;
+		hy = event.pageY|0;
 		
 		if (((X0 < hx) && (hx < X0 + X_SIZE * 9)) && 
 		    ((Y0 < hy) && (hy < Y0 + Y_SIZE * 9))) {
@@ -757,14 +755,14 @@ $(function() {
 			x = (hx - X0)/X_SIZE;
 			for (i=0;i<9;i++) {
 				if (x < i+1) {
-					clickedCell.column = i;
+					clickedCell.column = i|0;
 					break;
 				};
 			}
 			y = (hy - Y0)/Y_SIZE;
 			for (i=0;i<9;i++) {
 				if (y < i+1) {
-					clickedCell.row = i;
+					clickedCell.row = i|0;
 					break;
 				};
 			};
@@ -856,17 +854,17 @@ $(function() {
 					var column_diff = dest.column - src.column;
 					
 					
-					var r_step = 0;
+					var r_step = 0|0;
 					if (row_diff != 0) {
 						r_step = row_diff / Math.abs(row_diff);
 					}
-					var c_step = 0;
+					var c_step = 0|0;
 					if (column_diff != 0) {
 						c_step = column_diff / Math.abs(column_diff);
 					}
 					
-					var r = src.row;
-					var c = src.column;
+					var r = src.row|0;
+					var c = src.column|0;
 					
 					// alert("Row:" + r + " R_step:" + r_step + 
 					//		" Col:" + c +" C_step:" + c_step);
@@ -901,8 +899,8 @@ $(function() {
 					style.backgroundImage = '';
 		}
 	
-		selectedCell.row = clickedCell.row;
-		selectedCell.column = clickedCell.column;
+		selectedCell.row = clickedCell.row|0;
+		selectedCell.column = clickedCell.column|0;
 		selectState = ON_BOARD;
 		
 		var path = 'url(img/focus/focus_bold_b.png)';
@@ -968,7 +966,8 @@ $(function() {
 	 * 取った駒の所有者を変更したシンボルを返す。
 	 * 成っている場合は基に戻す。
 	 */
-	function changeOwner(symbol) {
+	function changeOwner(symbol)
+	{
 		var changedSymbol = BLANK_SYMBOL;
 		
 		// プレイヤー駒が取られた場合
@@ -1134,8 +1133,8 @@ $(function() {
 	{
 		var hx, hy;
 		
-		hx = event.pageX;
-		hy = event.pageY;
+		hx = event.pageX|0;
+		hy = event.pageY|0;
 		
 		if (((PLAYER_AREA_X0 < hx) && 
 			 (hx < PLAYER_AREA_X0 + PLAYER_AREA_X_SIZE * 7)) && 
@@ -1148,19 +1147,19 @@ $(function() {
 			x = (hx - PLAYER_AREA_X0)/PLAYER_AREA_X_SIZE;
 			for (i=0;i<7;i++) {
 				if (x < i+1) {
-					column = i;
+					column = i|0;
 					break;
 				};
 			};
 			y = (hy - PLAYER_AREA_Y0)/PLAYER_AREA_Y_SIZE;
 			for (i=0;i<3;i++) {
 				if (y < i+1) {
-					row = i;
+					row = i|0;
 					break;
 				};
 			};
 			
-			clickedPlayerAreaIdx = (2 - row) * 7 + column;
+			clickedPlayerAreaIdx = ((2 - row) * 7 + column)|0;
 		};		
 	}
 	
@@ -1270,14 +1269,14 @@ $(function() {
 		x = (hx - OPP_AREA_X0)/X_SIZE;
 		for (i=0;i<4;i++) {
 			if (x < i+1) {
-				clickedOppAreaCell.column = i;
+				clickedOppAreaCell.column = i|0;
 				break;
 			};
 		}
 		y = (hy - OPP_AREA_Y0)/Y_SIZE;
 		for (i=0;i<5;i++) {
 			if (y < i+1) {
-				clickedOppAreaCell.row = i;
+				clickedOppAreaCell.row = i|0;
 				break;
 			};
 		};
@@ -1307,25 +1306,25 @@ $(function() {
 		var score = Number.NEGATIVE_INFINITY;
 		var max = Number.NEGATIVE_INFINITY;
 		
-		for (i=0; i<9; i++) {
-			for (j=0; j<9; j++) {
+		for (i=0|0; i<9; i++) {
+			for (j=0|0; j<9; j++) {
 				symbol = board.map[i*9+j];
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
-					for (k=0; k < piece.area.length; k+=2) {
+					for (k=0|0; k < piece.area.length; k+=2) {
 						var r = i + piece.area[k];
 						var c = j + piece.area[k+1];
 						dst = new Cell(r, c);
 						if (isMovable(board, piece, src, dst)) {
 							var brd = board.clone();
 							tmpNextBoard = movePiece(brd, src, dst, currentTurn);
-							score = negaAlpha(tmpNextBoard, 2, 
+							score = (negaAlpha(tmpNextBoard, 2, 
 									  Number.NEGATIVE_INFINITY, 
 									  Number.POSITIVE_INFINITY, 
-									  currentTurn);
+									  currentTurn))|0;
 							if (score > max) {
-								max = score;
+								max = score|0;
 								nextBoard = tmpNextBoard;
 							};
 							delete brd;
@@ -1336,9 +1335,9 @@ $(function() {
 			};
 		};
 		
-		for (i=0; i<ROW_NUM; i++) {
-			for (j=0; j<COLUMN_NUM; j++) {
-				for (k=0; k<board.pieceInHand[OPPONENT].length; k++) {
+		for (i=0|0; i<ROW_NUM; i++) {
+			for (j=0|0; j<COLUMN_NUM; j++) {
+				for (k=0|0; k<board.pieceInHand[OPPONENT].length; k++) {
 					var brd = board.clone();
 					var putDst = new Cell(i, j);
 					if (isPutable(brd, k, putDst, OPPONENT)) {
@@ -1348,7 +1347,7 @@ $(function() {
 								  Number.POSITIVE_INFINITY, 
 								  currentTurn);
 						if (score > max) {
-							max = score;
+							max = score|0;
 							nextBoard = tmpNextBoard;
 						};
 					}
@@ -1375,22 +1374,22 @@ $(function() {
 		var nextBoard;
 		
 		if (depth == 0) {
-			return brd.eval(turn); 
+			return brd.eval(turn)|0; 
 		}
 		
-		for (i=0; i<9; i++) {
-			for (j=0; j<9; j++) {
+		for (i=0|0; i<9; i++) {
+			for (j=0|0; j<9; j++) {
 				symbol = brd.map[i*9+j];
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
-					for (k=0; k < piece.area.length; k+=2) {
+					for (k=0|0; k < piece.area.length; k+=2) {
 						dst = new Cell(i+piece.area[k], j+piece.area[k+1]);
 						if (isMovable(brd, piece, src, dst)) {
 							nextBoard = movePiece(brd.clone(), src, dst, turn);
 							a = Math.max(a, -negaAlpha(nextBoard, depth-1, -b, -a, turn*-1));
 							if (a > b) {
-								return a;
+								return a|0;
 							};
 						};
 					};
@@ -1398,9 +1397,9 @@ $(function() {
 			};
 		};
 		
-		for (i=0; i<ROW_NUM; i++) {
-			for (j=0; j<COLUMN_NUM; j++) {
-				for (k=0; k<board.pieceInHand[turn].length; k++) {
+		for (i=0|0; i<ROW_NUM; i++) {
+			for (j=0|0; j<COLUMN_NUM; j++) {
+				for (k=0|0; k<board.pieceInHand[turn].length; k++) {
 					var nxtBrd = brd.clone();
 					var putDst = new Cell(i, j);
 					if (isPutable(nxtBrd, k, putDst, turn)) {
@@ -1409,7 +1408,7 @@ $(function() {
 						if (a > b) {
 							delete nxtBrd;
 							delete putDst;
-							return a;
+							return a|0;
 						};
 					}
 					delete nxtBrd;
