@@ -213,122 +213,116 @@ $(function() {
 	const UMA_POINT = 500;
 	const RYU_POINT = 600;
 	
-	// 駒のシンボルと移動範囲
-	const OPP_FU_SYMBOL = "敵-歩";
-	const OPP_FU_AREA = new Array([1, 0]);
+	/* 駒のシンボル。8bitで表す。
+	 * 
+	 * 0b 0 0 0 0 0 0 0 0
+	 *    ^ ^ ^ ^ ^ ^ ^ ^
+	 *    | | | | | | | |
+	 *    | | | | 駒の種類（4ビット） 
+	 *    | | | （未使用）
+	 *    | | 成っているか否か（0:成ってない、1:成っている）
+	 *    |　駒のオーナー（0：プレイヤー、1:コンピュータ）
+	 *    駒か空白か（0:空白、1:駒）
+	 */
+	const OPP_FU_SYMBOL = 0xC0;		// 0b 1100 0000:"敵-歩"
+	const OPP_KYO_SYMBOL = 0xC1;	// 0b 1100 0001:"敵-香車"
+	const OPP_KEI_SYMBOL = 0xC2;	// 0b 1100 0010:"敵-桂馬"
+	const OPP_GIN_SYMBOL = 0xC3;	// 0b 1100 0011:"敵-銀"
+	const OPP_KIN_SYMBOL = 0xC4;	// 0b 1100 0100:"敵-金"
+	const OPP_HISHA_SYMBOL = 0xC5;	// 0b 1100 0101:"敵-飛車"
+	const OPP_KAKU_SYMBOL = 0xC6;	// 0b 1100 0110:"敵-角行"
+	const OPP_OU_SYMBOL = 0xC7;		// 0b 1100 0111:"敵-王"
+	const OPP_TO_SYMBOL = 0xE0;		// 0b 1110 0000:"敵-と"
+	const OPP_NARIKYO_SYMBOL = 0xE1;	// 0b 1110 0001:"敵-成香"
+	const OPP_NARIKEI_SYMBOL = 0xE2;	// 0b 1110 0010:"敵-成桂"
+	const OPP_NARIGIN_SYMBOL = 0xE3;	// 0b 1110 0011:"敵-成銀"
+	const OPP_RYU_SYMBOL = 0xE4;	// 0b 1110 0100:"敵-竜王"
+	const OPP_UMA_SYMBOL = 0xE5;	// 0b 1110 0101:"敵-竜馬"
 	
-	const OPP_KYO_SYMBOL = "敵-香車";
+	const MY_FU_SYMBOL = 0x80;		// 0b 1000 0000:"自-歩"
+	const MY_KYO_SYMBOL = 0x81;		// 0b 1000 0001:"自-香車"
+	const MY_KEI_SYMBOL = 0x82;		// 0b 1000 0010:"自-桂馬"
+	const MY_GIN_SYMBOL = 0x83;		// 0b 1000 0011:"自-銀"
+	const MY_KIN_SYMBOL = 0x84;		// 0b 1000 0100:"自-金"
+	const MY_HISHA_SYMBOL = 0x85;	// 0b 1000 0101:"自-飛車"
+	const MY_KAKU_SYMBOL = 0x86;	// 0b 1000 0110:"自-角行"
+	const MY_OU_SYMBOL = 0x87;		// 0b 1000 0111:"自-王"
+	const MY_TO_SYMBOL = 0xA0;		// 0b 1010 0000:"自-と"
+	const MY_NARIKYO_SYMBOL = 0xA1;	// 0b 1010 0001:"自-成香"
+	const MY_NARIKEI_SYMBOL = 0xA2;	// 0b 1010 0010:"自-成桂"
+	const MY_NARIGIN_SYMBOL = 0xA3;	// 0b 1010 0011:"自-成銀"
+	const MY_RYU_SYMBOL = 0xA4;		// 0b 1010 0100:"自-竜王"
+	const MY_UMA_SYMBOL = 0xA5;		// 0b 1010 0101:"自-竜馬"
+	
+	// 駒の移動範囲
+	const OPP_FU_AREA = new Array([1, 0]);
 	const OPP_KYO_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0]);
-	
-	const OPP_KEI_SYMBOL = "敵-桂馬";
 	const OPP_KEI_AREA = 
 			new Array([2, -1], [2, 1]);
-	
-	const OPP_GIN_SYMBOL = "敵-銀";
 	const OPP_GIN_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [-1, -1], [-1, 1]);
-	
-	const OPP_KIN_SYMBOL = "敵-金";
 	const OPP_KIN_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [0, -1], [0, 1], [-1, 0]);
-	
-	const OPP_HISHA_SYMBOL = "敵-飛車";
 	const OPP_HISHA_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
-	
-	const OPP_KAKU_SYMBOL = "敵-角行";
 	const OPP_KAKU_AREA = 
 			new Array([1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
-	
-	const OPP_RYU_SYMBOL = "敵-竜王";
 	const OPP_RYU_AREA = 
 			new Array([1, 1], [1, -1], [-1, 1], [-1, -1], 
 					  [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
-	
-	const OPP_UMA_SYMBOL = "敵-竜馬";
 	const OPP_UMA_AREA = 
 			new Array([1, 0], [-1, 0], [0, 1], [0, -1], 
 					  [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
-	
-	const OPP_OU_SYMBOL = "敵-王";
 	const OPP_OU_AREA = 
 			new Array([1, 0], [1, -1], [1, 1], [0, -1], [0, 1], [-1, 0], [-1, 1], [-1, -1]);
 	
-	const OPP_TO_SYMBOL = "敵-と";
-	const OPP_NARIKYO_SYMBOL = "敵-成香";
-	const OPP_NARIKEI_SYMBOL = "敵-成桂";
-	const OPP_NARIGIN_SYMBOL = "敵-成銀";
-	
-	const MY_FU_SYMBOL = "自-歩";
 	const MY_FU_AREA = new Array([-1, 0]);
-	
-	const MY_KYO_SYMBOL = "自-香車";
 	const MY_KYO_AREA = 
 			new Array([-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0]);
-	
-	const MY_KEI_SYMBOL = "自-桂馬";
 	const MY_KEI_AREA = 
 			new Array([-2, -1], [-2, 1]);
-	
-	const MY_GIN_SYMBOL = "自-銀";
 	const MY_GIN_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [1, -1], [1, 1]);
-	
-	const MY_KIN_SYMBOL = "自-金";
 	const MY_KIN_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [0, -1], [0, 1], [1, 0]);
-	
-	const MY_HISHA_SYMBOL = "自-飛車";
 	const MY_HISHA_AREA = 
 			new Array([1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
-	
-	const MY_KAKU_SYMBOL = "自-角行";
 	const MY_KAKU_AREA = 
 			new Array([1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
-	
-	const MY_RYU_SYMBOL = "自-竜王";
 	const MY_RYU_AREA = 
 			new Array([1, 1], [1, -1], [-1, 1], [-1, -1], 
 					  [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], 
 					  [-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0], [-8, 0], 
 					  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], 
 					  [0, -1], [0, -2], [0, -3], [0, -4], [0, -5], [0, -6], [0, -7], [0, -8]);
-	
-	const MY_UMA_SYMBOL = "自-竜馬";
 	const MY_UMA_AREA = 
 			new Array([1, 0], [-1, 0], [0, 1], [0, -1], 
 					  [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], 
 					  [-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-8, -8], 
 					  [1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7], [8, -8], 
 					  [-1, 1], [-2, 2], [-3, 3], [-4, 4], [-5, 5], [-6, 6], [-7, 7], [-8, 8]);
-	
-	const MY_OU_SYMBOL = "自-王";
 	const MY_OU_AREA = 
 			new Array([-1, 0], [-1, -1], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1], [1, -1]);
 	
-	const MY_TO_SYMBOL = "自-と";
-	const MY_NARIKYO_SYMBOL = "自-成香";
-	const MY_NARIKEI_SYMBOL = "自-成桂";
-	const MY_NARIGIN_SYMBOL = "自-成銀";
 	
 	const BLANK_SYMBOL = "○";
 	
