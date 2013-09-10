@@ -931,7 +931,7 @@ $(function() {
 			}
 			// 取った駒に対応する自駒を取得
 			targetSymbol = changeOwner(targetSymbol);
-			brd.pieceInHand[turn].push(targetSymbol);
+			brd.pieceInHand[turn][brd.pieceInHand[turn].length] = targetSymbol;
 			brd.map[dst.row*9+dst.column] = BLANK_SYMBOL;
 			
 			if (turn == PLAYER) {
