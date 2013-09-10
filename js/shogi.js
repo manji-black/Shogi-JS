@@ -16,10 +16,6 @@ $(function() {
 	
 		if ((array != undefined) && (array != null)) {
 			this.area = new Int8Array(array);
-			for (var i=0; i<this.area.lenght; i+=2) {
-				console.log(symbol+":"+this.area[i]);
-				console.log(symbol+":"+this.area[i+1]);
-			}
 		}
 	};
 	
@@ -57,10 +53,10 @@ $(function() {
 			};
 		};
 		
-		for (var i=0; i<this.pieceInHand[PLAYER].length; i++) {
+		for (var i=0, len=this.pieceInHand[PLAYER].length; i<len; i++) {
 			b.pieceInHand[PLAYER][i] = this.pieceInHand[PLAYER][i];
 		}
-		for (var i=0; i<this.pieceInHand[OPPONENT].length; i++) {
+		for (var i=0, len=this.pieceInHand[OPPONENT].length; i<len; i++) {
 			b.pieceInHand[OPPONENT][i] = this.pieceInHand[OPPONENT][i];
 		}
 		
@@ -98,7 +94,7 @@ $(function() {
 				
 				// 王に利いているかを評価
 				if (piece.area != null) {
-					for (var k=0; k<piece.area.length; k+=2) {
+					for (var k=0, len=piece.area.length; k<len; k+=2) {
 						src.row = i;
 						src.column = j;
 						dst.row = src.row + piece.area[k];
@@ -118,13 +114,13 @@ $(function() {
 		};
 
 		// 持ち駒の評価
-		for (var i=0; i<this.pieceInHand[PLAYER].length; i++) {
+		for (var i=0, len=this.pieceInHand[PLAYER].length; i<len; i++) {
 			symbol = this.pieceInHand[PLAYER][i];
 			piece = pieceInfo[symbol];
 			playerPoint += piece.point;
 		}
 		
-		for (var i=0; i<this.pieceInHand[OPPONENT].length; i++) {
+		for (var i=0, len=this.pieceInHand[OPPONENT].length; i<len; i++) {
 			symbol = this.pieceInHand[OPPONENT][i];
 			piece = pieceInfo[symbol];
 			opponentPoint += piece.point;
@@ -482,8 +478,8 @@ $(function() {
 		printMap(board);
 	
 		// ターンの決定
+		currentTurn = PLAYER;
 		n = Math.floor(Math.random() * 91) % 2;
-		// alert("Turn Num: " + n);
 		if (n == 1) {
 			currentTurn = PLAYER;
 		} else {
@@ -620,6 +616,7 @@ $(function() {
 		
 		var i, j, k;
 		var pieceObj;
+		var len;
 	
 		// 将棋盤の描画
 		for (i=0|0;i<9;i++) {
@@ -633,7 +630,8 @@ $(function() {
 		}
 	
 		// プレイヤーの持ち駒の描画
-		for (k=0|0;k<brd.pieceInHand[PLAYER].length;k++) {
+		len = brd.pieceInHand[PLAYER].length;
+		for (k=0|0; k<len; k++) {
 			document.getElementById("my_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[PLAYER][k]);
 		}
@@ -643,7 +641,8 @@ $(function() {
 		}
 		
 		// コンピュータの持ち駒の描画
-		for (k=0|0;k<brd.pieceInHand[OPPONENT].length;k++) {
+		len = brd.pieceInHand[OPPONENT].length;
+		for (k=0|0; k<len; k++) {
 			document.getElementById("opp_piece_in_hand_"+k).src = 
 										getPieceImage(brd.pieceInHand[OPPONENT][k]);
 		}
@@ -823,6 +822,7 @@ $(function() {
 		var i;
 		var symbol;
 		var p;
+		var len;
 		
 		// alert("Src: (" + src.row + ", " + src.column + "), " + 
 		//		"Dest: (" + dest.row + ", " + dest.column + ") ");
@@ -833,7 +833,8 @@ $(function() {
 			return false;
 		}
 		
-		for (i=0;i<piece.area.length;i+=2) {
+		len=piece.area.length;
+		for (i=0; i<len; i+=2) {
 			// 移動先のマスが、その駒の移動範囲内
 			if ((src.row + piece.area[i] == dest.row) &&
 				(src.column + piece.area[i+1] == dest.column)) {
@@ -1305,6 +1306,7 @@ $(function() {
 		var dst;
 		var score = Number.NEGATIVE_INFINITY;
 		var max = Number.NEGATIVE_INFINITY;
+		var len;
 		
 		for (i=0|0; i<9; i++) {
 			for (j=0|0; j<9; j++) {
@@ -1312,7 +1314,8 @@ $(function() {
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
-					for (k=0|0; k < piece.area.length; k+=2) {
+					len = piece.area.length;
+					for (k=0|0; k <len; k+=2) {
 						var r = i + piece.area[k];
 						var c = j + piece.area[k+1];
 						dst = new Cell(r, c);
@@ -1337,7 +1340,8 @@ $(function() {
 		
 		for (i=0|0; i<ROW_NUM; i++) {
 			for (j=0|0; j<COLUMN_NUM; j++) {
-				for (k=0|0; k<board.pieceInHand[OPPONENT].length; k++) {
+				len = board.pieceInHand[OPPONENT].length;
+				for (k=0|0; k<len; k++) {
 					var brd = board.clone();
 					var putDst = new Cell(i, j);
 					if (isPutable(brd, k, putDst, OPPONENT)) {
@@ -1372,6 +1376,7 @@ $(function() {
 		var src;
 		var dst;
 		var nextBoard;
+		var len;
 		
 		if (depth == 0) {
 			return brd.eval(turn)|0; 
@@ -1383,7 +1388,8 @@ $(function() {
 				piece = pieceInfo[symbol];
 				src = new Cell(i, j);
 				if (piece.owner == OPPONENT) {
-					for (k=0|0; k < piece.area.length; k+=2) {
+					len = piece.area.length;
+					for (k=0|0; k<len ; k+=2) {
 						dst = new Cell(i+piece.area[k], j+piece.area[k+1]);
 						if (isMovable(brd, piece, src, dst)) {
 							nextBoard = movePiece(brd.clone(), src, dst, turn);
@@ -1399,7 +1405,8 @@ $(function() {
 		
 		for (i=0|0; i<ROW_NUM; i++) {
 			for (j=0|0; j<COLUMN_NUM; j++) {
-				for (k=0|0; k<board.pieceInHand[turn].length; k++) {
+				len = board.pieceInHand[turn].length;
+				for (k=0|0; k<len; k++) {
 					var nxtBrd = brd.clone();
 					var putDst = new Cell(i, j);
 					if (isPutable(nxtBrd, k, putDst, turn)) {
@@ -1445,24 +1452,24 @@ $(function() {
 		
 		if (currentTurn == PLAYER) {
 			/* ターンを表すランプの透過度を変更 */
-			for (var i=0; i<playerStatusElements.length; i++) {
+			for (var i=0, len=playerStatusElements.length; i<len; i++) {
 				playerStatusElements[i].style.filter = 'alpha(opacity=100)';
 				playerStatusElements[i].style.MozOpacity = 1.0;
 				playerStatusElements[i].style.opacity = 1.0;
 			}
-			for (var i=0; i<oppStatusElements.length; i++) {
+			for (var i=0, len=oppStatusElements.length; i<len; i++) {
 				oppStatusElements[i].style.filter = 'alpha(opacity=30)';
 				oppStatusElements[i].style.MozOpacity = 0.3;
 				oppStatusElements[i].style.opacity = 0.3;
 			}
 		} else {
 			/* ターンを表すランプの透過度を変更 */
-			for (var i=0; i<playerStatusElements.length; i++) {
+			for (var i=0, len=playerStatusElements.length; i<len; i++) {
 				playerStatusElements[i].style.filter = 'alpha(opacity=30)';
 				playerStatusElements[i].style.MozOpacity = 0.3;
 				playerStatusElements[i].style.opacity = 0.3;
 			}
-			for (var i=0; i<oppStatusElements.length; i++) {
+			for (var i=0, len=oppStatusElements.length; i<len; i++) {
 				oppStatusElements[i].style.filter = 'alpha(opacity=100)';
 				oppStatusElements[i].style.MozOpacity = 1.0;
 				oppStatusElements[i].style.opacity = 1.0;
